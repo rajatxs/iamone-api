@@ -1,0 +1,13 @@
+
+### Create new user
+POST {{BASE_URL}}/v1/user
+Accept: application/json
+Accept-Language: {{LANG}}
+Content-Type: application/json
+
+{
+   "username": "aakash",
+   "fullname": "Aakash Sakam",
+   "email": "aakash@developar.in",
+   "password_hash": "test1010"
+}

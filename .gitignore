@@ -1,0 +1,9 @@
+node_modules/
+temp/
+dist/
+.cache/
+.vscode/
+
+*.env
+*.log
+deploy.bat

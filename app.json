@@ -1,0 +1,10 @@
+{
+	"name": "Developar",
+	"description": "Backend APIs of Developar",
+	"repository": "https://github.com/developar-active/developar-api",
+	"logo": "https://static.developar.in/logo/primary.png",
+	"keywords": [
+		"developar-api"
+	],
+	"image": "heroku/nodejs"
+}

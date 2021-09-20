@@ -1,0 +1,5 @@
+
+### Testing endpoint
+GET {{BASE_URL}}/test
+Accept: application/json
+Accept-Language: {{LANG}}
