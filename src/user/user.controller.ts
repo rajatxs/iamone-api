@@ -1,4 +1,4 @@
-import { Controller, Post, Body, InternalServerErrorException, Logger, BadRequestException } from '@nestjs/common'
+import { Controller, Get, Post, Body, InternalServerErrorException, Logger, BadRequestException } from '@nestjs/common'
 import { User } from './user.interface'
 import { UserService } from './user.service'
 
@@ -7,6 +7,12 @@ export class UserController {
    private readonly logger = new Logger
 
    constructor(private readonly userService: UserService) { }
+
+   @Get()
+   async getAllUsers() {
+      console.log(await this.userService.findAll())
+      return "Done"
+   }
 
    @Post()
    async registerNewUser(@Body() data: User): Promise<ApiResponse> {
