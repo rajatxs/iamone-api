@@ -7,7 +7,6 @@ Content-Type: application/json
 
 {
    "username": "aakash",
-   "fullname": "Aakash Sakam",
    "email": "aakash@developar.in",
-   "password_hash": "test1010"
+   "password": "test1010"
 }

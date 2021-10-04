@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { AppModalService } from '@classes/app-model'
+import { AppModalService } from '@classes/app-modal'
 import { HttpRequest } from './http-request.interface'
 
 @Injectable()

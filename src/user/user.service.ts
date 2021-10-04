@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { AppModalService } from '@classes/app-model'
+import { AppModalService } from '@classes/app-modal'
 import { User } from './user.interface'
 import * as bcrypt from 'bcryptjs'
 

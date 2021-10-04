@@ -1,5 +1,13 @@
 import * as Joi from 'joi'
 
+export const username = Joi
+   .string()
+   .min(2)
+   .max(30)
+   .pattern(/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/)
+   .truncate(true)
+   .label('Username')
+
 export const fullName = Joi
    .string()
    .min(2)
@@ -14,6 +22,12 @@ export const email = Joi
    .trim()
    .truncate(true)
    .label("Email")
+
+export const password = Joi
+   .string()
+   .min(6)
+   .max(64)
+   .label('Password')
 
 export const rowId = Joi
    .number()

@@ -1,7 +1,9 @@
-import { Controller, Post, Body, InternalServerErrorException, Logger, BadRequestException } from '@nestjs/common'
+import { Controller, Post, Body, InternalServerErrorException, UsePipes, Logger, BadRequestException } from '@nestjs/common'
 import { OkPacket } from 'mysql'
 import { User } from './user.interface'
 import { UserService } from './user.service'
+import { JoiValidationPipe } from '@pipes/validation'
+import { createSchema } from './user.schema'
 
 @Controller('user')
 export class UserController {
@@ -10,6 +12,7 @@ export class UserController {
    constructor(private readonly userService: UserService) { }
 
    @Post()
+   @UsePipes(new JoiValidationPipe(createSchema))
    async registerNewUser(@Body() data: User): Promise<ApiResponse> {
       let packet: OkPacket, insertId: RowId
       
@@ -17,13 +20,17 @@ export class UserController {
       if (await this.userService.hasUsername(data.username)) {
          throw new BadRequestException("Account is already registered with given username")
       }
-      
+
       // // check email 
       if (await this.userService.hasEmail(data.email)) {
          throw new BadRequestException('Account is already registered with given email address')
       }
       try {
-         console.log("DATA", data);
+         // for incoming request
+         if ('password' in data) {
+            data.password_hash = data['password']
+            delete data['password']
+         }
 
          packet = await this.userService.create(data)
          insertId = packet.insertId
