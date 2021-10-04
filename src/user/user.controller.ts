@@ -1,5 +1,4 @@
 import { Controller, Post, Body, InternalServerErrorException, Logger, BadRequestException } from '@nestjs/common'
-import { OkPacket } from 'mysql'
 import { User } from './user.interface'
 import { UserService } from './user.service'
 
@@ -11,7 +10,7 @@ export class UserController {
 
    @Post()
    async registerNewUser(@Body() data: User): Promise<ApiResponse> {
-      let packet: OkPacket, insertId: RowId
+      let packet, insertId: RowId
       
       // check username
       if (await this.userService.hasUsername(data.username)) {
