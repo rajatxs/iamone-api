@@ -1,12 +1,11 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
 import { UserService } from './user.service'
 import { UserController } from './user.controller'
 import { AuthMiddleware } from '../auth/auth.middleware'
-import { UserSchema } from './user.entity'
+import { AuthModule } from '../auth/auth.module'
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'users', schema: UserSchema }])],
+  imports: [AuthModule],
   providers: [UserService],
   controllers: [UserController]
 })

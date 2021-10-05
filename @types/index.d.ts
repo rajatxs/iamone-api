@@ -7,7 +7,7 @@ declare interface ApiResponse {
 
 interface AppRequestLocals {
    urlPath?: string,
-   requestId?: RowId
+   requestId?: DocId
 }
 
 declare namespace Express {
@@ -16,15 +16,15 @@ declare namespace Express {
    }
 }
 
-declare type RowId = number
+declare type DocId = import('mongodb').ObjectId
 declare type NodeEnv = 'production' | 'development' | 'stagging'
 
-declare interface Row {
-   id?: RowId
+declare interface Doc {
+   _id?: import('mongodb').ObjectId
 }
-declare interface RowTimestamps {
-   created_at?: string,
-   updated_at?: string
+declare interface DocTimestamps {
+   createdAt?: string,
+   updatedAt?: string
 }
-declare interface MutableRow extends Row, RowTimestamps {}
-declare interface ImmutableRow extends Row, Omit<RowTimestamps, 'updated_at'> {}
+declare interface MutableDoc extends Doc, DocTimestamps {}
+declare interface ImmutableDoc extends Doc, Omit<DocTimestamps, 'updatedAt'> {}

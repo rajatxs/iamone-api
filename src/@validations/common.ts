@@ -1,24 +1,48 @@
 import * as Joi from 'joi'
 
+export const username = Joi
+   .string()
+   .min(2)
+   .max(30)
+   .pattern(/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/)
+   .label('Username')
+
 export const fullName = Joi
    .string()
    .min(2)
    .max(60)
    .trim()
    .label("Full name")
-   .truncate(true)
+
+export const companyName = Joi
+   .string()
+   .min(2)
+   .max(160)
+   .trim()
+   .label('Company')
+
+export const bio = Joi
+   .string()
+   .max(180)
+   .trim()
+   .label('Bio')
+
+export const plainText = Joi
+   .string()
+   .min(1)
+   .trim()
 
 export const email = Joi
    .string()
    .email()
    .trim()
-   .truncate(true)
    .label("Email")
 
-export const rowId = Joi
-   .number()
-   .min(1)
-   .strict(true)
+export const password = Joi
+   .string()
+   .min(6)
+   .max(64)
+   .label('Password')
 
 export const message = Joi
    .string()
