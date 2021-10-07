@@ -35,6 +35,11 @@ export abstract class AppModel {
       return new Date()
    }
 
+   /** Convert to ObjectId */
+   protected $docId(val: string | ObjectId): ObjectId {
+      return (val instanceof ObjectId)? val: new ObjectId(val)
+   }
+
    /** To regular document */
    protected $doc<T>(obj: any = {}): T & Doc & DocTimestamps {
 
@@ -89,5 +94,22 @@ export abstract class AppModel {
 
          resolve(result)
       })
+   }
+
+   /** Find single document by id */
+   protected $findById<T>(id: string | DocId) {
+      return this.model.findOne<T>({ _id: this.$docId(id) })
+   }
+
+   /** Update single document by id */
+   protected $updateById<T>(id: string | DocId, update: T) {
+      delete update['_id']
+
+      return this.model.updateOne({ _id: this.$docId(id) }, { $set: update })
+   }
+
+   /** Delete single document by id */
+   protected $deleteById(id: string | DocId) {
+      return this.model.deleteOne({ _id: this.$docId(id) })
    }
 }
