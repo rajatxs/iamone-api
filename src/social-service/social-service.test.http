@@ -1,0 +1,39 @@
+
+### Get list of social services
+GET {{BASE_URL}}/v1/social-service
+Accept: application/json
+Accept-Language: {{LANG}}
+
+### Get single social service
+GET {{BASE_URL}}/v1/social-service/615f01db6d6f9e507af40fab
+Accept: application/json
+Accept-Language: {{LANG}}
+
+### Add new social service
+POST {{BASE_URL}}/v1/social-service
+Accept: application/json
+Accept-Language: {{LANG}}
+Content-Type: application/json
+
+{
+   "name": "Instagram",
+   "icon": "instagram.svg",
+   "about": "Platform for Photos and Vidoes",
+   "website": "https://instagram.com",
+   "templateUrl": "https://instagram.com/{{slug}}"
+}
+
+### Update social service
+PUT {{BASE_URL}}/v1/social-service/615f1804d797babc68385e7f
+Accept: application/json
+Accept-Language: {{LANG}}
+Content-Type: application/json
+
+{
+   "website": "https://instagram.com"
+}
+
+### Delete social service
+DELETE {{BASE_URL}}/v1/social-service/615efdeb1560bf3b60fef4e4
+Accept: application/json
+Accept-Language: {{LANG}}
