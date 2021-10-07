@@ -10,7 +10,7 @@ export class AuthService extends AppModel {
    }
 
    /** Register new auth token for user */
-   public async registerNewUserAuthToken(payload: UserAccessTokenPayload, username?: string): Promise<RegisteredAuthTokenResponse> {
+   public async generateUserAuthToken(payload: UserAccessTokenPayload, username?: string): Promise<RegisteredAuthTokenResponse> {
       const accessToken = await this.jwtService.signAsync(payload, { subject: username })
       let refreshToken = ''
 
