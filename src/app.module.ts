@@ -3,12 +3,16 @@ import { AppController } from './app.controller'
 import { ConfigModule } from '@nestjs/config'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
+import { SocialRefModule } from './social-ref/social-ref.module';
+import { SocialServiceModule } from './social-service/social-service.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     UserModule,
-    AuthModule
+    AuthModule,
+    SocialRefModule,
+    SocialServiceModule,
   ],
   controllers: [AppController],
 })
