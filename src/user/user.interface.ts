@@ -1,9 +1,15 @@
+import { Document } from 'mongodb'
 
-export interface User extends MutableRow {
+export interface User extends Document, ImmutableDoc {
    username: string,
+   fullname?: string,
+   bio?: string,
+   company?: string,
    email: string,
-   email_verified?: boolean,
-   password_hash: string
+   emailVerified?: boolean,
+   passwordHash: string
 }
+
+export type UserCredentials = Pick<User, 'username' | 'email' | 'password'>
 
 export type PartialUser = Partial<User>

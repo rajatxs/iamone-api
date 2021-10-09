@@ -1,9 +1,10 @@
-import { Injectable, NestMiddleware, InternalServerErrorException, Logger} from '@nestjs/common'
+import { Injectable, NestMiddleware, InternalServerErrorException, Logger } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
+import { InsertOneResult } from 'mongodb'
 import { HttpRequestService } from './http-request.service'
 import { HttpRequest, PartialHttpRequest } from './http-request.interface'
-import { OkPacket } from 'mysql'
 
+/** Save incoming HTTP request record */
 @Injectable()
 export class HttpRequestMiddleware implements NestMiddleware {
   private readonly httpRequest = new HttpRequestService
@@ -11,7 +12,7 @@ export class HttpRequestMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     let payload: PartialHttpRequest = {}
-    let packet: OkPacket, requestId: RowId
+    let result: InsertOneResult, requestId: DocId
 
     payload.url_path = req.locals.urlPath
     payload.ip = req.ip
@@ -20,11 +21,10 @@ export class HttpRequestMiddleware implements NestMiddleware {
     payload.lang = req.acceptsLanguages()[0]
 
     try {
-      packet = await this.httpRequest.save(<HttpRequest>payload)
-      requestId = <RowId>packet.insertId
-      this.logger.log("Request created: " + requestId)
-    }
-    catch (error) {
+      result = await this.httpRequest.save(<HttpRequest>payload)
+      requestId = <DocId>result.insertedId
+      this.logger.log(`Request received ${requestId}`)
+    } catch (error) {
       this.logger.error("Failed to create HTTP request", error)
       return next(
         new InternalServerErrorException({
@@ -36,7 +36,7 @@ export class HttpRequestMiddleware implements NestMiddleware {
     }
 
     req.locals.requestId = requestId
-    res.setHeader('X-Request-Id', String(requestId))
+    res.setHeader('X-Request-Id', requestId.toString())
 
     next()
   }

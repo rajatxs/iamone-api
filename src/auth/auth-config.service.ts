@@ -5,8 +5,8 @@ import env from '@utils/env'
 @Injectable()
 export class JwtConfigService implements JwtOptionsFactory {
    public createJwtOptions(): JwtModuleOptions {
-      const { jwtPrivateKey: privateKey } = env
+      const { jwtPrivateKey: secret } = env
 
-      return { privateKey }
+      return { secret }
    }
 }

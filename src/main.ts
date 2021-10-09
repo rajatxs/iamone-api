@@ -7,6 +7,7 @@ import { format } from 'util'
 import { hostname } from 'os'
 import { CorsConfig } from '@config/cors'
 import env from './@utils/env'
+import * as db from './@utils/db'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -26,4 +27,7 @@ async function bootstrap() {
     process.stdout.write(msg)
   }
 }
-bootstrap()
+
+db
+  .connect()
+  .finally(bootstrap)

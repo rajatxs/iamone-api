@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common'
-import { AppModalService } from '@classes/app-modal'
+import { AppModel, timestampType } from '@classes/AppModel'
 import { HttpRequest } from './http-request.interface'
 
 @Injectable()
-export class HttpRequestService extends AppModalService {
-   public constructor() { super('http_requests') }
+export class HttpRequestService extends AppModel {
+   public constructor() { super('httpRequests', { timestamps: timestampType.CREATED_AT }) }
 
+   /** Save HTTP request */
    public save(data: HttpRequest) {
-      return this.$insertOne(data)
+      return this.$insert<HttpRequest>(data)
    }
 }

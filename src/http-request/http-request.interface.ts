@@ -1,5 +1,5 @@
 
-export interface HttpRequest extends ImmutableRow {
+export interface HttpRequest extends ImmutableDoc {
    url_path: string,
    ip: string,
    origin?: string
