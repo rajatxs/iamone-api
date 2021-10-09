@@ -1,4 +1,10 @@
 import * as Joi from 'joi'
+import { ObjectId } from 'mongodb'
+
+export const docId = Joi
+   .string()
+   .length(24)
+   .custom((value: string) => new ObjectId(value))
 
 export const username = Joi
    .string()
@@ -43,6 +49,15 @@ export const password = Joi
    .min(6)
    .max(64)
    .label('Password')
+
+export const website = Joi
+   .string()
+   .uri({ 
+      allowQuerySquareBrackets: false, 
+      allowRelative: false 
+   })
+   .max(253)
+   .trim()
 
 export const message = Joi
    .string()
