@@ -1,20 +1,15 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
+import { UserModule } from '../user/user.module'
 import { AuthService } from './auth.service'
 import { JwtConfigService } from './auth-config.service'
-import { HttpRequestMiddleware } from '../http-request/http-request.middleware'
 
 @Module({
   imports: [
-    JwtModule.registerAsync({ useClass: JwtConfigService })
+    JwtModule.registerAsync({ useClass: JwtConfigService }), 
+    forwardRef(() => UserModule)
   ],
   providers: [AuthService],
   exports: [AuthService]
 })
-export class AuthModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(HttpRequestMiddleware)
-      .forRoutes('/user')
-  }
-}
+export class AuthModule { }

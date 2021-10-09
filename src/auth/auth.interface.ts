@@ -1,8 +1,11 @@
-import { ObjectId } from 'mongodb'
 import { JwtPayload } from 'jsonwebtoken'
 
 export interface UserAccessTokenPayload extends JwtPayload {
-   userId: string | ObjectId
+   id: string,
+   admin?: boolean,
+   name?: string,
+   email?: string,
+   email_verified?: boolean
 }
 
 export interface UserAuthToken extends ImmutableDoc {
