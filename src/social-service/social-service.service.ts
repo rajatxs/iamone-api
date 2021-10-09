@@ -17,6 +17,11 @@ export class SocialServiceProvider extends AppModel {
       return this.$existsId<PartialSocialService>(id)
    }
 
+   /** Check whether key is exists or not */
+   public hasKey(key: string) {
+      return this.$exists<PartialSocialService>({ key })
+   }
+
    /** Find single servic */
    public get(id: string | DocId) {
       return this.$findById<PartialSocialService>(id)
