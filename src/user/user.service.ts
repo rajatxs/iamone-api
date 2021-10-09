@@ -33,6 +33,16 @@ export class UserService extends AppModel {
       return this.$exists({ username })
    }
 
+   /** Check existance of user by id */
+   public has(id: string | DocId) {
+      return this.$existsId(id)
+   }
+
+   /** Find user by _id */
+   public get(id: string | DocId) {
+      return this.$findById<User>(id)
+   }
+
    /** Find single user document */
    public findOne(filter: Filter<User>) {
       return this.model.findOne<User>(filter)

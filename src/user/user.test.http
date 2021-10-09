@@ -1,6 +1,6 @@
 
 ### Create new user
-POST {{BASE_URL}}/v1/user
+POST {{BASE_URL}}/v1/user/register
 Accept: application/json
 Accept-Language: {{LANG}}
 Content-Type: application/json
@@ -25,7 +25,12 @@ Accept: application/json
 Accept-Language: {{LANG}}
 Content-Type: application/json
 
+# {
+#    "email": "rajat@developar.in",
+#    "password": "test1010"
+# }
+
 {
-   "email": "rajat@developar.in",
-   "password": "test1010"
+   "username": "aakash",
+   "password": "aakash2709"
 }

@@ -1,16 +1,15 @@
-import { 
-   Controller, 
-   Get,
+import {
+   Controller,
    Req,
-   Post, 
-   Body, 
-   InternalServerErrorException, 
-   Logger, 
+   Post,
+   Body,
+   InternalServerErrorException,
+   Logger,
    UsePipes,
-   BadRequestException, 
+   BadRequestException,
    NotFoundException
 } from '@nestjs/common'
-import { InsertOneResult } from 'mongodb'
+import { InsertOneResult, ObjectId } from 'mongodb'
 import { Request } from 'express'
 import { User, UserCredentials } from './user.interface'
 import { UserService } from './user.service'
@@ -29,29 +28,43 @@ export class UserController {
       private readonly authService: AuthService
    ) { }
 
-   @Post()
+   @Post('register')
    @UsePipes(new JoiValidationPipe(createSchema))
    async registerNewUser(@Req() req: Request, @Body() data: User): Promise<ApiResponse> {
-      let result: InsertOneResult, insertedId: any
+      let newUser: InsertOneResult, result: RegisteredAuthTokenResponse, insertedId: ObjectId, user: User
 
       // check username
       if (await this.userService.hasUsername(data.username)) {
          throw new BadRequestException("Account is already registered with given username")
       }
-      
+
       // check email 
       if (await this.userService.hasEmail(data.email)) {
          throw new BadRequestException('Account is already registered with given email address')
       }
 
       try {
+         // preset data
          data.httpRequestId = req.locals.requestId
          data.passwordHash = data['password']
          delete data['password']
 
-         result = await this.userService.create(data)
-         insertedId = result.insertedId
+         newUser = await this.userService.create(data)
+         insertedId = newUser.insertedId
+
          this.logger.log(`User created ${insertedId}`)
+
+         // get newly created user
+         user = await this.userService.get(insertedId)
+         
+         // generate auth token
+         result = await this.authService.generateUserAuthToken({
+            id: insertedId.toString(),
+            name: user.fullname,
+            email: user.email,
+            email_verified: user.emailVerified
+         }, user.username)
+
       } catch (error) {
          this.logger.error(error)
          throw new InternalServerErrorException("Failed to create your account")
@@ -60,7 +73,7 @@ export class UserController {
       return {
          statusCode: 201,
          message: "Account created",
-         result: { insertedId }
+         result
       }
    }
 
@@ -77,7 +90,7 @@ export class UserController {
       // get user object
       try {
          user = await this.userService.findByUsernameOrEmail(username, email)
-      } catch(error) {
+      } catch (error) {
          this.logger.log("Failed to get user document", error)
          throw new InternalServerErrorException("Failed to get your account")
       }
@@ -90,7 +103,7 @@ export class UserController {
       try {
          isPasswordCorrect = await bcrypt.compare(password, user.passwordHash)
       } catch (error) {
-         this.logger.log("Error while decode user password", error)
+         this.logger.error("Error while decode user password", error)
          throw new InternalServerErrorException("Failed to decrypt your credentials")
       }
 
@@ -100,9 +113,14 @@ export class UserController {
 
       // register auth token
       try {
-         result = await this.authService.registerNewUserAuthToken({ userId: user._id }, user.username)
+         result = await this.authService.generateUserAuthToken({
+            id: (user._id).toString(),
+            name: user.fullname,
+            email: user.email,
+            email_verified: user.emailVerified
+         }, user.username)
       } catch (error) {
-         this.logger.log("Error while registering new user auth token", error)
+         this.logger.error("Error while registering new user auth token", error)
          throw new InternalServerErrorException("Failed to initialize your login session")
       }
 
