@@ -96,6 +96,11 @@ export abstract class AppModel {
       })
    }
 
+   /** Check document existance by id */
+   protected $existsId<T>(id: string | DocId) {
+      return this.$exists<T>({ _id: this.$docId(id) })
+   }
+
    /** Find single document by id */
    protected $findById<T>(id: string | DocId) {
       return this.model.findOne<T>({ _id: this.$docId(id) })
