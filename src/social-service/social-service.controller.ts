@@ -27,7 +27,7 @@ export class SocialServiceController {
       let result: PartialSocialService[]
 
       try {
-         result = await this.socialService.findAll({})
+         result = await this.socialService.findAll()
       } catch (error) {
          this.logger.error("Error while getting social services", error)
          throw new InternalServerErrorException("Failed to get social services")
@@ -45,7 +45,11 @@ export class SocialServiceController {
       let result: PartialSocialService
 
       try {
-         result = await this.socialService.get(id)
+         if (id.toString().startsWith('@')) {
+            result = await this.socialService.findByKey(id.toString().substr(1))
+         } else {
+            result = await this.socialService.get(id)
+         }
       } catch (error) {
          this.logger.error("Error while getting social service data", error)
          throw new InternalServerErrorException("Failed to get social service data")

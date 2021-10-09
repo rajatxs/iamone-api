@@ -1,9 +1,9 @@
-
-export interface SocialService extends MutableDoc {
-   name: string,
-   icon: string,
-   about?: string,
-   website?: string,
+export interface SocialService extends Doc {
+   key: string
+   name: string
+   icon: string
+   about?: string
+   website?: string
    templateUrl: string
 }
 

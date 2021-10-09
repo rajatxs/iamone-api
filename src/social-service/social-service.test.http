@@ -5,7 +5,12 @@ Accept: application/json
 Accept-Language: {{LANG}}
 
 ### Get single social service
-GET {{BASE_URL}}/v1/social-service/615f01db6d6f9e507af40fab
+GET {{BASE_URL}}/v1/social-service/@v2cvx11z
+Accept: application/json
+Accept-Language: {{LANG}}
+
+### Get single social service by key
+GET {{BASE_URL}}/v1/social-service/@v2cvx11z
 Accept: application/json
 Accept-Language: {{LANG}}
 

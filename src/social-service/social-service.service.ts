@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common'
-import { AppModel, timestampType } from '@classes/AppModel'
+import { AppModel } from '@classes/AppModel'
 import { SocialService, PartialSocialService } from './social-service.interface'
 import { Filter } from 'mongodb'
 
 @Injectable()
 export class SocialServiceProvider extends AppModel {
-   public constructor() { super('socialServices', { timestamps: timestampType.ALL }) }
+   public constructor() { super('socialServices') }
 
    /** Add new social service */
    public add(data: SocialService) {
       return this.$insert<SocialService>(data)
+   }
+
+   /** Check for service existance */
+   public has(id: string | DocId) {
+      return this.$existsId<PartialSocialService>(id)
    }
 
    /** Find single servic */
@@ -18,8 +23,13 @@ export class SocialServiceProvider extends AppModel {
    }
 
    /** Find all services */
-   public findAll(filter: Filter<PartialSocialService>) {
+   public findAll(filter?: Filter<PartialSocialService>) {
       return this.model.find<SocialService>(filter).sort({ createdAt: 1 }).toArray()
+   }
+
+   /** Find service by key */
+   public findByKey(key: string) {
+      return this.model.findOne<PartialSocialService>({ key })
    }
 
    /** Update service data */

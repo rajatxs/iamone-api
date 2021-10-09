@@ -1,5 +1,6 @@
 import * as Joi from 'joi'
-import { } from '@validations/common'
+import { website, plainText } from '@validations/common'
+import { alphaNumeric } from '@utils/random'
 
 const name = Joi
    .string()
@@ -13,20 +14,15 @@ const icon = Joi
    .max(80)
    .trim()
 
-const about = Joi
+const key = Joi
    .string()
-   .min(5)
-   .max(250)
+   .min(2)
+   .max(12)
+   .alphanum()
    .trim()
+   .default(alphaNumeric)
 
-const website = Joi
-   .string()
-   .uri({ 
-      allowQuerySquareBrackets: false, 
-      allowRelative: false 
-   })
-   .max(253)
-   .trim()
+const about = plainText.max(180)
 
 const templateUrl = Joi
    .string()
@@ -34,6 +30,7 @@ const templateUrl = Joi
    .trim()
 
 export const createSchema = Joi.object({
+   key,
    name: name.required(),
    icon: icon.required(),
    about: about.optional(),
@@ -42,6 +39,7 @@ export const createSchema = Joi.object({
 })
 
 export const updateSchema = Joi.object({
+   key: key.optional(),
    name: name.optional(),
    icon: icon.optional(),
    about: about.optional(),
