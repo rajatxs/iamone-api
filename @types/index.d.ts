@@ -7,7 +7,8 @@ declare interface ApiResponse {
 
 interface AppRequestLocals {
    urlPath?: string,
-   requestId?: DocId
+   requestId?: DocId,
+   userId?: DocId
 }
 
 declare namespace Express {
