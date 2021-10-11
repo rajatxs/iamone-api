@@ -28,44 +28,19 @@ const env = {
       return Number(process.env.PORT)
    },
 
-   /** Database Hostname */
-   get dbHostname() {
-      return process.env.DB_HOSTNAME
-   },
-
-   /** Database Username */
-   get dbUsername() {
-      return process.env.DB_USERNAME
-   },
-
-   /** Database Server Port */
-   get dbPort() {
-      return Number(process.env.DB_PORT)
-   },
-
-   /** Database Password */
-   get dbPassword() {
-      return process.env.DB_PASSWORD
-   },
-
-   /** Database Name */
-   get dbName() {
-      return process.env.DB_NAME
-   },
-
-   /** Database socket path */
-   get dbSocketPath() {
-      return process.env.DB_SOCKET_PATH
-   },
-
-   /** Database connection name */
-   get dbConnectionName() {
-      return process.env.DB_CONNECTION_NAME
+   /** MongoDB Connection URL */
+   get mongoConnectionUrl() {
+      return process.env.MONGO_CONNECTION_URL
    },
 
    /** JWT Private key */
    get jwtPrivateKey() {
       return process.env.JWT_PRIVATE_KEY
+   },
+
+   /** JWT Admin Private key */
+   get jwtAdminPrivateKey() {
+      return process.env.JWT_ADMIN_PRIVATE_KEY
    }
 }
 

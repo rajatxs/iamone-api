@@ -1,4 +1,5 @@
 import { Db, MongoClient } from 'mongodb'
+import env from './env'
 
 var db: Db = null
 
@@ -6,10 +7,7 @@ var db: Db = null
 export function connect(): Promise<MongoClient> {
    return new Promise(function (resolve, reject) {
       MongoClient.connect(
-         'mongodb://127.0.0.1:27017/im1',
-         {
-
-         },
+         env.mongoConnectionUrl,
          function (error, client) {
             if (error) {
                return reject(error)
