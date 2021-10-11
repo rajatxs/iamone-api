@@ -37,6 +37,12 @@ export class SocialServiceProvider extends AppModel {
       return this.model.findOne<PartialSocialService>({ key })
    }
 
+   /** Check duplication for new document */
+   public isDuplicate(data: SocialService) {
+      const { templateUrl } = data
+      return this.$exists<PartialSocialService>({ templateUrl })
+   }
+
    /** Update service data */
    public update(id: string | DocId, newData: PartialSocialService) {
       return this.$updateById<PartialSocialService>(id, newData)
