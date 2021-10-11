@@ -2,10 +2,18 @@ import { Injectable } from '@nestjs/common'
 import { SocialRef } from './social-ref.interface'
 import { AppModel, timestampType } from '@classes/AppModel'
 import { PartialSocialRef } from './social-ref.interface'
-import { Filter } from 'mongodb'
+import { Filter, FindOptions } from 'mongodb'
 
 @Injectable()
 export class SocialRefService extends AppModel {
+   protected get findOptions() {
+      return <FindOptions>{
+         projection: {
+            userId: false
+         }
+      }
+   }
+
    public constructor() {
       super('socialRefs', { timestamps: timestampType.ALL })
    }
@@ -38,13 +46,13 @@ export class SocialRefService extends AppModel {
 
    /** Find one social link */
    public findOne(filter: Filter<PartialSocialRef>) {
-      return this.model.findOne<PartialSocialRef>(filter)
+      return this.model.findOne<PartialSocialRef>(filter, this.findOptions)
    }
 
    /** Find all social refs */
    public findAll(filter: Filter<PartialSocialRef>) {
       return this.model
-         .find<PartialSocialRef>(filter)
+         .find<PartialSocialRef>(filter, this.findOptions)
          .sort({ index: 1 })
          .toArray()
    }
