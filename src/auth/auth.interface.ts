@@ -1,12 +1,14 @@
 import { JwtPayload } from 'jsonwebtoken'
 
-export interface UserAccessTokenPayload extends JwtPayload {
+export interface UserAuthTokenPayload extends JwtPayload {
    id: string,
    admin?: boolean,
    name?: string,
    email?: string,
    email_verified?: boolean
 }
+
+export type AdminAuthTokenPayload = UserAuthTokenPayload
 
 export interface UserAuthToken extends ImmutableDoc {
    accessToken: string,

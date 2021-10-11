@@ -6,7 +6,7 @@ import {
    InternalServerErrorException,
    NotFoundException,
 } from '@nestjs/common'
-import { UserAccessTokenPayload } from './auth.interface'
+import { UserAuthTokenPayload } from './auth.interface'
 import { UserService } from '../user/user.service'
 import { AuthService } from './auth.service'
 import { Request } from 'express'
@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
    async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = <Request>context.switchToHttp().getRequest()
       let authHeader: string, authToken: string, id: ObjectId
-      let payload: UserAccessTokenPayload
+      let payload: UserAuthTokenPayload
 
       authHeader = request.header('Authorization')
       if (!authHeader) {
