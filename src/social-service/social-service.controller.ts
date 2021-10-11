@@ -9,7 +9,8 @@ import {
    UsePipes,
    Logger,
    InternalServerErrorException,
-   NotFoundException
+   NotFoundException,
+   BadRequestException
 } from '@nestjs/common'
 import { InsertOneResult, UpdateResult, DeleteResult } from 'mongodb'
 import { SocialServiceProvider } from './social-service.service'
@@ -71,6 +72,11 @@ export class SocialServiceController {
    async addNewSocialService(@Body() data: SocialService): Promise<ApiResponse> {
       let result: InsertOneResult, insertedId: DocId
 
+      // check for duplication
+      if (await this.socialService.isDuplicate(data)) {
+         throw new BadRequestException("Given template url is already in use")
+      }
+
       try {
          result = await this.socialService.add(data)
          insertedId = result.insertedId
@@ -116,15 +122,18 @@ export class SocialServiceController {
 
       try {
          result = await this.socialService.remove(id)
-         this.logger.log(`Social services deleted $`)
       } catch (error) {
          this.logger.error("Error while delete social service item", error)
-         throw new InternalServerErrorException("Failed to delete social service item")
+         throw new InternalServerErrorException("Failed to remove social service")
+      }
+
+      if (result.deletedCount === 0) {
+         throw new NotFoundException("Service not found")
       }
 
       return {
          statusCode: 200,
-         message: "Social service deleted"
+         message: "Social service has been removed"
       }
    }
 }
