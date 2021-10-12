@@ -1,21 +1,28 @@
-import { Module, forwardRef } from '@nestjs/common'
+import { Global, Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
-import { UserModule } from '../user/user.module'
-import { AdminModule } from '../admin/admin.module'
-import { AuthService } from './auth.service'
 import env from '@utils/env'
+import { AuthService } from './auth.service'
+import { AdminService } from '../admin/admin.service'
+import { UserService } from '../user/user.service'
 
+@Global()
 @Module({
    imports: [
       JwtModule.registerAsync({
          useFactory: () => ({
             secret: env.jwtPrivateKey,
-         }),
-      }),
-      forwardRef(() => UserModule),
-      forwardRef(() => AdminModule)
+         })
+      })
    ],
-   providers: [AuthService],
-   exports: [AuthService],
+   providers: [
+      AuthService,
+      AdminService,
+      UserService
+   ],
+   exports: [
+      AuthService,
+      AdminService,
+      UserService
+   ]
 })
-export class AuthModule {}
+export class AuthModule { }
