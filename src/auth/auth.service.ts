@@ -8,7 +8,7 @@ import {
 
 @Injectable()
 export class AuthService {
-   public constructor(private readonly jwtService: JwtService) {}
+   public constructor(private readonly jwtService: JwtService) { }
 
    /** Register new auth token for user */
    public async generateUserAuthToken(payload: UserAuthTokenPayload, subject: string): Promise<RegisteredAuthTokenResponse> {

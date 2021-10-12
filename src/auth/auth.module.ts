@@ -11,7 +11,7 @@ import { UserService } from '../user/user.service'
       JwtModule.registerAsync({
          useFactory: () => ({
             secret: env.jwtPrivateKey,
-         }),
+         })
       })
    ],
    providers: [
@@ -23,6 +23,6 @@ import { UserService } from '../user/user.service'
       AuthService,
       AdminService,
       UserService
-   ],
+   ]
 })
 export class AuthModule { }
