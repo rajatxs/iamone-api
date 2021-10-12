@@ -1,7 +1,8 @@
-import { Module, forwardRef } from '@nestjs/common'
+import { Module, forwardRef, MiddlewareConsumer  } from '@nestjs/common'
 import { UserService } from './user.service'
 import { UserController } from './user.controller'
 import { AuthModule } from '../auth/auth.module'
+import { HttpRequestMiddleware } from '../http-request/http-request.middleware'
 
 @Module({
   imports: [forwardRef(() => AuthModule)],
@@ -9,4 +10,10 @@ import { AuthModule } from '../auth/auth.module'
   controllers: [UserController],
   exports: [UserService]
 })
-export class UserModule { }
+export class UserModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(HttpRequestMiddleware)
+      .forRoutes('/user')
+  }
+}

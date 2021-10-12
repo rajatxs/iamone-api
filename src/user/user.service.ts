@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { Filter } from 'mongodb'
 import { AppModel, timestampType } from '@classes/AppModel'
 import { User } from './user.interface'
-import * as bcrypt from 'bcryptjs'
 
 @Injectable()
 export class UserService extends AppModel {
@@ -10,16 +9,7 @@ export class UserService extends AppModel {
 
    /** Create new user account */
    public async create(data: User) {
-
-      // generate password hash
-      if (typeof data.passwordHash === 'string' && data.passwordHash.length > 0) {
-         const salt = await bcrypt.genSalt(10)
-         data.passwordHash = await bcrypt.hash(data.passwordHash, salt)
-      }
-
-      // should be unverified for new user
       data.emailVerified = false
-
       return this.$insert<User>(data)
    }
 

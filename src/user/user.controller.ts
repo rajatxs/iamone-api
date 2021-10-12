@@ -16,6 +16,7 @@ import { UserService } from './user.service'
 import { createSchema, verifySchema } from './user.schema'
 import { JoiValidationPipe } from '@pipes/validation'
 import { AuthService } from '../auth/auth.service'
+import { setPasswordHash } from '@utils/common'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
 import * as bcrypt from 'bcryptjs'
 
@@ -46,9 +47,8 @@ export class UserController {
       try {
          // preset data
          data.httpRequestId = req.locals.requestId
-         data.passwordHash = data['password']
-         delete data['password']
 
+         data = await setPasswordHash<User>(data)
          newUser = await this.userService.create(data)
          insertedId = newUser.insertedId
 
