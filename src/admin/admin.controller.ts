@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcryptjs'
 import {
    Controller,
    Post,
@@ -16,7 +17,6 @@ import { Admin, AdminCredentials } from './admin.interface'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
 import { AuthService } from '../auth/auth.service'
 import { createAdminSchema, authTokenRequestAdminSchema } from './admin.schema'
-import * as bcrypt from 'bcryptjs'
 
 @Controller('admin')
 export class AdminController {

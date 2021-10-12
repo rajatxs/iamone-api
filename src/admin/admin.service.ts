@@ -15,7 +15,7 @@ export class AdminService extends AppModel {
    }
 
    /** Check whether admin is exists or not with specified id */
-   public has(id: DocId) {
+   public has(id: string | DocId) {
       return this.$existsId<Admin>(id)
    }
 
