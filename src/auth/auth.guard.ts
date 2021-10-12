@@ -73,6 +73,10 @@ export class AuthGuard implements CanActivate {
       ])
       let token: string, payload: AuthTokenPayload
 
+      if (role === Role.Anonymous) {
+         return true
+      }
+
       token = this.extractAuthToken(request)
       payload = await this.verifyAuthToken(token)
 

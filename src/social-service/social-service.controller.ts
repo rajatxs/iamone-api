@@ -13,9 +13,11 @@ import {
    BadRequestException
 } from '@nestjs/common'
 import { InsertOneResult, UpdateResult, DeleteResult } from 'mongodb'
+import { JoiValidationPipe } from '@pipes/validation'
+import { Role } from '../auth/role.enum'
+import { Roles } from '../auth/role.decorator'
 import { SocialServiceProvider } from './social-service.service'
 import { SocialService, PartialSocialService } from './social-service.interface'
-import { JoiValidationPipe } from '@pipes/validation'
 import { createSchema, updateSchema } from './social-service.schema'
 
 @Controller('social-service')
@@ -24,6 +26,7 @@ export class SocialServiceController {
    constructor(private readonly socialService: SocialServiceProvider) { }
 
    @Get() 
+   @Roles(Role.Anonymous)
    async getAllSocialServices(): Promise<ApiResponse> {
       let result: PartialSocialService[]
 
