@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { AppModel, timestampType } from '@classes/AppModel'
-import { Admin } from './admin.interface'
 import { Filter } from 'mongodb'
+import { Admin } from './admin.interface'
 
 @Injectable()
 export class AdminService extends AppModel {
@@ -37,5 +37,10 @@ export class AdminService extends AppModel {
    /** Find admin by email */
    public findByEmail(email: string) {
       return this.model.findOne<Admin>({ email })
+   }
+
+   /** Delete admin by id */
+   public delete(id: string | DocId) {
+      return this.$deleteById(id)
    }
 }
