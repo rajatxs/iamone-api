@@ -122,10 +122,6 @@ export class AdminController {
    async deleteAdmin(@Param('id') adminId: string | DocId): Promise<ApiResponse> {
       let result: DeleteResult
 
-      if (adminId === env.superAdminId) {
-         throw new BadRequestException("You can't delete super admin")
-      }
-
       try {
          result = await this.adminService.delete(adminId)         
       } catch (error) {
