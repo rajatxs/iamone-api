@@ -36,7 +36,7 @@ export class AdminService extends AppModel {
 
    /** Find all admins */
    public findAll(filter: Filter<Admin>) {
-      return this.model.find<Admin>(filter)
+      return this.model.find<Admin>(filter).toArray()
    }
 
    /** Find admin by email */
