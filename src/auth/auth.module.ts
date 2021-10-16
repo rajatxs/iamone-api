@@ -4,6 +4,7 @@ import env from '@utils/env'
 import { AuthService } from './auth.service'
 import { AdminService } from '../admin/admin.service'
 import { UserService } from '../user/user.service'
+import { SocialRefService } from '../social-ref/social-ref.service'
 
 @Global()
 @Module({
@@ -17,11 +18,13 @@ import { UserService } from '../user/user.service'
    providers: [
       AuthService,
       AdminService,
+      SocialRefService,
       UserService
    ],
    exports: [
       AuthService,
       AdminService,
+      SocialRefService,
       UserService
    ]
 })
