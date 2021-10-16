@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common'
-import { Collection, Filter, ObjectId } from 'mongodb'
+import { Collection, Filter, FindOptions, ObjectId } from 'mongodb'
 import { mongo } from '@utils/db'
 
 export enum timestampType {
@@ -30,9 +30,9 @@ export abstract class AppModel {
       }
    }
 
-   /** Current timestamp */
-   private get timestamp(): Date {
-      return new Date()
+   /** Convert to ObjectId */
+   protected $oid(id: string | DocId): ObjectId {
+      return (id instanceof ObjectId)? id: new ObjectId(id)
    }
 
    /** Convert to ObjectId */
@@ -102,8 +102,8 @@ export abstract class AppModel {
    }
 
    /** Find single document by id */
-   protected $findById<T>(id: string | DocId) {
-      return this.model.findOne<T>({ _id: this.$docId(id) })
+   protected $findById<T>(id: string | DocId, options?: FindOptions) {
+      return this.model.findOne<T>({ _id: this.$docId(id) }, options)
    }
 
    /** Update single document by id */
