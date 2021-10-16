@@ -1,7 +1,10 @@
+import * as bcrypt from 'bcryptjs'
 import {
    Controller,
    Req,
+   Get,
    Post,
+   Delete,
    Body,
    InternalServerErrorException,
    Logger,
@@ -9,16 +12,17 @@ import {
    BadRequestException,
    NotFoundException
 } from '@nestjs/common'
-import { InsertOneResult, ObjectId } from 'mongodb'
 import { Request } from 'express'
+import { InsertOneResult, ObjectId } from 'mongodb'
+import { JoiValidationPipe } from '@pipes/validation'
+import { setPasswordHash } from '@utils/common'
+import { Role } from '../auth/role.enum'
+import { Roles } from '../auth/role.decorator'
 import { User, UserCredentials } from './user.interface'
 import { UserService } from './user.service'
 import { createSchema, verifySchema } from './user.schema'
-import { JoiValidationPipe } from '@pipes/validation'
 import { AuthService } from '../auth/auth.service'
-import { setPasswordHash } from '@utils/common'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
-import * as bcrypt from 'bcryptjs'
 
 @Controller('user')
 export class UserController {
@@ -29,7 +33,47 @@ export class UserController {
       private readonly authService: AuthService
    ) { }
 
+   @Get()
+   @Roles(Role.Admin)
+   async getAllUsers(): Promise<ApiResponse> {
+      let result: User[]
+
+      try {
+         result = await this.userService.findAll()
+      } catch (error) {
+         this.logger.error("Error while getting users", error)
+         throw new InternalServerErrorException("Failed to get users")
+      }
+
+      return {
+         statusCode: 200,
+         message: "List of users",
+         result
+      }
+   }
+
+   @Get('detail')
+   @Roles(Role.User)
+   async getAccountDetail(@Req() req: Request): Promise<ApiResponse> {
+      const { userId } = req.locals
+      let result: User
+
+      try {
+         result = await this.userService.get(userId)
+      } catch (error) {
+         this.logger.error("Error while getting account data", error)
+         throw new InternalServerErrorException("Failed to get yout account data")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Account data",
+         result
+      }
+   }
+
    @Post('register')
+   @Roles(Role.Anonymous)
    @UsePipes(new JoiValidationPipe(createSchema))
    async registerNewUser(@Req() req: Request, @Body() data: User): Promise<ApiResponse> {
       let newUser: InsertOneResult, result: RegisteredAuthTokenResponse, insertedId: ObjectId, user: User
@@ -78,6 +122,7 @@ export class UserController {
    }
 
    @Post('token')
+   @Roles(Role.Anonymous)
    @UsePipes(new JoiValidationPipe(verifySchema))
    async generateAccessToken(@Body() data: UserCredentials): Promise<ApiResponse> {
       const { username, email, password } = data
@@ -128,6 +173,24 @@ export class UserController {
          statusCode: 201,
          message: "Auth token generated",
          result
+      }
+   }
+
+   @Delete('account')
+   @Roles(Role.User)
+   async deleteUserAccount(@Req() req: Request): Promise<ApiResponse> {
+      const { userId } = req.locals
+      let result: boolean
+
+      try {
+         result = await this.userService.deleteById(userId)     
+      } catch (error) {
+         throw new InternalServerErrorException("Failed to delete your account")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Account has been deleted"
       }
    }
 }
