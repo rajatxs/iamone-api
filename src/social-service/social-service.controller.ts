@@ -45,6 +45,7 @@ export class SocialServiceController {
    }
 
    @Get(':id')
+   @Roles(Role.Anonymous)
    async getSocialService(@Param('id') id: DocId): Promise<ApiResponse> {
       let result: PartialSocialService
 
@@ -71,6 +72,7 @@ export class SocialServiceController {
    }
 
    @Post()
+   @Roles(Role.Admin)
    @UsePipes(new JoiValidationPipe(createSchema))
    async addNewSocialService(@Body() data: SocialService): Promise<ApiResponse> {
       let result: InsertOneResult, insertedId: DocId
@@ -97,6 +99,7 @@ export class SocialServiceController {
    }
 
    @Put(':id')
+   @Roles(Role.Admin)
    @UsePipes(new JoiValidationPipe(updateSchema))
    async updateSocialService(@Param('id') id: DocId, @Body() data: PartialSocialService): Promise<ApiResponse> {
       let result: UpdateResult, statusCode: number, message: string
@@ -120,6 +123,7 @@ export class SocialServiceController {
    }
 
    @Delete(':id')
+   @Roles(Role.Admin)
    async removeSocialService(@Param('id') id: DocId): Promise<ApiResponse> {
       let result: DeleteResult
 

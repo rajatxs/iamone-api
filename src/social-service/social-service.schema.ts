@@ -20,7 +20,6 @@ const key = Joi
    .max(12)
    .alphanum()
    .trim()
-   .default(alphaNumeric)
 
 const about = plainText.max(180)
 
@@ -30,7 +29,7 @@ const templateUrl = Joi
    .trim()
 
 export const createSchema = Joi.object({
-   key,
+   key: key.default(alphaNumeric).required(),
    name: name.required(),
    icon: icon.required(),
    about: about.optional(),
