@@ -66,4 +66,9 @@ export class SocialRefService extends AppModel {
    public remove(filter: Filter<PartialSocialRef>) {
       return this.model.deleteOne(filter)
    }
+
+   /** Remove social refs by user id */
+   public removeManyByUserId(userId: string | DocId) {
+      return this.model.deleteMany(<PartialSocialRef>{ userId: this.$oid(userId) })
+   }
 }

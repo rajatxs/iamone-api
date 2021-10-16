@@ -6,7 +6,6 @@ import {
    Put,
    Body,
    Param,
-   UseGuards,
    BadRequestException,
    UsePipes,
    Logger,
@@ -16,16 +15,17 @@ import {
    ConflictException,
 } from '@nestjs/common'
 import { Request } from 'express'
+import { Role } from '../auth/role.enum'
+import { Roles } from '../auth/role.decorator'
 import { JoiValidationPipe } from '@pipes/validation'
 import { DeleteResult, InsertOneResult, ObjectId } from 'mongodb'
 import { SocialServiceProvider } from '../social-service/social-service.service'
 import { SocialRefService } from './social-ref.service'
 import { SocialRef, PartialSocialRef } from './social-ref.interface'
-import { AuthGuard } from '../auth/auth.guard'
 import { createSchema, updateSchema } from './social-ref.schema'
 
 @Controller('social-ref')
-@UseGuards(AuthGuard)
+@Roles(Role.User)
 export class SocialRefController {
    private readonly ALLOWED_MAX_REFS = 16
    private readonly logger = new Logger()
@@ -57,10 +57,7 @@ export class SocialRefController {
    }
 
    @Get(':id')
-   async getSocialRef(
-      @Req() req: Request,
-      @Param('id') id: DocId,
-   ): Promise<ApiResponse> {
+   async getSocialRef(@Req() req: Request, @Param('id') id: DocId): Promise<ApiResponse> {
       const { userId } = req.locals
       let result: PartialSocialRef
 
@@ -70,7 +67,7 @@ export class SocialRefController {
             userId,
          })
       } catch (error) {
-         this.logger.error('Error while getting social link')
+         this.logger.error('Error while getting social link', error)
          throw new InternalServerErrorException(
             'Failed to get social link data',
          )
@@ -89,10 +86,7 @@ export class SocialRefController {
 
    @Post()
    @UsePipes(new JoiValidationPipe(createSchema))
-   async addNewSocialRef(
-      @Req() req: Request,
-      @Body() data: SocialRef,
-   ): Promise<ApiResponse> {
+   async addNewSocialRef(@Req() req: Request, @Body() data: SocialRef): Promise<ApiResponse> {
       const { userId } = req.locals
       let result: InsertOneResult, insertedId: ObjectId, totalRefs: number
 
@@ -132,11 +126,7 @@ export class SocialRefController {
 
    @Put(':id')
    @UsePipes(new JoiValidationPipe(updateSchema))
-   async updateSocialRef(
-      @Req() req: Request,
-      @Param('id') id: DocId,
-      @Body() data: PartialSocialRef,
-   ): Promise<ApiResponse> {
+   async updateSocialRef(@Req() req: Request, @Param('id') id: DocId, @Body() data: PartialSocialRef): Promise<ApiResponse> {
       const { userId } = req.locals
 
       // check social service availability
@@ -172,10 +162,7 @@ export class SocialRefController {
    }
 
    @Delete(':id')
-   async deleteSocialRef(
-      @Req() req: Request,
-      @Param('id') id: DocId,
-   ): Promise<ApiResponse> {
+   async deleteSocialRef(@Req() req: Request, @Param('id') id: DocId): Promise<ApiResponse> {
       const { userId } = req.locals
       let result: DeleteResult
 
