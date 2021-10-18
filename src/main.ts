@@ -15,9 +15,9 @@ async function bootstrap() {
   
   app.enableCors(<any>CorsConfig)
   app.use(AppMiddleware)
-  app.enableVersioning({ type: VersioningType.URI })
-  app.setGlobalPrefix('v1', {
-    exclude: ['/', '/test']
+  app.enableVersioning({ 
+    type: VersioningType.HEADER, 
+    header: 'X-Api-Version' 
   })
 
   await app.listen(port)

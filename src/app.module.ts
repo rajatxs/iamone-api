@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common'
-import { APP_GUARD } from '@nestjs/core'
+import { join } from 'path'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { APP_GUARD, RouterModule } from '@nestjs/core'
 import { AuthGuard } from './auth/auth.guard'
 import { AppController } from './app.controller'
 import { ConfigModule } from '@nestjs/config'
@@ -8,22 +10,42 @@ import { AuthModule } from './auth/auth.module'
 import { SocialRefModule } from './social-ref/social-ref.module'
 import { SocialServiceModule } from './social-service/social-service.module'
 import { AdminModule } from './admin/admin.module'
+import { TemplateModule } from './template/template.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ServeStaticModule.forRoot({
+      serveRoot: '/_/static',
+      rootPath: join(__dirname, '..', 'public')
+    }),
     UserModule,
     AuthModule,
     SocialRefModule,
     SocialServiceModule,
     AdminModule,
+
+    RouterModule.register([
+      {
+        path: '/_/api',
+        children: [
+          UserModule,
+          AuthModule,
+          SocialServiceModule,
+          SocialRefModule,
+          AdminModule
+        ]
+      }
+    ]),
+
+    TemplateModule
   ],
   controllers: [AppController],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    }
+    },
   ]
 })
 export class AppModule { }

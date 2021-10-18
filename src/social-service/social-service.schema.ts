@@ -29,7 +29,7 @@ const templateUrl = Joi
    .trim()
 
 export const createSchema = Joi.object({
-   key: key.default(alphaNumeric).required(),
+   key: key.default(alphaNumeric),
    name: name.required(),
    icon: icon.required(),
    about: about.optional(),

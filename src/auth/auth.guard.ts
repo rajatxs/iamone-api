@@ -4,7 +4,6 @@ import {
    ExecutionContext,
    ForbiddenException,
    Injectable,
-   InternalServerErrorException,
    NotFoundException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
@@ -57,7 +56,7 @@ export class AuthGuard implements CanActivate {
       try {
          payload = await this.authService.verifyUserAuthToken(token)
       } catch (error) {
-         throw new InternalServerErrorException('Invalid authorization token')
+         throw new BadRequestException('Invalid authorization token')
       }
 
       payload = this.sanitizePayload(payload)
