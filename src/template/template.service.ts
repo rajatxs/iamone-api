@@ -8,6 +8,7 @@ import { SocialRefService } from '../social-ref/social-ref.service'
 import { SocialServiceProvider } from '../social-service/social-service.service'
 import { TemplateDataObject, TemplateSocialRefDataObject } from './template.interface'
 import { compile } from 'handlebars'
+import { helpers } from './template.utils'
 
 @Injectable()
 export class TemplateService extends AppTemplate<any> {
@@ -17,15 +18,18 @@ export class TemplateService extends AppTemplate<any> {
       private readonly socialServiceProvider: SocialServiceProvider
    ) { 
       super({ rootPath: join(__dirname, '..', '..', 'templates') })
+      this.useHelpers()
+   }
+
+   public useHelpers() {
+      this.$helper('socialIcon', helpers.resolveSocialIcon)
    }
 
    public async resolveSocialRefLinks(refs: PartialSocialRef[]): Promise<TemplateSocialRefDataObject[]> {
       let links: TemplateSocialRefDataObject[]
  
       // getting social services mathcing with 'key' from refs
-      const services = await this.socialServiceProvider.findAll({
-         $or: refs.map(ref => ({ key: ref.socialServiceKey }))
-      })
+      const services = this.socialServiceProvider.list
 
       // resolve individual links from slug
       links = refs.map<TemplateSocialRefDataObject>(ref => {
@@ -48,7 +52,7 @@ export class TemplateService extends AppTemplate<any> {
 
    /** Compile template code */
    public compileTemplate(data: TemplateDataObject) {
-      return this.$compile('dummy', data)
+      return this.$compile('primary', data)
    }
 
    /** Find data from user related collections */

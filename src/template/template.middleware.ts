@@ -6,6 +6,9 @@ import { TemplateDataObject } from './template.interface'
 @Injectable()
 export class TemplateMiddleware implements NestMiddleware {
   private readonly logger = new Logger
+  readonly publicResources = [
+    'favicon.ico'
+  ]
   constructor(private readonly templateService: TemplateService) { }
 
   async use(req: Request, res: Response, next: NextFunction) {
@@ -13,7 +16,7 @@ export class TemplateMiddleware implements NestMiddleware {
     let templateData: TemplateDataObject
     let code: string
 
-    if (username === '_') {
+    if (username === '_' || this.publicResources.includes(username)) {
       return next()
     }
 
