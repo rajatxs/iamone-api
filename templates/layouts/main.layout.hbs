@@ -18,6 +18,11 @@
 
          --profile-image-width: 120px;
          --profile-image-height: 120px;
+
+         --social-icon-width: 28px;
+         --social-icon-height: 28px;
+         --social-icon-gap: 5pt;
+         --social-icon-color: black;
       }
 
       body {
@@ -71,6 +76,12 @@
       }
       img {
          max-width: 100%;
+      }
+
+      svg {
+         width: var(--social-icon-width);
+         height: var(--social-icon-height);
+         fill: var(--social-icon-color);
       }
 
       a {
@@ -227,7 +238,6 @@
          align-items: center;
          margin-left: auto;
          margin-right: auto;
-         box-shadow: 0 8px 26px #E6E6E6;
          width: var(--paper-width);
          height: var(--paper-height);
          background: var(--paper-background);
@@ -241,6 +251,11 @@
          background-size: 100%;
          background-repeat: no-repeat;
          border-radius: 50%;
+      }
+
+      .template__social-refs {
+         display: flex;
+         gap: var(--social-icon-gap);
       }
    </style>
    <title>im1</title>
