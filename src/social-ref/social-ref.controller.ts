@@ -99,7 +99,7 @@ export class SocialRefController {
       }
 
       // check social service availability
-      if (!(await this.socialServiceProvider.hasKey(data.socialServiceKey))) {
+      if (!(this.socialServiceProvider.has(data.socialServiceKey))) {
          throw new BadRequestException('Invalid service key')
       }
 
@@ -131,7 +131,7 @@ export class SocialRefController {
 
       // check social service availability
       if (data['socialServiceKey']) {
-         const keyExists = await this.socialServiceProvider.hasKey(data.socialServiceKey)
+         const keyExists = this.socialServiceProvider.has(data.socialServiceKey)
          if (!keyExists) {
             throw new BadRequestException('Invalid service key')
          }
