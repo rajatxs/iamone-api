@@ -1,0 +1,16 @@
+[
+   {
+      "key": "aze46da7",
+      "name": "Instagram",
+      "about": "Social networking service",
+      "website": "https://www.instagram.com",
+      "templateUrl": "https://www.instagram.com/{{slug}}"
+   },
+   {
+      "key": "i1oz0ed2",
+      "name": "Twitter",
+      "about": "Social networking service",
+      "website": "https://twitter.com",
+      "templateUrl": "https://twitter.com/{{slug}}"
+   }
+]
