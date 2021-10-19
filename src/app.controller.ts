@@ -6,7 +6,7 @@ import { Roles } from './auth/role.decorator'
 @Roles(Role.Anonymous)
 export class AppController {
 
-  @Get('api/test')
+  @Get('/_/api/test')
   @HttpCode(200)
   getGreetingMessage(): ApiResponse {
     return {
