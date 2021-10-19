@@ -38,6 +38,11 @@ export abstract class AppTemplate<T> {
       return this.getCode(this.resolveTemplatePath(templateName))
    }
 
+   /** Register new helper */
+   protected $helper(name: string, fun: handlebars.HelperDelegate) {
+      this.instance.registerHelper(name, fun)
+   }
+
    /** Read layout code from selected layout */
    private getLayoutCode(): Promise<string> {
       return this.getCode(this.layoutPath)
