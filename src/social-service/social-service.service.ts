@@ -1,55 +1,27 @@
 import { Injectable } from '@nestjs/common'
-import { AppModel } from '@classes/AppModel'
 import { SocialService, PartialSocialService } from './social-service.interface'
-import { Filter } from 'mongodb'
 
 @Injectable()
-export class SocialServiceProvider extends AppModel {
-   public constructor() { super('socialServices') }
-
-   /** Add new social service */
-   public add(data: SocialService) {
-      return this.$insert<SocialService>(data)
+export class SocialServiceProvider {
+   private serviceList: SocialService[]
+   
+   public constructor() {
+      this.serviceList = require('../../data/social-services.json')
    }
 
-   /** Check for service existance */
-   public has(id: string | DocId) {
-      return this.$existsId<PartialSocialService>(id)
+   /** Get service data by key */
+   public get(key: string): PartialSocialService {
+      return this.serviceList.find(item => item.key === key)
    }
 
-   /** Check whether key is exists or not */
-   public hasKey(key: string) {
-      return this.$exists<PartialSocialService>({ key })
+   /** Chech whether service is exists or not */
+   public has(key: string): boolean {
+      const index = this.serviceList.findIndex(item => item.key === key)
+      return (index != -1)
    }
 
-   /** Find single servic */
-   public get(id: string | DocId) {
-      return this.$findById<PartialSocialService>(id)
-   }
-
-   /** Find all services */
-   public findAll(filter?: Filter<PartialSocialService>) {
-      return this.model.find<SocialService>(filter).sort({ createdAt: 1 }).toArray()
-   }
-
-   /** Find service by key */
-   public findByKey(key: string) {
-      return this.model.findOne<PartialSocialService>({ key })
-   }
-
-   /** Check duplication for new document */
-   public isDuplicate(data: SocialService) {
-      const { templateUrl } = data
-      return this.$exists<PartialSocialService>({ templateUrl })
-   }
-
-   /** Update service data */
-   public update(id: string | DocId, newData: PartialSocialService) {
-      return this.$updateById<PartialSocialService>(id, newData)
-   }
-
-   /** Delete one social service */
-   public remove(id: string | DocId) {
-      return this.$deleteById(id)
+   /** Get list of services */
+   public get list(): PartialSocialService[] {
+      return this.serviceList
    }
 }

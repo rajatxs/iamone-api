@@ -1,7 +1,6 @@
-export interface SocialService extends Doc {
+export interface SocialService {
    key: string
    name: string
-   icon: string
    about?: string
    website?: string
    templateUrl: string
