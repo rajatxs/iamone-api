@@ -11,6 +11,7 @@ import { SocialRefModule } from './social-ref/social-ref.module'
 import { SocialServiceModule } from './social-service/social-service.module'
 import { AdminModule } from './admin/admin.module'
 import { TemplateModule } from './template/template.module'
+import { ClinkModule } from './clink/clink.module'
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TemplateModule } from './template/template.module'
     SocialRefModule,
     SocialServiceModule,
     AdminModule,
+    ClinkModule,
 
     RouterModule.register([
       {
@@ -33,7 +35,8 @@ import { TemplateModule } from './template/template.module'
           AuthModule,
           SocialServiceModule,
           SocialRefModule,
-          AdminModule
+          AdminModule,
+          ClinkModule
         ]
       }
     ]),

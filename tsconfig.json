@@ -9,6 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "target": "es2017",
+    "strict": false,
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
