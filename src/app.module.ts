@@ -16,10 +16,16 @@ import { ClinkModule } from './clink/clink.module'
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    ServeStaticModule.forRoot({
-      serveRoot: '/_/static',
-      rootPath: join(__dirname, '..', 'public')
-    }),
+    ServeStaticModule.forRoot(
+      {
+        serveRoot: '/_/static',
+        rootPath: join(__dirname, '..', 'public')
+      }, 
+      { 
+        serveRoot: '/_/templates',
+        rootPath: join(__dirname, '..', 'templates')
+      }
+    ),
     UserModule,
     AuthModule,
     SocialRefModule,
