@@ -2,6 +2,7 @@
    {
       "key": "aze46da7",
       "name": "Instagram",
+      "hint": "Type Username",
       "about": "Social networking service",
       "website": "https://www.instagram.com",
       "templateUrl": "https://www.instagram.com/{{slug}}"
@@ -9,8 +10,25 @@
    {
       "key": "i1oz0ed2",
       "name": "Twitter",
+      "hint": "Type Username",
       "about": "Social networking service",
       "website": "https://twitter.com",
       "templateUrl": "https://twitter.com/{{slug}}"
+   },
+   {
+      "key": "7n2t27hd",
+      "name": "GitHub",
+      "hint": "Type Username",
+      "about": "Software development",
+      "website": "https://github.com",
+      "templateUrl": "https://github.com/{{slug}}"
+   },
+   {
+      "key": "j4fd090l",
+      "name": "Pinterest",
+      "hint": "Type Username",
+      "about": "Social networking service",
+      "website": "https://pinterest.com",
+      "templateUrl": "https://pinterest.com/{{slug}}"
    }
 ]
