@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Filter, FindOptions } from 'mongodb'
 import { AppModel, timestampType } from '@classes/AppModel'
-import { User } from './user.interface'
+import { User, MutableUserFields } from './user.interface'
 import { SocialRefService } from '../social-ref/social-ref.service'
 
 @Injectable()
@@ -63,6 +63,11 @@ export class UserService extends AppModel {
    /** Find user by username of email */
    public findByUsernameOrEmail(username?: string, email?: string) {
       return this.model.findOne<User>({ $or: [{ username }, { email }] })
+   }
+
+   /** Update mutable user fields */
+   public update(userId: string | DocId, data: MutableUserFields) {
+      return this.$updateById<MutableUserFields>(userId, data)
    }
 
    /** Delete user generated data */

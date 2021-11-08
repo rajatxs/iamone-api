@@ -4,6 +4,7 @@ import {
    Req,
    Get,
    Post,
+   Put,
    Delete,
    Body,
    InternalServerErrorException,
@@ -18,9 +19,9 @@ import { JoiValidationPipe } from '@pipes/validation'
 import { setPasswordHash } from '@utils/common'
 import { Role } from '../auth/role.enum'
 import { Roles } from '../auth/role.decorator'
-import { User, UserCredentials } from './user.interface'
+import { User, UserCredentials, MutableUserFields } from './user.interface'
 import { UserService } from './user.service'
-import { createSchema, verifySchema } from './user.schema'
+import { createSchema, updateSchema, verifySchema } from './user.schema'
 import { AuthService } from '../auth/auth.service'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
 
@@ -173,6 +174,24 @@ export class UserController {
          statusCode: 201,
          message: "Auth token generated",
          result
+      }
+   }
+
+   @Put('detail')
+   @Roles(Role.User)
+   @UsePipes(new JoiValidationPipe(updateSchema))
+   async updateProfileDetails(@Req() req: Request, @Body() data: MutableUserFields): Promise<ApiResponse> {
+      const { userId } = req.locals
+
+      try {
+         await this.userService.update(userId, data)
+      } catch (error) {
+         throw new InternalServerErrorException('Failed to update yout profile')
+      }
+
+      return {
+         statusCode: 201,
+         message: "Profile has been updated"
       }
    }
 

@@ -13,3 +13,5 @@ export interface User extends Document, MutableDoc {
 export type UserCredentials = Pick<User, 'username' | 'email' | 'password'>
 
 export type PartialUser = Partial<User>
+
+export type MutableUserFields = Pick<User, 'fullname' | 'bio' | 'company'>

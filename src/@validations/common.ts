@@ -11,6 +11,7 @@ export const username = Joi
    .min(2)
    .max(30)
    .pattern(/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/)
+   .lowercase()
 
 export const fullName = Joi
    .string()
