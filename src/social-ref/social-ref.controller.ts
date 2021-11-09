@@ -137,15 +137,6 @@ export class SocialRefController {
          }
       }
 
-      // prevent duplication
-      if (data['slug'] && data['socialServiceKey']) {
-         if (await this.socialRefService.isDuplicate(data)) {
-            throw new ConflictException(
-               'Link is already exists with same slug value',
-            )
-         }
-      }
-
       try {
          await this.socialRefService.update(
             { _id: new ObjectId(id), userId },
