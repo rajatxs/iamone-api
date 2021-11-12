@@ -1,38 +1,177 @@
 [
    {
       "key": "im1",
+      "type": "text",
       "name": "im1",
-      "hint": "Type Username",
+      "hint": "im1 Username",
+      "hostname": "im1.link",
       "templateUrl": "https://im1.link/{{slug}}"
    },
    {
-      "key": "g33h4q7h",
+      "key": "email",
+      "type": "text",
       "name": "Email",
-      "hint": "Type your email",
+      "hint": "your@domain.com",
       "templateUrl": "mailto:{{slug}}"
    },
    {
-      "key": "aze46da7",
-      "name": "Instagram",
-      "hint": "Type Username",
-      "templateUrl": "https://www.instagram.com/{{slug}}"
+      "key": "facebook",
+      "type": "url",
+      "name": "Facebook",
+      "hint": "Facebook page URL",
+      "hostname": "facebook.com",
+      "templateUrl": "{{slug}}"
    },
    {
-      "key": "i1oz0ed2",
+      "key": "twitter",
+      "type": "text",
       "name": "Twitter",
-      "hint": "Type Username",
+      "hint": "Twitter username",
+      "hostname": "twitter.com",
       "templateUrl": "https://twitter.com/{{slug}}"
    },
    {
-      "key": "7n2t27hd",
+      "key": "instagram",
+      "type": "text",
+      "name": "Instagram",
+      "hint": "Instagram username",
+      "hostname": "instagram.com",
+      "templateUrl": "https://www.instagram.com/{{slug}}"
+   },
+   {
+      "key": "youtube",
+      "type": "url",
+      "name": "YouTube",
+      "hint": "YouTube channel URL",
+      "hostname": "youtube.com",
+      "templateUrl": "{{slug}}"
+   },
+   {
+      "key": "tiktok",
+      "type": "text",
+      "name": "TikTok",
+      "hint": "TikTok username",
+      "hostname": "tiktok.com",
+      "templateUrl": "https://tiktok.com/@{{slug}}"
+   },
+   {
+      "key": "spotify",
+      "type": "url",
+      "name": "Spotify",
+      "hint": "Spotify page URL",
+      "hostname": "spotify.com",
+      "templateUrl": "{{slug}}"
+   },
+   {
+      "key": "github",
+      "type": "text",
       "name": "GitHub",
-      "hint": "Type Username",
+      "hint": "GitHub username",
+      "hostname": "github.com",
       "templateUrl": "https://github.com/{{slug}}"
    },
    {
-      "key": "j4fd090l",
+      "key": "behance",
+      "type": "text",
+      "name": "Behance",
+      "hint": "Behance username",
+      "hostname": "behance.net",
+      "templateUrl": "https://behance.net/{{slug}}"
+   },
+   {
+      "key": "dribbble",
+      "type": "text",
+      "name": "Dribbble",
+      "hint": "Dribbble username",
+      "hostname": "dribbble.com",
+      "templateUrl": "https://dribbble.com/{{slug}}"
+   },
+   {
+      "key": "discord",
+      "type": "text",
+      "name": "Discord",
+      "hint": "Discord username",
+      "hostname": "discord.com",
+      "templateUrl": "https://discord.com/invite/{{slug}}"
+   },
+   {
+      "key": "medium",
+      "type": "text",
+      "name": "Medium",
+      "hint": "Medium username",
+      "hostname": "medium.com",
+      "templateUrl": "https://medium.com/@{{slug}}"
+   },
+   {
+      "key": "reddit",
+      "type": "text",
+      "name": "Reddit",
+      "hint": "Reddit username",
+      "hostname": "reddit.com",
+      "templateUrl": "https://reddit.com/u/{{slug}}"
+   },
+   {
+      "key": "soundcloud",
+      "type": "text",
+      "name": "SoundCloud",
+      "hint": "SoundCloud username",
+      "hostname": "soundcloud.com",
+      "templateUrl": "https://soundcloud.com/{{slug}}"
+   },
+   {
+      "key": "linkedin",
+      "type": "url",
+      "name": "LinkedIn",
+      "hint": "LinkedIn page URL",
+      "hostname": "linkedin.com",
+      "templateUrl": "{{slug}}"
+   },
+   {
+      "key": "telegram",
+      "type": "text",
+      "name": "Telegram",
+      "hint": "Telegram username",
+      "hostname": "t.me",
+      "templateUrl": "https://t.me/{{slug}}"
+   },
+   {
+      "key": "patreon",
+      "type": "text",
+      "name": "Patreon",
+      "hint": "Patreon username",
+      "hostname": "patreon.com",
+      "templateUrl": "https://www.patreon.com/{{slug}}"
+   },
+   {
+      "key": "pinterest",
+      "type": "text",
       "name": "Pinterest",
-      "hint": "Type Username",
-      "templateUrl": "https://pinterest.com/{{slug}}"
+      "hint": "Pinterest username",
+      "hostname": "pinterest.com",
+      "templateUrl": "https://www.pinterest.com/{{slug}}"
+   },
+   {
+      "key": "apple-music",
+      "type": "url",
+      "name": "Apple Music",
+      "hint": "Apple Music page URL",
+      "hostname": "music.apple.com",
+      "templateUrl": "{{slug}}"
+   },
+   {
+      "key": "snapchat",
+      "type": "text",
+      "name": "Snapchat",
+      "hint": "Snapchat username",
+      "hostname": "snapchat.com",
+      "templateUrl": "https://www.snapchat.com/add/{{slug}}"
+   },
+   {
+      "key": "whatsapp",
+      "type": "text",
+      "name": "WhatsApp",
+      "hint": "+00000000000 (WhatsApp)",
+      "hostname": "whatsapp.com",
+      "templateUrl": "https://api.whatsapp.com/send?phone={{slug}}"
    }
 ]

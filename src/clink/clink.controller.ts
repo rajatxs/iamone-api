@@ -7,6 +7,7 @@ import {
    Delete,
    Param,
    Logger,
+   HttpCode,
    Req,
    InternalServerErrorException,
    UsePipes,
@@ -82,6 +83,7 @@ export class ClinkController {
    }
 
    @Post('metadata')
+   @HttpCode(200)
    async getSiteMetadata(@Body('url') url: string): Promise<ApiResponse> {
       let meta: SiteMetadata
 

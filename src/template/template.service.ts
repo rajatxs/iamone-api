@@ -5,17 +5,20 @@ import { UserService } from '../user/user.service'
 import { User } from '../user/user.interface'
 import { PartialSocialRef } from '../social-ref/social-ref.interface'
 import { SocialRefService } from '../social-ref/social-ref.service'
+import { ClinkService } from '../clink/clink.service'
 import { SocialServiceProvider } from '../social-service/social-service.service'
 import { TemplateDataObject, TemplateSocialRefDataObject } from './template.interface'
 import { compile } from 'handlebars'
 import { helpers } from './template.utils'
+import { CLink } from 'src/clink/clink.interface'
 
 @Injectable()
 export class TemplateService extends AppTemplate<any> {
    public constructor(
       private readonly userService: UserService,
       private readonly socialRefService: SocialRefService,
-      private readonly socialServiceProvider: SocialServiceProvider
+      private readonly socialServiceProvider: SocialServiceProvider,
+      private readonly clinkService: ClinkService
    ) { 
       super({ rootPath: join(__dirname, '..', '..', 'templates') })
       this.useHelpers()
@@ -57,7 +60,7 @@ export class TemplateService extends AppTemplate<any> {
 
    /** Find data from user related collections */
    public async findDataByUsername(username: string): Promise<TemplateDataObject> {
-      let user: User, links: PartialSocialRef[]
+      let user: User, socials: PartialSocialRef[], links: CLink []
 
       user = await this.userService.findOne({ username })
 
@@ -65,13 +68,15 @@ export class TemplateService extends AppTemplate<any> {
          throw new Error("User not found")
       }
 
-      links = await this.socialRefService.findAll({ userId: user._id })
-      links = await this.resolveSocialRefLinks(links)
+      socials = await this.socialRefService.findAll({ userId: user._id })
+      socials = await this.resolveSocialRefLinks(socials)
+
+      links = await this.clinkService.findAll({ userId: user._id })
 
       return {
          user,
-         social: links,
-         links: []
+         social: socials,
+         links
       }
    }
 }

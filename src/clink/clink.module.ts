@@ -5,6 +5,7 @@ import { SiteMetaService } from './site-meta.service'
 
 @Module({
   providers: [ClinkService, SiteMetaService],
-  controllers: [ClinkController]
+  controllers: [ClinkController],
+  exports: [ClinkService]
 })
 export class ClinkModule { }

@@ -1,0 +1,64 @@
+<style>
+   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+   :root {
+      --font-stack: 'Inter', sans-serif;
+
+      --social-icon-width: 21pt;
+      --social-icon-height: 21pt;
+      --social-icon-gap: 4pt;
+   }
+
+   .template__paper {
+      box-shadow: 0 8px 26px #E6E6E6;
+   }
+
+   .template__content {
+      margin-top: 50px;
+   }
+   .template__profile_image {
+      background-image: url(https://randomuser.me/api/portraits/women/63.jpg); 
+   }
+   .template__primary_info {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+
+   .template__username {
+      color: #555;
+   }
+   .template__bio {
+      width: 70%;
+      text-align: center;
+   }
+
+   .template__social-refs {
+      flex-direction: row;
+      justify-content: center;
+   }
+
+   .template__social-ref {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      transition: background-color 120ms linear;
+   }
+</style>
+
+<div class="template__content">
+   <div class="template__profile_image"></div>
+   <div class="template__primary_info">
+      <h3 class="template__fullname">{{ user.fullname }}</h3>
+      <h6 class="template__username">@{{ user.username }}</h6>
+
+      <p class="template__bio">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+   </div>
+
+   <nav class="template__social-refs">
+   </nav>
+</div>
