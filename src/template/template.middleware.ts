@@ -2,6 +2,7 @@ import { Injectable, NestMiddleware, Logger } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 import { TemplateService } from './template.service'
 import { TemplateDataObject } from './template.interface'
+import * as path from 'path'
 
 @Injectable()
 export class TemplateMiddleware implements NestMiddleware {
@@ -24,7 +25,12 @@ export class TemplateMiddleware implements NestMiddleware {
 
     try {
       templateData = await this.templateService.findDataByUsername(username)
-      code = await this.templateService.compileTemplate(templateData)
+
+      if (templateData) {
+        code = await this.templateService.compileTemplate(templateData)
+      } else {
+        return res.sendFile(path.join(__dirname, '../../public/404.html'))
+      }
     } catch (error) {
       this.logger.error("Error while getting template data", error)
     }

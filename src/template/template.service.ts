@@ -65,7 +65,7 @@ export class TemplateService extends AppTemplate<any> {
       user = await this.userService.findOne({ username })
 
       if (!user) {
-         throw new Error("User not found")
+         return null
       }
 
       socials = await this.socialRefService.findAll({ userId: user._id })
