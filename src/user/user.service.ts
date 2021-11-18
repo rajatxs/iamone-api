@@ -1,11 +1,22 @@
+import * as sharp from 'sharp'
 import { Injectable } from '@nestjs/common'
-import { Filter, FindOptions } from 'mongodb'
+import { 
+   Filter,
+   FindOptions,
+   GridFSBucketReadStream, 
+   GridFSBucketReadStreamOptionsWithRevision,
+   ObjectId
+} from 'mongodb'
+import type { Sharp } from 'sharp'
+import { AppStorage } from '@classes/AppStorage'
 import { AppModel, timestampType } from '@classes/AppModel'
+import { alphaNumeric } from '@utils/random'
 import { User, MutableUserFields } from './user.interface'
 import { SocialRefService } from '../social-ref/social-ref.service'
 
 @Injectable()
 export class UserService extends AppModel {
+   protected userImageStorage = new AppStorage('users')
    protected get findOptions() {
       return <FindOptions>{
          sort: { createdAt: -1 },
@@ -25,6 +36,7 @@ export class UserService extends AppModel {
    /** Create new user account */
    public async create(data: User) {
       data.emailVerified = false
+      data.image = null
       return this.$insert<User>(data)
    }
 
@@ -68,6 +80,66 @@ export class UserService extends AppModel {
    /** Update mutable user fields */
    public update(userId: string | DocId, data: MutableUserFields) {
       return this.$updateById<MutableUserFields>(userId, data)
+   }
+
+   /** Get profile image */
+   public getImage(id: string, options?: GridFSBucketReadStreamOptionsWithRevision): Promise<GridFSBucketReadStream | null> {
+      return new Promise(async (resolve, reject) => {         
+         try {
+            const exists = await this.userImageStorage.exists(id)
+            let stream: GridFSBucketReadStream
+
+            if (!exists) {
+               return resolve(null)
+            }
+
+            stream = this.userImageStorage.download(id, options)
+
+            return resolve(stream)
+         } catch (error) {
+            reject(error)
+         }
+      })
+   }
+
+   /** Remove profile image */
+   public async removeImage(userId: string | DocId) {
+      const user = await this.$findById<User>(userId)
+
+      if ((user.image || {}) instanceof ObjectId) {
+         await this.userImageStorage.remove(user.image)
+         await this.update(userId, { image: null })
+      }
+   }
+
+   /** Upload new profile image */
+   public async uploadImage(userId: string | DocId, file: Express.Multer.File) {
+      return new Promise(async (resolve, reject) => {
+         const write = this.userImageStorage.writable('user-' + alphaNumeric(12), {
+            contentType: 'image/webp'
+         })
+         let image: DocId
+         let read: Sharp
+
+         // remove existing image file
+         await this.removeImage(userId)
+
+         read = sharp(file.buffer)
+            .webp({ quality: 60 })
+            .resize(512, 512)
+
+         read.pipe(write)
+
+         read.on('error', reject)
+         write.on('error', reject)
+
+         write.on('finish', () => {
+            image = write.id
+            this.update(userId, { image })
+
+            resolve(image)
+         })
+      })
    }
 
    /** Delete user generated data */

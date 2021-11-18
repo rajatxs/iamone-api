@@ -2,6 +2,7 @@ import * as bcrypt from 'bcryptjs'
 import {
    Controller,
    Req,
+   Res,
    Get,
    Post,
    Put,
@@ -10,18 +11,23 @@ import {
    InternalServerErrorException,
    Logger,
    UsePipes,
+   UseInterceptors,
+   UploadedFile,
    BadRequestException,
-   NotFoundException
+   NotFoundException,
+   Param
 } from '@nestjs/common'
-import { Request } from 'express'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { Request, Response, Express } from 'express'
 import { InsertOneResult, ObjectId } from 'mongodb'
 import { JoiValidationPipe } from '@pipes/validation'
 import { setPasswordHash } from '@utils/common'
+import { UserService } from './user.service'
+import { UserImageUploadOptions } from './user.setup'
+import { createSchema, updateSchema, verifySchema } from './user.schema'
+import { User, UserCredentials, MutableUserFields } from './user.interface'
 import { Role } from '../auth/role.enum'
 import { Roles } from '../auth/role.decorator'
-import { User, UserCredentials, MutableUserFields } from './user.interface'
-import { UserService } from './user.service'
-import { createSchema, updateSchema, verifySchema } from './user.schema'
 import { AuthService } from '../auth/auth.service'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
 
@@ -192,6 +198,61 @@ export class UserController {
       return {
          statusCode: 201,
          message: "Profile has been updated"
+      }
+   }
+
+   @Post('image')
+   @Roles(Role.User)
+   @UseInterceptors(FileInterceptor('file', UserImageUploadOptions))
+   async uploadProfilePicture(@Req() req: Request, @UploadedFile() file: Express.Multer.File): Promise<ApiResponse> {
+      try {
+         await this.userService.uploadImage(req.locals.userId, file)
+      } catch (error) {
+         throw new InternalServerErrorException("Failed to upload your profile image")
+      }
+
+      return {
+         statusCode: 201,
+         message: "Profile image uploaded successfully"
+      }
+   }
+
+   @Delete('image')
+   @Roles(Role.User)
+   async deleteUserImage(@Req() req: Request): Promise<ApiResponse> {
+      try {
+         await this.userService.removeImage(req.locals.userId)
+      } catch (error) {
+         this.logger.error("Error while removing profile image", error)
+         throw new InternalServerErrorException("Failed to remove profile image")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Profile image has been removed"
+      }
+   }
+
+   @Get('image/:id')
+   @Roles(Role.Anonymous)
+   async getUserImage(@Res() res: Response, @Param('id') fileId: string) {
+      try {
+         const image = await this.userService.getImage(fileId)
+         
+         if (!image) {
+            return res.status(404).json(<ApiResponse>{
+               statusCode: 404,
+               message: 'Image not found'
+            })
+         }
+         
+         return image.pipe(res, { end: true })
+      } catch (error) {
+         this.logger.error("Error while getting profile image", error)
+         return res.status(500).json(<ApiResponse>{
+            statusCode: 500,
+            message: "Failed to get profile image"
+         })
       }
    }
 

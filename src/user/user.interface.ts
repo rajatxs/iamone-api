@@ -7,11 +7,12 @@ export interface User extends Document, MutableDoc {
    company?: string
    email: string
    emailVerified?: boolean
-   passwordHash: string
+   passwordHash: string,
+   image?: DocId
 }
 
 export type UserCredentials = Pick<User, 'username' | 'email' | 'password'>
 
 export type PartialUser = Partial<User>
 
-export type MutableUserFields = Pick<User, 'fullname' | 'bio' | 'company'>
+export type MutableUserFields = Pick<User, 'fullname' | 'bio' | 'company' | 'image'>
