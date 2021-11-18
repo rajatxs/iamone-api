@@ -31,3 +31,8 @@ async function bootstrap() {
 db
   .connect()
   .finally(bootstrap)
+
+process.on('SIGINT', async () => {
+  await db.disconnect()
+  process.exit(0)
+})
