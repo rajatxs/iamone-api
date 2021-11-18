@@ -1,4 +1,5 @@
 import { genSalt, hash } from 'bcryptjs'
+import { ObjectId } from 'mongodb'
 
 /** Generate password hash */
 export async function setPasswordHash<T>(val: T): Promise<T> {
@@ -8,4 +9,9 @@ export async function setPasswordHash<T>(val: T): Promise<T> {
    delete val['password']
 
    return val
+}
+
+/** Convert to Doc Id */
+export function toDocId(id: string | DocId): DocId {
+   return (id instanceof ObjectId)? id : new ObjectId(id)
 }

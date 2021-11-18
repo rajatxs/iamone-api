@@ -1,26 +1,22 @@
 import { Db, MongoClient } from 'mongodb'
 import env from './env'
 
+var client: MongoClient 
 var db: Db = null
 
 /** Connect mongo client */
 export function connect(): Promise<MongoClient> {
-   return new Promise(function (resolve, reject) {
-      MongoClient.connect(
-         env.mongoConnectionUrl,
-         function (error, client) {
-            if (error) {
-               return reject(error)
-            }
-
-            db = client.db()
-            return resolve(client)
-         }
-      )
-   })
+   client = new MongoClient(env.mongoConnectionUrl)
+   db = client.db()
+   return client.connect()
 }
 
 /** Mongo database */
-export function mongo() {
+export function mongo(): Db {
    return db
+}
+
+/** Close MongoDB Connection */
+export function disconnect() {
+   return client.close()
 }
