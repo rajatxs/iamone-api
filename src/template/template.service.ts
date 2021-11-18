@@ -9,7 +9,6 @@ import { ClinkService } from '../clink/clink.service'
 import { SocialServiceProvider } from '../social-service/social-service.service'
 import { TemplateDataObject, TemplateSocialRefDataObject } from './template.interface'
 import { compile } from 'handlebars'
-import { helpers } from './template.utils'
 import { CLink } from 'src/clink/clink.interface'
 
 @Injectable()
@@ -21,11 +20,6 @@ export class TemplateService extends AppTemplate<any> {
       private readonly clinkService: ClinkService
    ) { 
       super({ rootPath: join(__dirname, '..', '..', 'templates') })
-      this.useHelpers()
-   }
-
-   public useHelpers() {
-      this.$helper('socialIcon', helpers.resolveSocialIcon)
    }
 
    public async resolveSocialRefLinks(refs: PartialSocialRef[]): Promise<TemplateSocialRefDataObject[]> {
