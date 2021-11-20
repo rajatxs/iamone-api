@@ -2,9 +2,9 @@ import * as Joi from 'joi'
 
 const label = Joi 
    .string()
-   .min(1)
    .max(18)
    .trim()
+   .allow('')
 
 const slug = Joi
    .string()

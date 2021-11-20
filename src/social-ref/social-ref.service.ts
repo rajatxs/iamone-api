@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
+import { Filter, FindOptions } from 'mongodb'
 import { SocialRef } from './social-ref.interface'
 import { AppModel, timestampType } from '@classes/AppModel'
 import { PartialSocialRef } from './social-ref.interface'
-import { Filter, FindOptions } from 'mongodb'
 
 @Injectable()
 export class SocialRefService extends AppModel {
