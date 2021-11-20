@@ -1,6 +1,4 @@
-import { plainText } from '@validations/common'
 import * as Joi from 'joi'
-import { CLinkStyle } from './clink.interface'
 
 const title = Joi
    .string()

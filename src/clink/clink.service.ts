@@ -60,6 +60,11 @@ export class ClinkService extends AppModel {
       return this.$deleteById(id)
    }
 
+   /** Remove clinks by user id */
+   public removeManyByUserId(userId: string | DocId) {
+      return this.model.deleteMany(<PartialCLink>{ userId: this.$oid(userId) })
+   }
+
    /** Fetch site metadata from URL */
    public async fetchSiteMetadata(url: string): Promise<SiteMetadata> {
       const content = await this.siteMetaService.fetch(url)
