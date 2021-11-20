@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcryptjs'
+import * as path from 'path'
 import {
    Controller,
    Req,
@@ -19,13 +20,20 @@ import {
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { Request, Response, Express } from 'express'
-import { InsertOneResult, ObjectId } from 'mongodb'
+import { InsertOneResult, ObjectId, GridFSBucketReadStream } from 'mongodb'
+import { createReadStream } from 'fs'
 import { JoiValidationPipe } from '@pipes/validation'
 import { setPasswordHash } from '@utils/common'
 import { UserService } from './user.service'
 import { UserImageUploadOptions } from './user.setup'
-import { createSchema, updateSchema, verifySchema } from './user.schema'
-import { User, UserCredentials, MutableUserFields } from './user.interface'
+import { 
+   createSchema, 
+   updateSchema, 
+   verifySchema,
+   usernameUpdateSchema,
+   passwordUpdateSchema
+} from './user.schema'
+import { User, UserCredentials, MutableUserFields, PasswordUpdateFields } from './user.interface'
 import { Role } from '../auth/role.enum'
 import { Roles } from '../auth/role.decorator'
 import { AuthService } from '../auth/auth.service'
@@ -183,6 +191,33 @@ export class UserController {
       }
    }
 
+   @Put('/username')
+   @Roles(Role.User)
+   @UsePipes(new JoiValidationPipe(usernameUpdateSchema))
+   async changeUsername(@Req() req: Request, @Body() data: { username: string }): Promise<ApiResponse> {
+      const { username } = data
+      const { userId } = req.locals
+      let exists: boolean
+
+      exists = await this.userService.hasUsername(username)
+
+      if (exists) {
+         throw new BadRequestException("Username has already been taken")
+      }
+
+      try {
+         await this.userService.setUsername(userId, username)
+      } catch (error) {
+         this.logger.error("Error while updating username", error)
+         throw new InternalServerErrorException("Failed to update username")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Username changed"
+      }
+   }
+
    @Put('detail')
    @Roles(Role.User)
    @UsePipes(new JoiValidationPipe(updateSchema))
@@ -233,12 +268,21 @@ export class UserController {
       }
    }
 
-   @Get('image/:id')
+   @Get('image/:id?')
    @Roles(Role.Anonymous)
    async getUserImage(@Res() res: Response, @Param('id') fileId: string) {
+      let image: GridFSBucketReadStream
+
       try {
-         const image = await this.userService.getImage(fileId)
-         
+         if (typeof fileId === 'string' && fileId.length === 24) {
+            image = await this.userService.getImage(fileId)
+         } else {
+            const defaultAvatarImage = path.join(__dirname, '../../public/detault-user-avatar.webp')
+            const read = createReadStream(defaultAvatarImage)
+
+            return read.pipe(res, { end: true })
+         }
+
          if (!image) {
             return res.status(404).json(<ApiResponse>{
                statusCode: 404,

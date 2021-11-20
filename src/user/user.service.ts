@@ -11,8 +11,9 @@ import type { Sharp } from 'sharp'
 import { AppStorage } from '@classes/AppStorage'
 import { AppModel, timestampType } from '@classes/AppModel'
 import { alphaNumeric } from '@utils/random'
-import { User, MutableUserFields } from './user.interface'
+import { User, MutableUserFields, PartialUser } from './user.interface'
 import { SocialRefService } from '../social-ref/social-ref.service'
+import { ClinkService } from '../clink/clink.service'
 
 @Injectable()
 export class UserService extends AppModel {
@@ -30,7 +31,8 @@ export class UserService extends AppModel {
    }
 
    public constructor(
-      private readonly socialRefService: SocialRefService
+      private readonly socialRefService: SocialRefService,
+      private readonly clinkService: ClinkService
    ) { super('users', { timestamps: timestampType.ALL }) }
 
    /** Create new user account */
@@ -80,6 +82,15 @@ export class UserService extends AppModel {
    /** Update mutable user fields */
    public update(userId: string | DocId, data: MutableUserFields) {
       return this.$updateById<MutableUserFields>(userId, data)
+   }
+
+   /** Set new username */
+   public setUsername(userId: string | DocId, username: string) {
+      return this.$updateById<PartialUser>(userId, { username })
+   }
+
+   public setPassword() {
+
    }
 
    /** Get profile image */
@@ -148,6 +159,12 @@ export class UserService extends AppModel {
 
       // remove all social refs 
       await this.socialRefService.removeManyByUserId(userId)
+
+      // remove all clinks
+      await this.clinkService.removeManyByUserId(userId)
+
+      // remove user profile image
+      await this.removeImage(userId)
 
       // remove user data
       await this.$deleteById(userId)

@@ -23,6 +23,15 @@ export const updateSchema = Joi.object({
    company: companyName.optional()
 })
 
+export const usernameUpdateSchema = Joi.object({
+   username: username.required()
+})
+
+export const passwordUpdateSchema = Joi.object({
+   currentPassword: password.required(),
+   newPassword: password.required()
+})
+
 export const verifySchema = Joi.object({
    username: username.optional(),
    email: email.optional(),
