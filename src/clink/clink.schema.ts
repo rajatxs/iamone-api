@@ -9,9 +9,9 @@ const title = Joi
 
 const description = Joi
    .string()
-   .min(1)
    .max(250)
    .truncate(true)
+   .allow('')
 
 const uri = Joi
    .string()
@@ -22,9 +22,9 @@ const uri = Joi
    .max(1200)
    .trim()
 
-const thumb = uri
+const thumb = uri.allow('')
 
-const favicon = uri
+const favicon = uri.allow('')
 
 const href = uri
 
