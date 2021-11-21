@@ -23,8 +23,8 @@ import { Request, Response, Express } from 'express'
 import { InsertOneResult, ObjectId, GridFSBucketReadStream } from 'mongodb'
 import { createReadStream } from 'fs'
 import { JoiValidationPipe } from '@pipes/validation'
-import { setPasswordHash } from '@utils/common'
 import { UserService } from './user.service'
+import { generatePasswordHash, setPasswordHash, comparePassword } from '@utils/password'
 import { UserImageUploadOptions } from './user.setup'
 import { 
    createSchema, 
@@ -162,7 +162,7 @@ export class UserController {
 
       // compare password hash
       try {
-         isPasswordCorrect = await bcrypt.compare(password, user.passwordHash)
+         isPasswordCorrect = await comparePassword(password, user.passwordHash)
       } catch (error) {
          this.logger.error("Error while decode user password", error)
          throw new InternalServerErrorException("Failed to decrypt your credentials")
@@ -246,6 +246,38 @@ export class UserController {
       }
    }
 
+   @Put('/password')
+   @Roles(Role.User)
+   @UsePipes(new JoiValidationPipe(passwordUpdateSchema))
+   async changePassword(@Req() req: Request, @Body() data: PasswordUpdateFields): Promise<ApiResponse> {
+      const { currentPassword, newPassword } = data
+      const { userId } = req.locals
+      let user: User
+      let hash: string
+
+      if (currentPassword === newPassword) {
+         throw new BadRequestException("Use different passwords")
+      }
+
+      user = await this.userService.get(userId)
+
+      if (await comparePassword(currentPassword, user.passwordHash) === false) {
+         throw new BadRequestException("Incorrect current password")
+      }
+
+      try {
+         hash = await generatePasswordHash(newPassword)
+         await this.userService.setPasswordHash(userId, hash)
+      } catch (error) {
+         this.logger.error("Error while updating your password", error)
+         throw new InternalServerErrorException("Failed to update your password")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Password changed"
+      }
+   }
 
    @Put('detail')
    @Roles(Role.User)

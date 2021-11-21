@@ -59,7 +59,7 @@ export class UserService extends AppModel {
 
    /** Find user by _id */
    public get(id: string | DocId) {
-      return this.$findById<User>(id, this.findOptions)
+      return this.$findById<User>(id)
    }
 
    /** Find single user document */
