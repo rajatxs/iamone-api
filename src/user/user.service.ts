@@ -89,8 +89,12 @@ export class UserService extends AppModel {
       return this.$updateById<PartialUser>(userId, { username })
    }
 
-   public setPassword() {
-
+   /** Set new email */
+   public setEmail(userId: string | DocId, email: string, isVerified = false) {
+      return this.$updateById<PartialUser>(userId, {
+         email,
+         emailVerified: isVerified
+      })
    }
 
    /** Get profile image */

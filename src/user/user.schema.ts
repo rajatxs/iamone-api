@@ -27,6 +27,10 @@ export const usernameUpdateSchema = Joi.object({
    username: username.required()
 })
 
+export const emailUpdateSchema = Joi.object({
+   email: email.required()
+})
+
 export const passwordUpdateSchema = Joi.object({
    currentPassword: password.required(),
    newPassword: password.required()

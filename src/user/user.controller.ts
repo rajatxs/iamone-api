@@ -31,6 +31,7 @@ import {
    updateSchema, 
    verifySchema,
    usernameUpdateSchema,
+   emailUpdateSchema,
    passwordUpdateSchema
 } from './user.schema'
 import { User, UserCredentials, MutableUserFields, PasswordUpdateFields } from './user.interface'
@@ -217,6 +218,34 @@ export class UserController {
          message: "Username changed"
       }
    }
+
+   @Put('/email')
+   @Roles(Role.User)
+   @UsePipes(new JoiValidationPipe(emailUpdateSchema))
+   async changeEmail(@Req() req: Request, @Body() data: { email: string }): Promise<ApiResponse> {
+      const { email } = data
+      const { userId } = req.locals
+      let exists: boolean
+
+      exists = await this.userService.hasEmail(email)
+
+      if (exists) {
+         throw new BadRequestException("Email is already in use")
+      }
+
+      try {
+         await this.userService.setEmail(userId, email, false)
+      } catch (error) {
+         this.logger.error("Error while updating email", error)
+         throw new InternalServerErrorException("Failed to update your email")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Email changed"
+      }
+   }
+
 
    @Put('detail')
    @Roles(Role.User)
