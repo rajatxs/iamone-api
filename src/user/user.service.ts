@@ -89,6 +89,10 @@ export class UserService extends AppModel {
       return this.$updateById<PartialUser>(userId, { username })
    }
 
+   public setPasswordHash(userId: string | DocId, passwordHash: string) {
+      return this.$updateById<PartialUser>(userId, { passwordHash })
+   }
+
    /** Set new email */
    public setEmail(userId: string | DocId, email: string, isVerified = false) {
       return this.$updateById<PartialUser>(userId, {
