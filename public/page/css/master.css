@@ -1,0 +1,97 @@
+body.page__body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.page__content *,
+.page__content *::before,
+.page__content *::after {
+  box-sizing: inherit;
+  text-rendering: geometricPrecision;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.page__content h1,
+.page__content h2,
+.page__content h3,
+.page__content h4,
+.page__content h5,
+.page__content h6 {
+  margin: 0 0 0.625rem 0;
+  color: inherit;
+}
+.page__content span {
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+}
+.page__content p,
+.page__content small {
+  font-weight: 400;
+  color: inherit;
+  letter-spacing: -0.005625rem;
+  font-family: inherit;
+}
+.page__content p {
+  margin: 1rem 0;
+  font-size: 1em;
+  line-height: 1.625em;
+}
+.page__content small {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.875rem;
+}
+.page__content b {
+  font-weight: 600;
+}
+.page__content img {
+  max-width: 100%;
+}
+.page__content a {
+  color: inherit;
+  outline: none;
+  cursor: pointer;
+  font-size: inherit;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-box-align: center;
+  align-items: center;
+  text-decoration: none;
+}
+.page__content a:hover {
+  text-decoration: none;
+}
+.page__content h1 {
+  font-size: 3rem;
+  letter-spacing: -0.066875rem;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.page__content h2 {
+  font-size: 2.25rem;
+  letter-spacing: -0.020625rem;
+  font-weight: 600;
+}
+.page__content h3 {
+  font-size: 1.5rem;
+  letter-spacing: -0.029375rem;
+  font-weight: 600;
+}
+.page__content h4 {
+  font-size: 1.25rem;
+  letter-spacing: -0.020625rem;
+  font-weight: 600;
+}
+.page__content h5 {
+  font-size: 1rem;
+  letter-spacing: -0.01125rem;
+  font-weight: 600;
+}
+.page__content h6 {
+  font-size: 0.875rem;
+  letter-spacing: -0.005625rem;
+  font-weight: 600;
+}
