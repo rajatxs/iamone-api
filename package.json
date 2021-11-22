@@ -12,7 +12,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "start": "node dist/main",
-    "build": "nest build",
+    "build:prod": "nest build",
     "nest:start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch"
