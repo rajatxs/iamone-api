@@ -144,8 +144,8 @@ export class UserService extends AppModel {
          await this.removeImage(userId)
 
          read = sharp(file.buffer)
-            .webp({ quality: 60 })
-            .resize(512, 512)
+            .webp({ quality: 50 })
+            .resize(300, 300)
 
          read.pipe(write)
 
