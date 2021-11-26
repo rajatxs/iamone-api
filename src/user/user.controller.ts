@@ -1,4 +1,3 @@
-import * as bcrypt from 'bcryptjs'
 import * as path from 'path'
 import {
    Controller,
@@ -35,6 +34,7 @@ import {
    passwordUpdateSchema
 } from './user.schema'
 import { User, UserCredentials, MutableUserFields, PasswordUpdateFields } from './user.interface'
+import { EmailService } from '../email/email.service'
 import { Role } from '../auth/role.enum'
 import { Roles } from '../auth/role.decorator'
 import { AuthService } from '../auth/auth.service'
@@ -46,7 +46,8 @@ export class UserController {
 
    constructor(
       private readonly userService: UserService,
-      private readonly authService: AuthService
+      private readonly authService: AuthService,
+      private readonly emailService: EmailService
    ) { }
 
    @Get()
@@ -129,6 +130,15 @@ export class UserController {
          this.logger.error(error)
          throw new InternalServerErrorException("Failed to create your account")
       }
+
+      this.emailService
+         .sendWelcomeEmail(user.fullname, user.email)
+         .then((emailClientResponse) => {
+            this.logger.log("Email sent to: " + user.email, emailClientResponse)
+         })
+         .catch((error) => {
+            this.logger.error("Error while sending email to: " + user.email, error)
+         })
 
       return {
          statusCode: 201,

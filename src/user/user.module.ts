@@ -8,12 +8,14 @@ import { AuthModule } from '../auth/auth.module'
 import { ClinkModule } from '../clink/clink.module'
 import { ClinkService } from '../clink/clink.service'
 import { SiteMetaService } from '../clink/site-meta.service'
+import { EmailModule } from '../email/email.module'
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
     SocialRefModule, 
     ClinkModule,
+    EmailModule
   ],
   providers: [
     UserService,
