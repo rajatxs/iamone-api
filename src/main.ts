@@ -7,6 +7,7 @@ import { format } from 'util'
 import { hostname } from 'os'
 import { CorsConfig } from '@config/cors'
 import env from './@utils/env'
+import { setEmailApiKey } from './@utils/mail'
 import * as db from './@utils/db'
 
 async function bootstrap() {
@@ -20,6 +21,7 @@ async function bootstrap() {
     header: 'X-Api-Version' 
   })
 
+  setEmailApiKey()
   await app.listen(port)
 
   if (env.nodeEnv !== 'production') {

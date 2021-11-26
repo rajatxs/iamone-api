@@ -41,6 +41,11 @@ const env = {
    /** JWT Admin Private key */
    get jwtAdminPrivateKey() {
       return process.env.JWT_ADMIN_PRIVATE_KEY
+   },
+
+   /** SendGrid API Key */
+   get sendgridApiKey() {
+      return process.env.SENDGRID_API_KEY
    }
 }
 
