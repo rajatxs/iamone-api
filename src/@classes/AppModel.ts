@@ -74,7 +74,7 @@ export abstract class AppModel {
    }
 
    /** Insert single document */
-   protected $insert<T>(doc: Doc) {
+   protected $insert<T>(doc: T) {
       doc = this.$doc<T>(doc)
       return this.model.insertOne(doc)
    }
