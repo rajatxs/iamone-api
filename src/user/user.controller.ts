@@ -33,11 +33,19 @@ import {
    usernameUpdateSchema,
    emailUpdateSchema,
    passwordUpdateSchema,
-   emailVerificationSchema
+   emailVerificationSchema,
+   passwordResetSchema
 } from './user.schema'
-import { User, UserCredentials, MutableUserFields, PasswordUpdateFields } from './user.interface'
+import { 
+   User, 
+   UserCredentials, 
+   MutableUserFields, 
+   PasswordUpdateFields,
+   PasswordResetFields 
+} from './user.interface'
 import { EmailService } from '../email/email.service'
 import { VerificationService } from '../verification/verification.service'
+import { VerificationType } from '../verification/verification.interface'
 import { Role } from '../auth/role.enum'
 import { Roles } from '../auth/role.decorator'
 import { AuthService } from '../auth/auth.service'
@@ -279,7 +287,12 @@ export class UserController {
          }
 
          code = String(verificationCode())
-         saved = await this.verificationService.saveEmailVerificationCode(userId, code)
+         saved = await this.verificationService.saveVerificationCode(
+            VerificationType.EMAIL_VERIFICATION,
+            userId, 
+            code,
+            5
+         )
 
          if (!saved) {
             throw new Error()
@@ -309,7 +322,11 @@ export class UserController {
       let verified: boolean
 
       try {
-         verified = await this.verificationService.verifyEmailVerificationCode(userId, code)
+         verified = await this.verificationService.verifyCode(
+            VerificationType.EMAIL_VERIFICATION,
+            userId, 
+            code
+         )
       } catch (error) {
          throw new InternalServerErrorException("Failed to verify your email")
       }
@@ -356,6 +373,88 @@ export class UserController {
       return {
          statusCode: 200,
          message: "Password changed"
+      }
+   }
+
+   @Post('/password/request-reset')
+   @Roles(Role.Anonymous)
+   async sendPasswordResetCode(@Body() data: { email: string }): Promise<ApiResponse> {
+      const { email } = data
+      let code: string, user: User, saved: boolean
+      let emailResponse: [ClientResponse, any]
+
+      user = await this.userService.findOne({ email })
+
+      if (!user) {
+         throw new BadRequestException("Invalid email address")
+      }
+
+      try {
+         code = String(verificationCode())
+         saved = await this.verificationService.saveVerificationCode(VerificationType.PASSWORD_RESET, user._id, code, 10)
+
+         if (!saved) {
+            throw new Error()
+         }
+
+         emailResponse = await this.emailService.sendPasswordResetCode(user.fullname, user.email, code)
+
+         if (emailResponse[0].statusCode !== 202) {
+            throw new Error()
+         }
+      } catch (error) {
+         this.logger.error("Error while sending password reset code", error)
+         throw new InternalServerErrorException("Failed to send password reset code")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Password reset code has been sent on your email"
+      }
+   }
+
+   @Put('/password/reset')
+   @Roles(Role.Anonymous)
+   @UsePipes(new JoiValidationPipe(passwordResetSchema))
+   async resetPassword(@Body() data: PasswordResetFields): Promise<ApiResponse> {
+      const { email, password, code } = data
+      let verified: boolean
+      let hash: string
+      let user: User, userId: DocId
+
+      user = await this.userService.findOne({ email })
+      
+      if (!user) {
+         throw new BadRequestException("Invalid email")
+      }
+
+      userId = user._id
+
+      try {
+         verified = await this.verificationService.verifyCode(
+            VerificationType.PASSWORD_RESET,
+            userId,
+            code
+         )
+      } catch (error) {
+         this.logger.error("Error while reseting password", error)
+         throw new InternalServerErrorException("Failed to reset password")
+      }
+
+      if (!verified) {
+         throw new BadRequestException("Invalid verification code")
+      }
+
+      try {
+         hash = await generatePasswordHash(password)
+         await this.userService.setPasswordHash(userId, hash)
+      } catch (error) {
+         throw new InternalServerErrorException("Failed to update password")
+      }
+
+      return {
+         statusCode: 200,
+         message: "Password has been changed"
       }
    }
 

@@ -21,3 +21,9 @@ export interface PasswordUpdateFields {
    currentPassword: string,
    newPassword: string
 }
+
+export interface PasswordResetFields {
+   email: string,
+   password: string,
+   code: string
+}

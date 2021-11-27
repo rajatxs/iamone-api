@@ -5,7 +5,8 @@ import {
    companyName,
    username, 
    email, 
-   password 
+   password,
+   code
 } from '@validations/common'
 
 export const createSchema = Joi.object({
@@ -38,6 +39,12 @@ export const passwordUpdateSchema = Joi.object({
 
 export const emailVerificationSchema = Joi.object({
    code: Joi.string().min(4).max(10).required()
+})
+
+export const passwordResetSchema = Joi.object({
+   email: email.required(),
+   password: password.required(),
+   code: code.required()
 })
 
 export const verifySchema = Joi.object({
