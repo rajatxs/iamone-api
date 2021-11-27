@@ -67,3 +67,9 @@ export const githubUsername = Joi
    .string()
    .pattern(/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i)
    .error(new Error("Invalid GitHub username"))
+
+export const code = Joi
+   .string()
+   .alphanum()
+   .min(4)
+   .max(10)
