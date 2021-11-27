@@ -1,3 +1,4 @@
+
 /** Generate alpha-numeric value */
 export function alphaNumeric(length: number = 8): string {
    const v = Array(length)
@@ -6,4 +7,9 @@ export function alphaNumeric(length: number = 8): string {
       .join('')
 
    return v
+}
+
+/** Generate verification code */
+export function verificationCode(): number {
+   return Math.floor(Math.random() * 10e5)
 }
