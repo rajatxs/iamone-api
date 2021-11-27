@@ -9,13 +9,15 @@ import { ClinkModule } from '../clink/clink.module'
 import { ClinkService } from '../clink/clink.service'
 import { SiteMetaService } from '../clink/site-meta.service'
 import { EmailModule } from '../email/email.module'
+import { VerificationModule } from '../verification/verification.module'
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
     SocialRefModule, 
     ClinkModule,
-    EmailModule
+    EmailModule,
+    VerificationModule
   ],
   providers: [
     UserService,

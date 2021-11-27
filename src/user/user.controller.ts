@@ -24,6 +24,7 @@ import { createReadStream } from 'fs'
 import { JoiValidationPipe } from '@pipes/validation'
 import { UserService } from './user.service'
 import { generatePasswordHash, setPasswordHash, comparePassword } from '@utils/password'
+import { verificationCode } from '@utils/random'
 import { UserImageUploadOptions } from './user.setup'
 import { 
    createSchema, 
@@ -31,14 +32,17 @@ import {
    verifySchema,
    usernameUpdateSchema,
    emailUpdateSchema,
-   passwordUpdateSchema
+   passwordUpdateSchema,
+   emailVerificationSchema
 } from './user.schema'
 import { User, UserCredentials, MutableUserFields, PasswordUpdateFields } from './user.interface'
 import { EmailService } from '../email/email.service'
+import { VerificationService } from '../verification/verification.service'
 import { Role } from '../auth/role.enum'
 import { Roles } from '../auth/role.decorator'
 import { AuthService } from '../auth/auth.service'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
+import { ClientResponse } from '@sendgrid/client/src/response'
 
 @Controller('user')
 export class UserController {
@@ -47,7 +51,8 @@ export class UserController {
    constructor(
       private readonly userService: UserService,
       private readonly authService: AuthService,
-      private readonly emailService: EmailService
+      private readonly emailService: EmailService,
+      private readonly verificationService: VerificationService
    ) { }
 
    @Get()
@@ -253,6 +258,71 @@ export class UserController {
       return {
          statusCode: 200,
          message: "Email changed"
+      }
+   }
+
+   @Get('/email/request-verification')
+   @Roles(Role.User)
+   async sendEmailVerificationCode(@Req() req: Request): Promise<ApiResponse> {
+      const { userId } = req.locals
+      let code: string, user: User, saved: boolean
+      let emailResponse: [ClientResponse, any]
+
+      try {
+         user = await this.userService.get(userId)
+
+         if (user.emailVerified) {
+            return {
+               statusCode: 200,
+               message: "Your email is already verified"
+            }
+         }
+
+         code = String(verificationCode())
+         saved = await this.verificationService.saveEmailVerificationCode(userId, code)
+
+         if (!saved) {
+            throw new Error()
+         }
+
+         emailResponse = await this.emailService.sendEmailVerificationCode(user.fullname, user.email, code)
+
+         if (emailResponse[0].statusCode !== 202) {
+            throw new Error()
+         }
+      } catch (error) {
+         throw new InternalServerErrorException("Failed to send verification code")         
+      }
+
+      return {
+         statusCode: 200,
+         message: "Verification code has been sent on your email"
+      }
+   }
+
+   @Post('/email/verify')
+   @Roles(Role.User)
+   @UsePipes(new JoiValidationPipe(emailVerificationSchema))
+   async verifyEmailFromVerificationCode(@Req() req: Request, @Body() data: { code: string }): Promise<ApiResponse> {
+      const { userId } = req.locals
+      const { code } = data
+      let verified: boolean
+
+      try {
+         verified = await this.verificationService.verifyEmailVerificationCode(userId, code)
+      } catch (error) {
+         throw new InternalServerErrorException("Failed to verify your email")
+      }
+
+      if (!verified) {
+         throw new BadRequestException("Invalid verification code")
+      }
+
+      await this.userService.markAsVerified(userId)
+
+      return {
+         statusCode: 200,
+         message: "Your email has been verified"
       }
    }
 

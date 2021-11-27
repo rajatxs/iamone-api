@@ -36,6 +36,10 @@ export const passwordUpdateSchema = Joi.object({
    newPassword: password.required()
 })
 
+export const emailVerificationSchema = Joi.object({
+   code: Joi.string().min(4).max(10).required()
+})
+
 export const verifySchema = Joi.object({
    username: username.optional(),
    email: email.optional(),

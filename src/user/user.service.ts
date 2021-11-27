@@ -101,6 +101,11 @@ export class UserService extends AppModel {
       })
    }
 
+   /** Set verification status to true */
+   public markAsVerified(userId: string | DocId) {
+      return this.$updateById<PartialUser>(userId, { emailVerified: true })
+   }
+
    /** Get profile image */
    public getImage(id: string, options?: GridFSBucketReadStreamOptionsWithRevision): Promise<GridFSBucketReadStream | null> {
       return new Promise(async (resolve, reject) => {         
