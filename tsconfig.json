@@ -12,7 +12,6 @@
     "strict": false,
     "sourceMap": false,
     "outDir": "./dist",
-    "rootDir": "./src",
     "baseUrl": "./",
     "paths": {
       "@utils/*": ["src/@utils/*"],
