@@ -28,4 +28,18 @@ export class EmailService {
          }
       })
    }
+
+   /** Send verification code for password rest */
+   public sendPasswordResetCode(name: string, email: string, code: string) {
+      return mail.send({
+         from: senders.milestoneEmailSender,
+         to: { name, email },
+         templateId: templateIds.PASSWORD_RESET_CODE_TEMPLATE_ID,
+         dynamicTemplateData: {
+            name,
+            email,
+            code
+         }
+      })
+   }
 }
