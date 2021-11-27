@@ -14,4 +14,18 @@ export class EmailService {
          dynamicTemplateData: { name, email }
       })
    }
+
+   /** Send given email verification code to recipient */
+   public sendEmailVerificationCode(name: string, email: string, code: string) {
+      return mail.send({
+         from: senders.milestoneEmailSender,
+         to: { name, email },
+         templateId: templateIds.EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
+         dynamicTemplateData: {
+            name,
+            email,
+            code
+         }
+      })
+   }
 }
