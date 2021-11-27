@@ -10,12 +10,12 @@ export class VerificationService extends AppModel {
       super('verificationCodes')
    }
 
-   /** Generate user email verification code */
-   async saveEmailVerificationCode(userId: DocId, code: string) {
-      const type = VerificationType.EMAIL_VERIFICATION
-      const duration = String(generateIncrementedTimeByMinutes(10))
+   /** Save given verification code to collection */
+   async saveVerificationCode(type: VerificationType, userId: DocId, code: string, duration: string | number = 5) {
       let result: InsertOneResult | UpdateResult
       let hasRecord: boolean
+
+      duration = String(generateIncrementedTimeByMinutes(Number(duration)))
 
       hasRecord = await this.$exists<PartialVerification>({ userId, type })
 
@@ -33,14 +33,14 @@ export class VerificationService extends AppModel {
       return result.acknowledged
    }
 
-   /** Verify email verification code */
-   async verifyEmailVerificationCode(userId: DocId | string, code: string | number): Promise<boolean> {
+   /** Verify code by specified userId */
+   async verifyCode(type: VerificationType, userId: DocId, code: string) {
       let record: PartialVerification
-   
+      
       userId = this.$docId(userId)
       code = String(code)
 
-      record = await this.model.findOne<Verification>({ userId, code })
+      record = await this.model.findOne<PartialVerification>({ userId, type, code })
 
       if (!record) {
          return false
