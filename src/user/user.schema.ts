@@ -2,7 +2,7 @@ import * as Joi from 'joi'
 import { 
    fullName, 
    bio, 
-   companyName,
+   location,
    username, 
    email, 
    password,
@@ -12,7 +12,7 @@ import {
 export const createSchema = Joi.object({
    fullname: fullName.optional(),
    bio: bio.optional(),
-   company: companyName.optional(),
+   location: location.allow('').optional(),
    username: username.required(),
    email: email.required(),
    password: password.required()
@@ -21,7 +21,7 @@ export const createSchema = Joi.object({
 export const updateSchema = Joi.object({
    fullname: fullName.optional(),
    bio: bio.optional(),
-   company: companyName.optional()
+   location: location.allow('').optional()
 })
 
 export const usernameUpdateSchema = Joi.object({

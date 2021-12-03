@@ -19,6 +19,11 @@ export const fullName = Joi
    .max(60)
    .trim()
 
+export const location = Joi
+   .string()
+   .max(80)
+   .trim()
+
 export const companyName = Joi
    .string()
    .min(2)
@@ -29,6 +34,7 @@ export const bio = Joi
    .string()
    .max(180)
    .trim()
+   .allow('')
 
 export const plainText = Joi
    .string()
