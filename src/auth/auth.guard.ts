@@ -5,6 +5,7 @@ import {
    ForbiddenException,
    Injectable,
    NotFoundException,
+   UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Request } from 'express'
@@ -56,7 +57,7 @@ export class AuthGuard implements CanActivate {
       try {
          payload = await this.authService.verifyUserAuthToken(token)
       } catch (error) {
-         throw new BadRequestException('Invalid authorization token')
+         throw new UnauthorizedException('Invalid authorization token')
       }
 
       payload = this.sanitizePayload(payload)
