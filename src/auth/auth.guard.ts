@@ -32,12 +32,12 @@ export class AuthGuard implements CanActivate {
 
       authHeader = request.header('Authorization')
       if (!authHeader) {
-         throw new BadRequestException('Require authorization token')
+         throw new UnauthorizedException('Require authorization token')
       }
 
       authToken = authHeader.split(' ')[1]
       if (!authToken) {
-         throw new BadRequestException('Missing authorization token')
+         throw new UnauthorizedException('Missing authorization token')
       }
 
       return authToken
