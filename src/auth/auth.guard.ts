@@ -87,7 +87,7 @@ export class AuthGuard implements CanActivate {
             }
 
             if (await this.adminService.has(payload.id) === false) {
-               throw new NotFoundException('Account not found')
+               throw new UnauthorizedException('Account not found')
             }
 
             request.locals.adminId = <ObjectId>payload.id
@@ -96,7 +96,7 @@ export class AuthGuard implements CanActivate {
 
          case Role.User: {
             if (await this.userService.has(payload.id) === false) {
-               throw new NotFoundException('Account not found')
+               throw new UnauthorizedException('Account not found')
             }
 
             request.locals.userId = <ObjectId>payload.id
