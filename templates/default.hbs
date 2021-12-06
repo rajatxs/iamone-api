@@ -2,7 +2,7 @@
 <page-content>
 
    <!-- Profile view -->
-   <page-user-avatar src="/_/api/user/image/{{ user.image }}"></page-user-avatar>
+   <page-user-avatar src="{{ options.host }}/_/api/user/image/{{ user.image }}"></page-user-avatar>
    <page-user-profile fullname="{{ user.fullname }}" bio="{{ user.bio }}">
    </page-user-profile>
 
