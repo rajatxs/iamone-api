@@ -26,4 +26,22 @@ export class TemplateController {
          result
       }
    }
+
+   @Get('/list')
+   @Roles(Role.Anonymous) 
+   getTemplateList(): ApiResponse {
+      let result = []
+      
+      try {
+         result = require('../../data/templates.json')
+      } catch (error) {
+         throw new InternalServerErrorException("Failed to design themes")
+      }
+
+      return {
+         statusCode: 200,
+         message: "List of templates",
+         result
+      }
+   }
 }

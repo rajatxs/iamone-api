@@ -1,0 +1,12 @@
+[
+   {
+      "key": "default",
+      "name": "One Light",
+      "thumb": "/thumbs/default.jpg"
+   },
+   {
+      "key": "default-dark",
+      "name": "One Dark",
+      "thumb": "/thumbs/default-dark.jpg"
+   }
+]
