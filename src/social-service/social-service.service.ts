@@ -6,7 +6,7 @@ export class SocialServiceProvider {
    private serviceList: SocialService[]
    
    public constructor() {
-      this.serviceList = require('../../data/social-services.json')
+      this.serviceList = require('../../../data/social-services.json')
    }
 
    /** Get service data by key */

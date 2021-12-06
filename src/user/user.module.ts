@@ -10,6 +10,7 @@ import { ClinkService } from '../clink/clink.service'
 import { SiteMetaService } from '../clink/site-meta.service'
 import { EmailModule } from '../email/email.module'
 import { VerificationModule } from '../verification/verification.module'
+import { PageConfigService } from '../page-config/page-config.service'
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { VerificationModule } from '../verification/verification.module'
     UserService,
     SocialRefService, 
     ClinkService,
-    SiteMetaService
+    SiteMetaService,
+    PageConfigService
   ],
   controllers: [UserController],
   exports: [SocialRefService, UserService, ClinkService]

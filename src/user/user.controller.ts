@@ -51,6 +51,7 @@ import { Roles } from '../auth/role.decorator'
 import { AuthService } from '../auth/auth.service'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
 import { ClientResponse } from '@sendgrid/client/src/response'
+import { PageConfigService } from '../page-config/page-config.service'
 
 @Controller('user')
 export class UserController {
@@ -60,6 +61,7 @@ export class UserController {
       private readonly userService: UserService,
       private readonly authService: AuthService,
       private readonly emailService: EmailService,
+      private readonly pageConfigService: PageConfigService,
       private readonly verificationService: VerificationService
    ) { }
 
@@ -127,6 +129,13 @@ export class UserController {
          insertedId = newUser.insertedId
 
          this.logger.log(`User created ${insertedId}`)
+
+         await this.pageConfigService.create({
+            templateName: 'default',
+            userId: insertedId,
+            themeMode: 'AUTO',
+            styles: {}
+         })
 
          // get newly created user
          user = await this.userService.get(insertedId)

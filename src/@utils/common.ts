@@ -20,7 +20,5 @@ export function compareTimeDurationBelow(time: number) {
    const current = new Date()
    const target = new Date(time)
 
-   console.log(current.toTimeString(), target.toTimeString())
-
    return current.getTime() < target.getTime()
 }

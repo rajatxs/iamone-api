@@ -10,6 +10,8 @@ import { SocialServiceProvider } from '../social-service/social-service.service'
 import { TemplateDataObject, TemplateSocialRefDataObject } from './template.interface'
 import { compile } from 'handlebars'
 import { CLink } from 'src/clink/clink.interface'
+import { PartialPageConfig } from '../page-config/page-config.interface'
+import { PageConfigService } from '../page-config/page-config.service'
 
 @Injectable()
 export class TemplateService extends AppTemplate<any> {
@@ -17,9 +19,10 @@ export class TemplateService extends AppTemplate<any> {
       private readonly userService: UserService,
       private readonly socialRefService: SocialRefService,
       private readonly socialServiceProvider: SocialServiceProvider,
-      private readonly clinkService: ClinkService
+      private readonly clinkService: ClinkService,
+      private readonly pageConfigService: PageConfigService,
    ) { 
-      super({ rootPath: join(__dirname, '..', '..', 'templates') })
+      super({ rootPath: join(__dirname, '..', '..', '..', 'templates') })
    }
 
    public async resolveSocialRefLinks(refs: PartialSocialRef[]): Promise<TemplateSocialRefDataObject[]> {
@@ -48,13 +51,29 @@ export class TemplateService extends AppTemplate<any> {
    }
 
    /** Compile template code */
-   public compileTemplate(data: TemplateDataObject) {
-      return this.$compile('primary', data)
+   public compileTemplate(templateName: string, data: TemplateDataObject) {
+      return this.$compile(templateName, data)
+   }
+
+   public async getPureDataByUserId(userId: DocId) {
+      let user: User, socials: PartialSocialRef[], links: CLink[], page: PartialPageConfig
+
+      user = await this.userService.findOne({ _id: userId })
+      socials = await this.socialRefService.findAll({ userId })
+      links = await this.clinkService.findAll({ userId })
+      page = await this.pageConfigService.findByUserId(userId)
+
+      return {
+         user,
+         socials,
+         links,
+         page
+      }
    }
 
    /** Find data from user related collections */
    public async findDataByUsername(username: string): Promise<TemplateDataObject> {
-      let user: User, socials: PartialSocialRef[], links: CLink []
+      let user: User, socials: PartialSocialRef[], links: CLink [], page: PartialPageConfig
 
       user = await this.userService.findOne({ username })
 
@@ -66,11 +85,13 @@ export class TemplateService extends AppTemplate<any> {
       socials = await this.resolveSocialRefLinks(socials)
 
       links = await this.clinkService.findAll({ userId: user._id })
+      page = await this.pageConfigService.findByUserId(user._id)
 
       return {
          user,
          social: socials,
-         links
+         links,
+         page
       }
    }
 }

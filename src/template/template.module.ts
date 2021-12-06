@@ -1,6 +1,5 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common'
 import { TemplateService } from './template.service'
-
 import { ClinkModule } from '../clink/clink.module'
 import { ClinkService } from '../clink/clink.service'
 import { SocialServiceProvider } from '../social-service/social-service.service'
@@ -10,6 +9,8 @@ import { SocialServiceModule } from '../social-service/social-service.module'
 import { UserModule } from '../user/user.module'
 import { UserService } from '../user/user.service'
 import { TemplateMiddleware } from './template.middleware'
+import { PageConfigService } from '../page-config/page-config.service'
+import { TemplateController } from './template.controller'
 
 @Module({
   imports: [
@@ -23,8 +24,10 @@ import { TemplateMiddleware } from './template.middleware'
     SocialRefService, 
     SocialServiceProvider, 
     ClinkService,
-    UserService
+    UserService,
+    PageConfigService
   ],
+  controllers: [TemplateController],
 })
 export class TemplateModule {
   configure(consumer: MiddlewareConsumer) {

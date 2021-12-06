@@ -12,6 +12,7 @@ import { SocialServiceModule } from './social-service/social-service.module'
 import { AdminModule } from './admin/admin.module'
 import { TemplateModule } from './template/template.module'
 import { ClinkModule } from './clink/clink.module'
+import { PageConfigModule } from './page-config/page-config.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ClinkModule } from './clink/clink.module'
     SocialServiceModule,
     AdminModule,
     ClinkModule,
+    PageConfigModule,
 
     RouterModule.register([
       {
@@ -42,12 +44,14 @@ import { ClinkModule } from './clink/clink.module'
           SocialServiceModule,
           SocialRefModule,
           AdminModule,
-          ClinkModule
+          ClinkModule,
+          PageConfigModule,
+          TemplateModule
         ]
       }
     ]),
 
-    TemplateModule
+    TemplateModule,
   ],
   controllers: [AppController],
   providers: [

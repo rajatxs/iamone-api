@@ -36,8 +36,6 @@ export class AdminController {
    async createNewAdmin(@Body() data: Admin): Promise<ApiResponse> {
       let newAdmin: InsertOneResult, insertedId: DocId, result: RegisteredAuthTokenResponse, admin: Admin
 
-      console.log("CONTROLLER CALLED");
-
       if (await this.adminService.hasEmail(data.email)) {
          throw new BadRequestException("Given email address is already in use")
       }
