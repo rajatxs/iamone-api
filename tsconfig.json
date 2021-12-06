@@ -12,7 +12,7 @@
     "strict": false,
     "sourceMap": false,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@utils/*": ["src/@utils/*"],
       "@classes/*": ["src/@classes/*"],

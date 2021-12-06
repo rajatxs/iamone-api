@@ -9,7 +9,7 @@ import { ClinkService } from '../clink/clink.service'
 import { SocialServiceProvider } from '../social-service/social-service.service'
 import { TemplateDataObject, TemplateSocialRefDataObject } from './template.interface'
 import { compile } from 'handlebars'
-import { CLink } from 'src/clink/clink.interface'
+import { CLink } from '../clink/clink.interface'
 import { PartialPageConfig } from '../page-config/page-config.interface'
 import { PageConfigService } from '../page-config/page-config.service'
 
