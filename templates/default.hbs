@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" />
+<page-content>
+
+   <!-- Profile view -->
+   <page-user-avatar src="/_/api/user/image/{{ user.image }}"></page-user-avatar>
+   <page-user-profile fullname="{{ user.fullname }}" bio="{{ user.bio }}">
+   </page-user-profile>
+
+   <!-- Socials -->
+   <page-socials>
+      {{#each social }}
+      <page-social-link :icon="{{ this.socialServiceKey }}" link="{{ this.link }}"></page-social-link>
+      {{/each}}
+   </page-socials>
+
+   <!-- Custom links -->
+   <page-custom-links>
+      {{#each links }}
+      <page-custom-link title="{{this.title}}" desc="{{this.description}}" link="{{this.href}}">
+      </page-custom-link>
+      {{/each}}
+   </page-custom-links>
+</page-content>

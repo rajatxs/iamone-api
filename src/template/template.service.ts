@@ -22,7 +22,7 @@ export class TemplateService extends AppTemplate<any> {
       private readonly clinkService: ClinkService,
       private readonly pageConfigService: PageConfigService,
    ) { 
-      super({ rootPath: join(__dirname, '..', '..', '..', 'templates') })
+      super({ rootPath: join(__dirname, '..', '..', 'templates') })
    }
 
    public async resolveSocialRefLinks(refs: PartialSocialRef[]): Promise<TemplateSocialRefDataObject[]> {
