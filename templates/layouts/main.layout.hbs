@@ -10,7 +10,11 @@
    <link rel="stylesheet" href="/_/static/page/css/default.css" />
    <script src="/_/static/page/js/icons.js"></script>
    <script src="/_/static/page/js/page.js" type="module" onload="init()"></script>
-   <title>imone</title>
+   {{#if page.title }}
+      <title>{{ page.title }}</title>
+   {{else}}
+      <title>iamone</title>
+   {{/if}}
 </head>
 
 <body class="page__body">
