@@ -12,7 +12,7 @@ import {
 export const createSchema = Joi.object({
    fullname: fullName.optional(),
    bio: bio.optional(),
-   location: location.allow('').optional(),
+   location: location.default(''),
    username: username.required(),
    email: email.required(),
    password: password.required()

@@ -10,6 +10,7 @@ import { ClinkService } from '../clink/clink.service'
 import { SiteMetaService } from '../clink/site-meta.service'
 import { EmailModule } from '../email/email.module'
 import { VerificationModule } from '../verification/verification.module'
+import { PageConfigModule } from '../page-config/page-config.module'
 import { PageConfigService } from '../page-config/page-config.service'
 
 @Module({
@@ -18,7 +19,8 @@ import { PageConfigService } from '../page-config/page-config.service'
     SocialRefModule, 
     ClinkModule,
     EmailModule,
-    VerificationModule
+    VerificationModule,
+    PageConfigModule
   ],
   providers: [
     UserService,
@@ -28,7 +30,7 @@ import { PageConfigService } from '../page-config/page-config.service'
     PageConfigService
   ],
   controllers: [UserController],
-  exports: [SocialRefService, UserService, ClinkService]
+  exports: [SocialRefService, UserService, ClinkService, PageConfigService]
 })
 export class UserModule {
   configure(consumer: MiddlewareConsumer) {

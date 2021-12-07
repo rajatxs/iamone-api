@@ -14,6 +14,7 @@ import { alphaNumeric } from '@utils/random'
 import { User, MutableUserFields, PartialUser } from './user.interface'
 import { SocialRefService } from '../social-ref/social-ref.service'
 import { ClinkService } from '../clink/clink.service'
+import { PageConfigService } from '../page-config/page-config.service'
 
 @Injectable()
 export class UserService extends AppModel {
@@ -32,7 +33,8 @@ export class UserService extends AppModel {
 
    public constructor(
       private readonly socialRefService: SocialRefService,
-      private readonly clinkService: ClinkService
+      private readonly clinkService: ClinkService,
+      private readonly pageConfigService: PageConfigService
    ) { super('users', { timestamps: timestampType.ALL }) }
 
    /** Create new user account */
@@ -178,6 +180,9 @@ export class UserService extends AppModel {
 
       // remove user profile image
       await this.removeImage(userId)
+
+      // remove page config
+      await this.pageConfigService.remove({ userId })
 
       // remove user data
       await this.$deleteById(userId)
