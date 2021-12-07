@@ -48,19 +48,13 @@ export abstract class AppTemplate<T> {
       return this.getCode(this.layoutPath)
    }
 
-   /** Inject template body into selected layout */
-   private async injectIntoLayout(body: string) {
-      const layout = this.instance.compile(await this.getLayoutCode())
-
-      return layout({ body })
-   }
-
    /** Compiled specified template file */
    public async $compile(templateName: string, data: T, options?: handlebars.RuntimeOptions): Promise<string> {
       const template = this.instance.compile(await this.getTemplateCode(templateName))
+      const layout = this.instance.compile(await this.getLayoutCode())
       const body = template(data, options)
 
-      return this.injectIntoLayout(body)
+      return layout(Object.assign(data, { body }))
    }
 
    /** Selected layout name */
