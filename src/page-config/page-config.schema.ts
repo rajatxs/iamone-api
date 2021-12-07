@@ -10,6 +10,7 @@ const description = Joi
    .string()
    .min(1)
    .max(1000)
+   .allow('')
 
 const tags = Joi
    .array()
