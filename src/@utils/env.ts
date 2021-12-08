@@ -18,6 +18,11 @@ const env = {
       return list;
    },
 
+   /** Server host url */
+   get hostUrl(): string {
+      return process.env.HOST_URL
+   },
+
    /** Server runtime environment */
    get nodeEnv(): NodeEnv {
       return process.env.NODE_ENV as NodeEnv || 'development'
