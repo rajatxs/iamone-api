@@ -1,28 +1,52 @@
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" />
 <style>
    :root {
-      --page-content-background: royalblue;
+      --page-scroll-color: #555;
+      --page-scroll-active-color: #888;
+      --page-foreground: #FFF;
+      --page-root-background: #333;
+      --page-content-shadow: none;
+      --page-content-background: #222;
+      --page-social-icon-color: #FFF;
+      --page-link-border: 1px solid #333;
    }
 </style>
-<page-content>
+<div class="page__content">
 
-   <!-- Profile view -->
-   <page-user-avatar src="{{ options.host }}/_/api/user/image/{{ user.image }}"></page-user-avatar>
-   <page-user-profile fullname="{{ user.fullname }}" bio="{{ user.bio }}">
-   </page-user-profile>
+   <!-- User avatar -->
+   <div class="page__user-avatar" aria-label="User Avatar">
+      <img class="page__user-avatar-image" src="{{ options.host }}/_/api/user/image/{{ user.image }}"
+         alt="User Avatar" />
+   </div>
+
+   <!-- User primary information -->
+   <div class="page__user-profile" aria-label="User Profile">
+      <h3 class="page__user-profile-fullname">{{ user.fullname }}</h3>
+      <p class="page__user-profile-bio">{{ user.bio }}</p>
+   </div>
 
    <!-- Socials -->
-   <page-socials>
-      {{#each social }}
-      <page-social-link :icon="{{ this.socialServiceKey }}" link="{{ this.link }}"></page-social-link>
+   <div class="page__socials" aria-label="Socials">
+      {{#each social}}
+         <a class="page__social" href="{{ this.link }}" title="{{ this.label }}" target="_blank">
+            <span class="page__social-icon" data-page-icon="{{ this.socialServiceKey }}"></span>
+         </a>
       {{/each}}
-   </page-socials>
+   </div>
 
-   <!-- Custom links -->
-   <page-custom-links>
-      {{#each links }}
-      <page-custom-link title="{{this.title}}" desc="{{this.description}}" link="{{this.href}}">
-      </page-custom-link>
+   <!-- Links -->
+   <div class="page__links" aria-label="Custom Links">
+      {{#each links}}
+         <a class="page__link" href="{{ this.href }}" title="{{ this.href }}" target="_blank">
+            <div class="page__link-metadata">
+               <h5 class="page__link-metadata-title">{{ this.title }}</h5>
+
+               {{#if this.description }}
+                  <div class="page__link-metadata-desc"><small>{{ this.description }}</small></div>
+               {{else}}
+                  <div class="page__link-metadata-desc"><small>{{ this.href }}</small></div>
+               {{/if}}
+            </div>
+         </a>
       {{/each}}
-   </page-custom-links>
-</page-content>
+   </div>
+</div>

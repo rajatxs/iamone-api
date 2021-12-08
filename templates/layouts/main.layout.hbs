@@ -5,11 +5,16 @@
    <meta charset="UTF-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <link rel="stylesheet" href="/_/static/page/css/master.css" />
-   <link rel="stylesheet" href="/_/static/page/css/default_vars.css" />
-   <link rel="stylesheet" href="/_/static/page/css/default.css" />
-   <script src="/_/static/page/js/icons.js"></script>
-   <script src="/_/static/page/js/page.js" type="module" onload="init()"></script>
+   {{#if page.description }}
+      <meta name="description" content="{{ page.description }}" />
+   {{else}}
+      <meta name="description" content="See my personal link page" />
+   {{/if}}
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" />
+   <link rel="stylesheet" href="https://iamone-static.vercel.app/css/page/vars.css" />
+   <link rel="stylesheet" href="https://iamone-static.vercel.app/css/page/master.css" />
+   <link rel="stylesheet" href="https://iamone-static.vercel.app/css/page/default.css" />
+   <script src="https://iamone-static.vercel.app/js/page/icons.js"></script>
    {{#if page.title }}
       <title>{{ page.title }}</title>
    {{else}}
@@ -18,14 +23,10 @@
 </head>
 
 <body class="page__body">
-   <page-root>
-      {{{ body }}}
-   </page-root>
+   <div class="page__root">
+     {{{ body }}}
+   </div>
 </body>
-<script>
-   function init() {
-      store.use(icons);
-   }
-</script>
 
+<script src="https://iamone-static.vercel.app/js/page/render.js"></script>
 </html>
