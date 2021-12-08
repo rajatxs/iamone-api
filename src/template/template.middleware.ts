@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware, Logger } from '@nestjs/common'
+import { Injectable, NestMiddleware, Logger, HttpStatus, HttpCode, Header } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 import { TemplateService } from './template.service'
 import { TemplateDataObject } from './template.interface'
@@ -12,6 +12,8 @@ export class TemplateMiddleware implements NestMiddleware {
   ]
   constructor(private readonly templateService: TemplateService) { }
 
+  @HttpCode(200)
+  @Header("Content-Type", "text/html")
   async use(req: Request, res: Response, next: NextFunction) {
     const { username } = req.params
     let templateData: TemplateDataObject
@@ -20,8 +22,6 @@ export class TemplateMiddleware implements NestMiddleware {
     if (username === '_' || this.publicResources.includes(username)) {
       return next()
     }
-
-    res.setHeader('Content-Type', 'text/html')
 
     try {
       templateData = await this.templateService.findDataByUsername(username)

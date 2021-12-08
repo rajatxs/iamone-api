@@ -10,5 +10,6 @@ export interface TemplateDataObject {
    user: User,
    social: TemplateSocialRefDataObject[],
    links: any[],
-   page: PartialPageConfig
+   page: PartialPageConfig,
+   options?: any
 }

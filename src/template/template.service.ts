@@ -12,6 +12,7 @@ import { compile } from 'handlebars'
 import { CLink } from '../clink/clink.interface'
 import { PartialPageConfig } from '../page-config/page-config.interface'
 import { PageConfigService } from '../page-config/page-config.service'
+import env from '@utils/env'
 
 @Injectable()
 export class TemplateService extends AppTemplate<any> {
@@ -91,7 +92,10 @@ export class TemplateService extends AppTemplate<any> {
          user,
          social: socials,
          links,
-         page
+         page,
+         options: {
+            host: env.hostUrl
+         }
       }
    }
 }
