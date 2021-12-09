@@ -1,0 +1,112 @@
+body {
+   overflow: auto;
+}
+
+.text-gradient {
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+}
+
+.x-icon {
+   width: 24pt;
+   height: 24pt;
+}
+
+.x-header {
+   height: 56pt;
+   border-bottom: 2px solid var(--accents-1);
+}
+.x-header-content {
+   width: 76%;
+}
+
+.x-logo-image {
+   width: auto;
+   height: 22pt;
+}
+
+.x-navmenu-item {
+   display: inline-block;
+   min-width: 52pt;
+   height: auto;
+   color: var(--foreground);
+   font-size: 12.8pt;
+}
+.x-navmenu-action-button {
+   height: 32pt;
+   padding-left: 10pt;
+   padding-right: 10pt;
+   border-radius: 25px;
+}
+
+.x-hero {
+   position: relative;
+   height: calc(100vh - 56pt);
+   /* background-color: aquamarine; */
+}
+
+.x-username-claim-input {
+   height: 38pt;
+   border-radius: 50px;
+   padding-left: var(--gap);
+   padding-right: var(--gap-half);
+   border: 3px solid var(--accents-2);
+}
+.x-hero-quote-text {
+   font-size: 4rem;
+}
+
+.x-username-claim-input-label {
+   font-size: 13pt;
+}
+.x-username-claim-input-controller {
+   height: 100%;
+   width: 138pt;
+   border: none;
+   outline: none;
+   font-size: 13pt;
+}
+.x-username-claim-input-controller::placeholder {
+   color: var(--accents-3);
+}
+.x-username-claim-action {
+   width: 56pt;
+   border-radius: inherit;
+}
+.x-hero-scroll-bottom-icon {
+   position: absolute;
+   bottom: 2rem;
+}
+.x-hero-scroll-bottom-icon .x-icon {
+   fill: var(--accents-4);
+}
+
+
+.x-app-features {
+   background-color: var(--foreground);
+}
+.x-app-feature-header {
+   padding-top: 28pt;
+}
+.x-app-feature-stack {
+   height: 230pt;
+}
+.x-app-feature-icon {
+   height: 72pt;
+}
+.x-app-feature-icon-image {
+   height: 100%;
+}
+.x-app-feature-name {
+   color: var(--background);
+}
+@media screen and (max-width: 620px) {
+   .x-app-feature-stack {
+      height: auto;
+      margin-top: var(--gap);
+      margin-bottom: var(--gap);
+      gap: var(--gap);
+      flex-direction: column !important;
+   }
+}
+
