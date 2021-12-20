@@ -5,11 +5,28 @@
    <meta charset="UTF-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   {{#if page.description }}
-      <meta name="description" content="{{ page.description }}" />
+   {{#if user.image}}
+   <link rel="shortcut icon" href="{{ options.host }}/_/api/user/image/{{ user.image }}" type="image/x-icon" />
+   <link rel="icon" href="{{ options.host }}/_/api/user/image/{{ user.image }}" type="image/webp" />
    {{else}}
-      <meta name="description" content="See my personal link page" />
+   <link rel="shortcut icon" href="https://static.iamone.link/icons/favicon.ico" type="image/x-icon" />
+   <link rel="icon" href="https://static.iamone.link/icons/favicon.ico" type="image/png" />
    {{/if}}
+   {{#if page.description }}
+   <meta name="description" content="{{ page.description }}" />
+   {{else}}
+   <meta name="description" content="See my personal link page" />
+   {{/if}}
+
+   <meta property="og:title" content="iamnoe" />
+   <meta property="og:site_name" content="iamone" />
+   <meta property="og:type" content="website" />
+   <meta property="og:url" content="https://iamone.link" />
+   <meta property="og:image" content="https://static.iamone.link/icons/open-graph-thumb.png" />
+   <meta property="og:locale" content="en_IN" />
+   <meta property="og:description" content="Create your personal link page." />
+   <meta name="application-name" content="iamone" />
+
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" />
    <link rel="stylesheet" href="https://iamone-static.vercel.app/css/page/vars.css" />
    <link rel="stylesheet" href="https://iamone-static.vercel.app/css/page/master.css" />
