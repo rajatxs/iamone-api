@@ -1,40 +1,36 @@
-<div class="page__content">
+<!-- User avatar -->
+<div class="page__user-avatar" aria-label="User Avatar">
+   <img class="page__user-avatar-image" src="{{ options.host }}/_/api/user/image/{{ user.image }}" alt="User Avatar" />
+</div>
 
-   <!-- User avatar -->
-   <div class="page__user-avatar" aria-label="User Avatar">
-      <img class="page__user-avatar-image" src="{{ options.host }}/_/api/user/image/{{ user.image }}"
-         alt="User Avatar" />
-   </div>
+<!-- User primary information -->
+<div class="page__user-profile" aria-label="User Profile">
+   <h3 class="page__user-profile-fullname">{{ user.fullname }}</h3>
+   <p class="page__user-profile-bio">{{ user.bio }}</p>
+</div>
 
-   <!-- User primary information -->
-   <div class="page__user-profile" aria-label="User Profile">
-      <h3 class="page__user-profile-fullname">{{ user.fullname }}</h3>
-      <p class="page__user-profile-bio">{{ user.bio }}</p>
-   </div>
+<!-- Socials -->
+<div class="page__socials" aria-label="Socials">
+   {{#each social}}
+   <a class="page__social" href="{{ this.link }}" title="{{ this.label }}" target="_blank">
+      <span class="page__social-icon" data-page-icon="{{ this.socialServiceKey }}"></span>
+   </a>
+   {{/each}}
+</div>
 
-   <!-- Socials -->
-   <div class="page__socials" aria-label="Socials">
-      {{#each social}}
-         <a class="page__social" href="{{ this.link }}" title="{{ this.label }}" target="_blank">
-            <span class="page__social-icon" data-page-icon="{{ this.socialServiceKey }}"></span>
-         </a>
-      {{/each}}
-   </div>
+<!-- Links -->
+<div class="page__links" aria-label="Custom Links">
+   {{#each links}}
+   <a class="page__link" href="{{ this.href }}" title="{{ this.href }}" target="_blank">
+      <div class="page__link-metadata">
+         <h5 class="page__link-metadata-title">{{ this.title }}</h5>
 
-   <!-- Links -->
-   <div class="page__links" aria-label="Custom Links">
-      {{#each links}}
-         <a class="page__link" href="{{ this.href }}" title="{{ this.href }}" target="_blank">
-            <div class="page__link-metadata">
-               <h5 class="page__link-metadata-title">{{ this.title }}</h5>
-
-               {{#if this.description }}
-                  <div class="page__link-metadata-desc"><small>{{ this.description }}</small></div>
-               {{else}}
-                  <div class="page__link-metadata-desc"><small>{{ this.href }}</small></div>
-               {{/if}}
-            </div>
-         </a>
-      {{/each}}
-   </div>
+         {{#if this.description }}
+         <div class="page__link-metadata-desc"><small>{{ this.description }}</small></div>
+         {{else}}
+         <div class="page__link-metadata-desc"><small>{{ this.href }}</small></div>
+         {{/if}}
+      </div>
+   </a>
+   {{/each}}
 </div>
