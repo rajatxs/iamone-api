@@ -1,0 +1,30 @@
+.header{
+   width: 100%;
+   position: fixed;
+   display: flex;
+   justify-content: center;
+   padding: $x-large;
+   border-bottom: 1px solid $light-gray;
+   background-color: $white;
+   .navbar{
+      width: $safe-area;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+   }
+   .menu-item{
+      margin: 0 $x-large;
+      color: $dark-gray;
+      &.active, &:hover{
+         color: $primary;
+      }
+   }
+   .login{
+      border: $gradient;
+      border-radius: $medium;
+      background: $gradient;
+      padding: $regular-padding;
+      color: $white;
+   }
+}

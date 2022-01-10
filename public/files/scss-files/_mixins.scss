@@ -1,0 +1,42 @@
+// For horizintally center
+@mixin horizontally-auto {
+   margin-left: auto;
+   margin-right: auto;
+}
+@mixin horizontally-auto-width($width) {
+   width: $width;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+@mixin text-v-center {
+   align-items: center;
+}
+@mixin text-center {
+   align-items: center;
+   text-align: center;
+}
+
+// Regular border
+@mixin border-small($color) {
+   border: 1px solid $color;
+   border-radius: $small;
+}
+@mixin border-medium($color) {
+   border: 1px solid $color;
+   border-radius: $medium;
+}
+@mixin border-large($color) {
+   border: 1px solid $color;
+   border-radius: $large;
+}
+
+@mixin flex-column {
+   display: flex;
+   flex-direction: column;
+}
+@mixin flex-justify-direction($direction, $justify) {
+   display: flex;
+   flex-direction: $direction;
+   justify-content: $justify;
+}

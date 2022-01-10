@@ -12,6 +12,11 @@ export class AppController {
   getHomePage(@Res() res: Response) {
     return res.sendFile(path.join(__dirname, '../public/index.html'))
   }
+  
+  @Get('/_/')
+  getHome2Page(@Res() res: Response) {
+    return res.sendFile(path.join(__dirname, '../public/index2.html'))
+  }
 
   @Get('/_/api/test')
   @HttpCode(200)

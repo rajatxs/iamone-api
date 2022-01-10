@@ -1,0 +1,6 @@
+.container{
+   @include horizontally-auto-width($safe-area);
+}
+.flex{
+   display: flex;
+}

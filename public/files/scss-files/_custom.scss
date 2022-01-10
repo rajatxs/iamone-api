@@ -1,0 +1,109 @@
+// Home page scss start here
+.tag-line{
+   @include text-center();;
+   font-weight: $thin;
+   padding-top: 150pt;
+}
+.create-your-link{
+   display: flex;
+   padding: 8px;
+   margin-top: 50pt;
+   @include border-medium($gradient-shade1);
+   @include horizontally-auto-width(500px);
+   @include text-v-center();;
+   @include flex-justify-direction(row, space-between);
+   .im-url, .username, .create-btn{
+      font-size: 16px;
+      align-self: center;
+   }
+   .im-url{
+      margin-left: $medium;
+   }
+   .username, .create-btn{
+      border: none;
+      outline: none;
+   }
+   .create-btn{
+      background: $gradient-1;
+      border-radius: $medium;
+      color: $white;
+      padding: $small-padding;
+   }
+   // .username:focus>.create-btn{
+   //    background: $primary !;
+   // }
+}
+.meet-the-features{
+   margin-top: 150pt;
+   display: flex;
+   flex-direction: column;
+   p{
+      font-size: 16px;
+   }
+   .get-started-btn{
+      @include horizontally-auto();
+      img{
+         margin-top: $medium;
+         width: 18px;
+      }
+   }
+}
+
+
+// Features part home page
+.features{
+   padding: 100pt 0;
+   .features-content{
+      @include horizontally-auto-width(60%);
+      .feature{
+         @include text-v-center();
+         @include flex-justify-direction(row, space-between);
+         margin-bottom: 50pt;
+         .feature-img{
+            width: 50%;
+         }
+         .feature-text{
+            .feature-name{
+               font-size: calc(20pt + 0.5vw);
+            }
+         }
+         &:nth-child(odd){
+            .feature-text{
+               margin-left: 50px;
+            }
+         }
+         &:nth-child(even){
+            .feature-text{
+               margin-right: 50px;
+            }
+         }
+      }
+   }
+}
+
+// Home page scss ends here
+
+
+// FAQ Page Css Start here
+.faq{
+   padding: 100pt 0;
+   .faq-section{
+      @include horizontally-auto-width(70%);
+      .faq-item{
+         padding: $small 0;
+         .que{
+            color: $gray;
+            font-size: calc(8pt + 0.5vw);
+            font-weight: $thin;
+            margin-bottom: $x-small;
+         }
+         .ans{
+            color: $primary;
+            font-size: calc(10pt + 0.5vw);
+            margin-left: $medium;
+         }
+      }
+   }
+}
+
+// FAQ Page Css ends here
