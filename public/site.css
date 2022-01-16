@@ -26,20 +26,25 @@ body {
 .x-header-content {
    width: 76%;
 }
+@media screen and (max-width: 620px) {
+   .x-header .x-navmenu {
+      display: none;
+   }
+}
 
-.x-logo-image {
+.x-header .x-logo-image {
    width: auto;
    height: 22pt;
 }
 
-.x-navmenu-item {
+.x-header .x-navmenu-item {
    display: inline-block;
    min-width: 52pt;
    height: auto;
    color: var(--foreground);
    font-size: 12.8pt;
 }
-.x-navmenu-action-button {
+.x-header .x-navmenu-action-button {
    height: 32pt;
    padding-left: 10pt;
    padding-right: 10pt;
@@ -49,12 +54,21 @@ body {
 .x-hero {
    position: relative;
    height: calc(100vh);
-   background-image: url('/_/static/bg.jpg');
+   background-color: #4158D0;
+   background-image: linear-gradient(43deg, #8095ff 0%, #ff89f7 46%, #ffd689 100%);
    background-repeat: no-repeat;
    background-size: 100% 100%;
    background-attachment: fixed;
 }
+/* @media screen and (min-width: 620px) {
+   .x-hero {
+      background-image: url('/_/static/images/bg.jpg');
+   }
+} */
 
+.x-hero-quote-text {
+   font-size: 4rem;
+}
 .x-username-claim-input {
    height: 38pt;
    border-radius: 50px;
@@ -62,14 +76,10 @@ body {
    padding-right: var(--gap-half);
    border: 3px solid var(--accents-1);
 }
-.x-hero-quote-text {
-   font-size: 4rem;
-}
-
-.x-username-claim-input-label {
+.x-username-claim-input .x-username-claim-input-label {
    font-size: 13pt;
 }
-.x-username-claim-input-controller {
+.x-username-claim-input .x-username-claim-input-controller {
    height: 100%;
    width: 138pt;
    border: none;
@@ -77,10 +87,10 @@ body {
    font-size: 13pt;
    background-color: transparent;
 }
-.x-username-claim-input-controller::placeholder {
+.x-username-claim-input .x-username-claim-input-controller::placeholder {
    color: var(--accents-3);
 }
-.x-username-claim-action {
+.x-username-claim-input .x-username-claim-action {
    width: 56pt;
    border-radius: inherit;
 }
@@ -91,18 +101,34 @@ body {
 .x-hero-scroll-bottom-icon .x-icon {
    fill: var(--accents-5);
 }
+@media screen and (max-width: 620px) {
+   .x-username-claim-input-label {
+      display: none;
+   }
+   .x-username-claim-input .x-username-claim-input-controller {
+      width: 124pt;
+   }
+   .x-hero-quote-text {
+      font-size: 3.1rem;
+   }
+}
 
 .x-app-features {
    background-color: var(--foreground);
+}
+.x-app-feature {
+   display: flex;
+   gap: var(--gap);
+   align-items: center;
 }
 .x-app-feature-header {
    padding-top: 28pt;
 }
 .x-app-feature-stack {
-   height: 230pt;
+   height: 130pt;
 }
 .x-app-feature-icon {
-   height: 72pt;
+   height: 24pt;
 }
 .x-app-feature-icon-image {
    height: 100%;
@@ -111,17 +137,78 @@ body {
    color: var(--background);
 }
 @media screen and (max-width: 620px) {
+   .x-app-features .x-app-feature {
+      flex-direction: column;
+   }
+   .x-app-feature-icon {
+      height: 24pt;
+   }
    .x-app-feature-stack {
-      height: auto;
+      height: 90pt;
       margin-top: var(--gap);
       margin-bottom: var(--gap);
-      gap: var(--gap);
-      flex-direction: column !important;
+      flex-wrap: wrap;
+   }
+}
+
+.x-core-feature-overview {
+   margin-top: 38pt;
+   margin-bottom: 38pt;
+   gap: 58pt;
+}
+.x-core-feature-overview.reverse {
+   flex-direction: row-reverse;
+}
+.x-core-feature-overview-detail {
+   width: 380pt;
+}
+.x-core-feature-overview-detail p {
+   font-size: 120%;
+   color: var(--accents-5);
+}
+@media screen and (max-width: 620px) {
+   .x-core-feature-overview {
+      flex-direction: column;
+   }
+   .x-core-feature-overview.reverse {
+      flex-direction: column;
+   }
+   .x-core-feature-overview-image-wrapper {
+      display: flex;
+      justify-content: center;
+   }
+   .x-core-feature-overview-image {
+      width: 60%;
+   }
+   .x-core-feature-overview-detail {
+      width: auto;
+      padding-left: var(--gap);
+      padding-right: var(--gap);
+   }
+   .x-core-feature-overview-detail h2 {
+      margin: 0;
+      padding: 0;
+   }
+   .x-core-feature-overview-detail p {
+      font-size: 100%;
+      color: var(--accents-5);
+   }
+}
+
+.x-faq-section {
+   width: 70vw;
+}
+.x-faq-section .x-faq {
+   margin-bottom: var(--gap-quarter);
+}
+@media screen and (max-width: 620px) {
+   .x-faq-section {
+      width: 85vw;
    }
 }
 
 .x-footer {
-   width: 76%;
+   width: 70vw;
 }
 .x-footer-logo-image {
    height: 32px;
@@ -129,5 +216,12 @@ body {
 .x-footer-social-link .x-icon {
    width: 20pt;
    height: 20pt;
-   fill: var(--accents-3);
+   fill: var(--accents-4);
+}
+@media screen and (max-width: 620px) {
+   .x-footer {
+      flex-direction: column-reverse;
+      gap: var(--gap);
+      width: 85vw;
+   }
 }
