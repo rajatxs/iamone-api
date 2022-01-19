@@ -1,11 +1,11 @@
 [
    {
-      "key": "im1",
+      "key": "iamone",
       "type": "text",
-      "name": "im1",
-      "hint": "im1 Username",
-      "hostname": "im1.link",
-      "templateUrl": "https://im1.link/{{slug}}"
+      "name": "iamone",
+      "hint": "iamone username",
+      "hostname": "iamone.link",
+      "templateUrl": "https://iamone.link/{{slug}}"
    },
    {
       "key": "email",
