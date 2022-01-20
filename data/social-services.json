@@ -1,7 +1,7 @@
 [
    {
       "key": "iamone",
-      "type": "text",
+      "type": "username",
       "name": "iamone",
       "hint": "iamone username",
       "hostname": "iamone.link",
@@ -9,7 +9,7 @@
    },
    {
       "key": "email",
-      "type": "text",
+      "type": "email",
       "name": "Email",
       "hint": "your@domain.com",
       "templateUrl": "mailto:{{slug}}"
@@ -24,7 +24,7 @@
    },
    {
       "key": "twitter",
-      "type": "text",
+      "type": "username",
       "name": "Twitter",
       "hint": "Twitter username",
       "hostname": "twitter.com",
@@ -32,7 +32,7 @@
    },
    {
       "key": "instagram",
-      "type": "text",
+      "type": "username",
       "name": "Instagram",
       "hint": "Instagram username",
       "hostname": "instagram.com",
@@ -48,7 +48,7 @@
    },
    {
       "key": "tiktok",
-      "type": "text",
+      "type": "username",
       "name": "TikTok",
       "hint": "TikTok username",
       "hostname": "tiktok.com",
@@ -64,7 +64,7 @@
    },
    {
       "key": "github",
-      "type": "text",
+      "type": "username",
       "name": "GitHub",
       "hint": "GitHub username",
       "hostname": "github.com",
@@ -72,7 +72,7 @@
    },
    {
       "key": "behance",
-      "type": "text",
+      "type": "username",
       "name": "Behance",
       "hint": "Behance username",
       "hostname": "behance.net",
@@ -80,7 +80,7 @@
    },
    {
       "key": "dribbble",
-      "type": "text",
+      "type": "username",
       "name": "Dribbble",
       "hint": "Dribbble username",
       "hostname": "dribbble.com",
@@ -88,7 +88,7 @@
    },
    {
       "key": "discord",
-      "type": "text",
+      "type": "username",
       "name": "Discord",
       "hint": "Discord username",
       "hostname": "discord.com",
@@ -96,7 +96,7 @@
    },
    {
       "key": "medium",
-      "type": "text",
+      "type": "username",
       "name": "Medium",
       "hint": "Medium username",
       "hostname": "medium.com",
@@ -104,7 +104,7 @@
    },
    {
       "key": "reddit",
-      "type": "text",
+      "type": "username",
       "name": "Reddit",
       "hint": "Reddit username",
       "hostname": "reddit.com",
@@ -112,7 +112,7 @@
    },
    {
       "key": "soundcloud",
-      "type": "text",
+      "type": "username",
       "name": "SoundCloud",
       "hint": "SoundCloud username",
       "hostname": "soundcloud.com",
@@ -128,7 +128,7 @@
    },
    {
       "key": "telegram",
-      "type": "text",
+      "type": "username",
       "name": "Telegram",
       "hint": "Telegram username",
       "hostname": "t.me",
@@ -136,7 +136,7 @@
    },
    {
       "key": "patreon",
-      "type": "text",
+      "type": "username",
       "name": "Patreon",
       "hint": "Patreon username",
       "hostname": "patreon.com",
@@ -144,7 +144,7 @@
    },
    {
       "key": "pinterest",
-      "type": "text",
+      "type": "username",
       "name": "Pinterest",
       "hint": "Pinterest username",
       "hostname": "pinterest.com",
@@ -160,7 +160,7 @@
    },
    {
       "key": "snapchat",
-      "type": "text",
+      "type": "username",
       "name": "Snapchat",
       "hint": "Snapchat username",
       "hostname": "snapchat.com",
@@ -168,7 +168,7 @@
    },
    {
       "key": "whatsapp",
-      "type": "text",
+      "type": "phone",
       "name": "WhatsApp",
       "hint": "+00000000000 (WhatsApp)",
       "hostname": "whatsapp.com",
