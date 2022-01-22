@@ -18,7 +18,11 @@
 
 <!-- User primary information -->
 <div class="page__user-profile" aria-label="User Profile">
+   {{#if user.fullname }}
    <h3 class="page__user-profile-fullname">{{ user.fullname }}</h3>
+   {{else}}
+   <h5 class="page__user-profile-username">@{{ user.username }}</h5>
+   {{/if}}
    <p class="page__user-profile-bio">{{ user.bio }}</p>
 </div>
 
