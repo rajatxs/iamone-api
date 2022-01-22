@@ -19,8 +19,8 @@ export const createSchema = Joi.object({
 })
 
 export const updateSchema = Joi.object({
-   fullname: fullName.optional(),
-   bio: bio.optional(),
+   fullname: fullName.allow('').optional(),
+   bio: bio.allow('').optional(),
    location: location.allow('').optional()
 })
 
