@@ -22,9 +22,9 @@ const uri = Joi
    .max(1200)
    .trim()
 
-const thumb = uri.allow('')
+const thumb = Joi.string().min(3).max(1200).trim().allow('')
 
-const favicon = uri.allow('')
+const favicon = Joi.string().min(3).max(1200).trim().allow('')
 
 const href = uri
 
