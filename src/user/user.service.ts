@@ -139,7 +139,7 @@ export class UserService extends AppModel {
    }
 
    /** Upload new profile image */
-   public async uploadImage(userId: string | DocId, file: Express.Multer.File) {
+   public async uploadImage(userId: string | DocId, file: Express.Multer.File): Promise<ObjectId> {
       return new Promise(async (resolve, reject) => {
          const write = this.userImageStorage.writable('user-' + alphaNumeric(12), {
             contentType: 'image/webp'

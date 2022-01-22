@@ -1,4 +1,3 @@
-import * as path from 'path'
 import {
    Controller,
    Req,
@@ -15,12 +14,12 @@ import {
    UploadedFile,
    BadRequestException,
    NotFoundException,
-   Param
+   Param,
+   Query
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { Request, Response, Express } from 'express'
 import { InsertOneResult, ObjectId, GridFSBucketReadStream } from 'mongodb'
-import { createReadStream } from 'fs'
 import { JoiValidationPipe } from '@pipes/validation'
 import { UserService } from './user.service'
 import { generatePasswordHash, setPasswordHash, comparePassword } from '@utils/password'
@@ -52,6 +51,8 @@ import { AuthService } from '../auth/auth.service'
 import { RegisteredAuthTokenResponse } from '../auth/auth.interface'
 import { ClientResponse } from '@sendgrid/client/src/response'
 import { PageConfigService } from '../page-config/page-config.service'
+import { createAvatar } from '@dicebear/avatars';
+import * as dicebearStyle from '@dicebear/avatars-initials-sprites';
 
 @Controller('user')
 export class UserController {
@@ -489,14 +490,19 @@ export class UserController {
    @Roles(Role.User)
    @UseInterceptors(FileInterceptor('file', UserImageUploadOptions))
    async uploadProfilePicture(@Req() req: Request, @UploadedFile() file: Express.Multer.File): Promise<ApiResponse> {
+      let result: ObjectId, imageId: string
+
       try {
-         await this.userService.uploadImage(req.locals.userId, file)
+         result = await this.userService.uploadImage(req.locals.userId, file)
       } catch (error) {
          throw new InternalServerErrorException("Failed to upload your profile image")
       }
 
+      imageId = result.toString()
+
       return {
          statusCode: 201,
+         result: { imageId },
          message: "Profile image uploaded successfully"
       }
    }
@@ -519,17 +525,23 @@ export class UserController {
 
    @Get('image/:id?')
    @Roles(Role.Anonymous)
-   async getUserImage(@Res() res: Response, @Param('id') fileId: string) {
+   async getUserImage(@Res() res: Response, @Param('id') fileId: string, @Query('seed') seed: string = 'IM') {
       let image: GridFSBucketReadStream
 
       try {
          if (typeof fileId === 'string' && fileId.length === 24) {
             image = await this.userService.getImage(fileId)
          } else {
-            const defaultAvatarImage = path.join(__dirname, '../../public/detault-user-avatar.webp')
-            const read = createReadStream(defaultAvatarImage)
+            const svg = createAvatar(dicebearStyle, {
+               seed,
+               width: 300,
+               height: 300,
+               chars: 1,
+               backgroundColorLevel: 800,
+            })
 
-            return read.pipe(res, { end: true })
+            res.setHeader('Content-Type', 'image/svg+xml')
+            return res.status(200).send(svg)
          }
 
          if (!image) {
