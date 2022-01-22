@@ -13,7 +13,10 @@
 
 <!-- User avatar -->
 <div class="page__user-avatar" aria-label="User Avatar">
-   <img class="page__user-avatar-image" src="{{ options.host }}/_/api/user/image/{{ user.image }}" alt="User Avatar" />
+   <img 
+      class="page__user-avatar-image" 
+      src="{{ options.host }}/_/api/user/image/{{ user.image }}?seed={{ user.username }}" 
+      alt="{{ user.username }}" />
 </div>
 
 <!-- User primary information -->
