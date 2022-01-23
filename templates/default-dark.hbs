@@ -26,6 +26,11 @@
    {{else}}
    <h5 class="page__user-profile-username">@{{ user.username }}</h5>
    {{/if}}
+
+   {{#unless user.emailVerified }}
+   <div class="page__user-unverified-label"><p><small>Unverified Profile</small></p></div>
+   {{/unless}}
+
    <p class="page__user-profile-bio">{{ user.bio }}</p>
 </div>
 
