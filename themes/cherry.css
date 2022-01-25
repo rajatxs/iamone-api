@@ -1,0 +1,14 @@
+:root {
+   --page-scroll-color: #ff004c;
+   --page-scroll-active-color: #888;
+
+   --page-foreground: #FFF;
+   --page-background: #ff004c;
+   --page-background-image: url(https://cdn.bio.link/themes/backgrounds/cherry.png);
+
+   --page-social-icon-color: #FFF;
+
+   --page-link-background: #FFF;
+   --page-link-foreground: #000;
+   --page-link-border: 1px solid transparent;
+}

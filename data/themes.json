@@ -6,17 +6,22 @@
          {
             "key": "light-one",
             "name": "Light One",
-            "thumb": "/thumbs/light-one.jpg"
+            "thumb": "https://static.iamone.link/images/thumbs/light-one.jpg"
          },
          {
             "key": "dark-one",
             "name": "Dark One",
-            "thumb": "/thumbs/dark-one.jpg"
+            "thumb": "https://static.iamone.link/images/thumbs/dark-one.jpg"
          },
          {
             "key": "saffron",
             "name": "Saffron",
-            "thumb": "/thumbs/saffron.jpg"
+            "thumb": "https://static.iamone.link/images/thumbs/saffron.jpg"
+         },
+         {
+            "key": "cherry",
+            "name": "Cherry",
+            "thumb": "https://static.iamone.link/images/thumbs/cherry.jpg"
          }
       ]
    },
@@ -27,7 +32,7 @@
          {
             "key": "juicy-orange",
             "name": "Juicy Orange",
-            "thumb": "/thumbs/juicy-orange.jpg"
+            "thumb": "https://static.iamone.link/images/thumbs/juicy-orange.jpg"
          }
       ]
    }
