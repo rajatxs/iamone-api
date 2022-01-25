@@ -25,6 +25,10 @@ import { PageConfigModule } from './page-config/page-config.module';
       { 
         serveRoot: '/_/templates',
         rootPath: join(__dirname, '..', 'templates')
+      },
+      { 
+        serveRoot: '/_/themes',
+        rootPath: join(__dirname, '..', 'themes')
       }
     ),
     UserModule,

@@ -23,7 +23,10 @@ export class TemplateService extends AppTemplate<any> {
       private readonly clinkService: ClinkService,
       private readonly pageConfigService: PageConfigService,
    ) { 
-      super({ rootPath: join(__dirname, '..', '..', 'templates') })
+      super({
+         themeDir: join(__dirname, '..', '..', 'themes'),
+         templateDir: join(__dirname, '..', '..', 'templates'),
+      })
    }
 
    public async resolveSocialRefLinks(refs: PartialSocialRef[]): Promise<TemplateSocialRefDataObject[]> {
@@ -52,8 +55,8 @@ export class TemplateService extends AppTemplate<any> {
    }
 
    /** Compile template code */
-   public compileTemplate(templateName: string, data: TemplateDataObject) {
-      return this.$compile(templateName, data)
+   public compileTemplate(templateName: string, themeName: string, data: TemplateDataObject) {
+      return this.$compile(templateName, themeName, data)
    }
 
    public async getPureDataByUserId(userId: DocId) {

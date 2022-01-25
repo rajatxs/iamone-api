@@ -21,7 +21,7 @@ const templateName = Joi
    .max(120)
    .trim()
 
-const layout = Joi
+const theme = Joi
    .string()
    .max(120)
    .trim()
@@ -32,24 +32,13 @@ const themeMode = Joi
 
 const styles = Joi.object()
 
-export const createSchema = Joi.object({
-   title: title.optional(),
-   description: description.optional(),
-   tags: tags.default([]),
-   watermark: Joi.bool().default(false),
-   templateName: templateName.required(),
-   layout: layout.optional(),
-   themeMode: themeMode.default('AUTO'),
-   styles: styles.default({})
-})
-
 export const updateSchema = Joi.object({
    title: title.optional(),
    description: description.optional(),
    tags: tags.optional(),
    watermark: Joi.bool().optional(),
+   theme: theme.optional(),
    templateName: templateName.optional(),
-   layout: layout.optional(),
    themeMode: themeMode.optional(),
    styles: styles.optional()
 })

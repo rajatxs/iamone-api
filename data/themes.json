@@ -1,0 +1,34 @@
+[
+   {
+      "id": "1",
+      "name": "Best of 2022",
+      "themes": [
+         {
+            "key": "light-one",
+            "name": "Light One",
+            "thumb": "/thumbs/light-one.jpg"
+         },
+         {
+            "key": "dark-one",
+            "name": "Dark One",
+            "thumb": "/thumbs/dark-one.jpg"
+         },
+         {
+            "key": "saffron",
+            "name": "Saffron",
+            "thumb": "/thumbs/saffron.jpg"
+         }
+      ]
+   },
+   {
+      "id": "2",
+      "name": "Gradients",
+      "themes": [
+         {
+            "key": "juicy-orange",
+            "name": "Juicy Orange",
+            "thumb": "/thumbs/juicy-orange.jpg"
+         }
+      ]
+   }
+]

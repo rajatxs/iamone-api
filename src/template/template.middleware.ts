@@ -27,7 +27,11 @@ export class TemplateMiddleware implements NestMiddleware {
       templateData = await this.templateService.findDataByUsername(username)
       
       if (templateData) {
-        code = await this.templateService.compileTemplate(templateData.page.templateName, templateData)
+        code = await this.templateService.compileTemplate(
+          templateData.page.templateName, 
+          templateData.page.theme, 
+          templateData
+        )
       } else {
         return res.sendFile(path.join(__dirname, '../../public/404.html'))
       }

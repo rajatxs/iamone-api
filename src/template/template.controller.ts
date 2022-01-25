@@ -33,14 +33,14 @@ export class TemplateController {
       let result = []
       
       try {
-         result = require('../../data/templates.json')
+         result = require('../../data/themes.json')
       } catch (error) {
          throw new InternalServerErrorException("Failed to design themes")
       }
 
       return {
          statusCode: 200,
-         message: "List of templates",
+         message: "List of themes",
          result
       }
    }

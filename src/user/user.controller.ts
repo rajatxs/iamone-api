@@ -132,8 +132,9 @@ export class UserController {
          this.logger.log(`User created ${insertedId}`)
 
          await this.pageConfigService.create({
-            templateName: 'default',
             userId: insertedId,
+            templateName: 'default',
+            theme: 'light-one',
             themeMode: 'AUTO',
             styles: {}
          })

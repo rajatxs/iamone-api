@@ -1,0 +1,14 @@
+:root {
+   --page-scroll-color: #ff8008;
+   --page-scroll-active-color: #888;
+
+   --page-foreground: #000;
+   --page-background: #ff8008;
+   --page-background-image: linear-gradient(to left top, #ff8008, #ffc837);
+
+   --page-social-icon-color: #000;
+
+   --page-link-background: #FFF;
+   --page-link-foreground: #000;
+   --page-link-border: 1px solid transparent;
+}
