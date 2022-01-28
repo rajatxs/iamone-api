@@ -22,6 +22,11 @@
             "key": "cherry",
             "name": "Cherry",
             "thumb": "https://static.iamone.link/images/thumbs/cherry.jpg"
+         },
+         {
+            "key": "abstract-orange",
+            "name": "Abstract Orange",
+            "thumb": "https://static.iamone.link/images/thumbs/abstract-orange.jpg"
          }
       ]
    },
@@ -30,9 +35,19 @@
       "name": "Gradients",
       "themes": [
          {
-            "key": "juicy-orange",
-            "name": "Juicy Orange",
-            "thumb": "https://static.iamone.link/images/thumbs/juicy-orange.jpg"
+            "key": "gradient-1",
+            "name": "Gradient 1",
+            "thumb": "https://static.iamone.link/images/thumbs/gradient-1.jpg"
+         },
+         {
+            "key": "gradient-2",
+            "name": "Gradient 2",
+            "thumb": "https://static.iamone.link/images/thumbs/gradient-2.jpg"
+         },
+         {
+            "key": "gradient-3",
+            "name": "Gradient 3",
+            "thumb": "https://static.iamone.link/images/thumbs/gradient-3.jpg"
          }
       ]
    }
