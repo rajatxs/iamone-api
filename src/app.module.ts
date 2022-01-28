@@ -13,6 +13,7 @@ import { AdminModule } from './admin/admin.module'
 import { TemplateModule } from './template/template.module'
 import { ClinkModule } from './clink/clink.module'
 import { PageConfigModule } from './page-config/page-config.module';
+import { ThemeModule } from './theme/theme.module';
 
 @Module({
   imports: [
@@ -50,12 +51,14 @@ import { PageConfigModule } from './page-config/page-config.module';
           AdminModule,
           ClinkModule,
           PageConfigModule,
-          TemplateModule
+          TemplateModule,
+          ThemeModule
         ]
       }
     ]),
 
     TemplateModule,
+    ThemeModule,
   ],
   controllers: [AppController],
   providers: [
