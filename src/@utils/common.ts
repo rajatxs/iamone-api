@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+import { readFile } from "fs"
 
 /** Convert to Doc Id */
 export function toDocId(id: string | DocId): DocId {
@@ -21,4 +22,17 @@ export function compareTimeDurationBelow(time: number) {
    const target = new Date(time)
 
    return current.getTime() < target.getTime()
+}
+
+export function readFileContent(path: string, encoding: string | null) {
+   return new Promise((resolve, reject) => {
+      // @ts-ignore
+      readFile(path, { encoding, flag: 'r' }, (error, data) => {
+         if (error) {
+            return reject(error)
+         }
+
+         resolve(data)
+      })
+   })
 }
