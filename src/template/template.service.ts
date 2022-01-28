@@ -12,6 +12,7 @@ import { compile } from 'handlebars'
 import { CLink } from '../clink/clink.interface'
 import { PartialPageConfig } from '../page-config/page-config.interface'
 import { PageConfigService } from '../page-config/page-config.service'
+import { ThemeService } from '../theme/theme.service'
 import env from '@utils/env'
 
 @Injectable()
@@ -22,11 +23,9 @@ export class TemplateService extends AppTemplate<any> {
       private readonly socialServiceProvider: SocialServiceProvider,
       private readonly clinkService: ClinkService,
       private readonly pageConfigService: PageConfigService,
+      private readonly themeService: ThemeService
    ) { 
-      super({
-         themeDir: join(__dirname, '..', '..', 'themes'),
-         templateDir: join(__dirname, '..', '..', 'templates'),
-      })
+      super(join(__dirname, '..', '..', 'templates'))
    }
 
    public async resolveSocialRefLinks(refs: PartialSocialRef[]): Promise<TemplateSocialRefDataObject[]> {
@@ -55,8 +54,8 @@ export class TemplateService extends AppTemplate<any> {
    }
 
    /** Compile template code */
-   public compileTemplate(templateName: string, themeName: string, data: TemplateDataObject) {
-      return this.$compile(templateName, themeName, data)
+   public compileTemplate(templateName: string, data: TemplateDataObject) {
+      return this.$compile(templateName, data)
    }
 
    public async getPureDataByUserId(userId: DocId) {
@@ -78,6 +77,7 @@ export class TemplateService extends AppTemplate<any> {
    /** Find data from user related collections */
    public async findDataByUsername(username: string): Promise<TemplateDataObject> {
       let user: User, socials: PartialSocialRef[], links: CLink [], page: PartialPageConfig
+      let css: string
 
       user = await this.userService.findOne({ username })
 
@@ -90,12 +90,14 @@ export class TemplateService extends AppTemplate<any> {
 
       links = await this.clinkService.findAll({ userId: user._id })
       page = await this.pageConfigService.findByUserId(user._id)
+      css = await this.themeService.compile(page.theme, page.styles)
 
       return {
          user,
          social: socials,
          links,
          page,
+         css,
          options: {
             host: env.hostUrl
          }

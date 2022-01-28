@@ -11,6 +11,7 @@ import { UserService } from '../user/user.service'
 import { TemplateMiddleware } from './template.middleware'
 import { PageConfigService } from '../page-config/page-config.service'
 import { TemplateController } from './template.controller'
+import { ThemeService } from "../theme/theme.service"
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { TemplateController } from './template.controller'
     SocialServiceProvider, 
     ClinkService,
     UserService,
-    PageConfigService
+    PageConfigService,
+    ThemeService
   ],
   controllers: [TemplateController],
 })

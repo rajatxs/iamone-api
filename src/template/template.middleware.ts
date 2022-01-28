@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware, Logger, HttpStatus, HttpCode, Header } from '@nestjs/common'
+import { Injectable, NestMiddleware, Logger, HttpCode, Header } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 import { TemplateService } from './template.service'
 import { TemplateDataObject } from './template.interface'
@@ -29,7 +29,6 @@ export class TemplateMiddleware implements NestMiddleware {
       if (templateData) {
         code = await this.templateService.compileTemplate(
           templateData.page.templateName, 
-          templateData.page.theme, 
           templateData
         )
       } else {
