@@ -1,0 +1,11 @@
+{
+   "page_background_color": "#FF004C",
+   "page_foreground_color": "#FFFFFF",
+   "page_background_image": "url(https://static.iamone.link/images/backgrounds/cherry.png)",
+   "page_scroll_color": "#FF004C",
+   "page_scroll_active_color": "#DF0043",
+   "page_social_icon_color": "#FFFFFF",
+   "page_link_background_color": "#FFFFFF",
+   "page_link_foreground_color": "#000000",
+   "page_link_border": "none"
+}

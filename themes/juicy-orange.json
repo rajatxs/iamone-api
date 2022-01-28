@@ -1,0 +1,11 @@
+{
+   "page_background_color": "#FF8008",
+   "page_foreground_color": "#FFFFFF",
+   "page_background_image": "linear-gradient(to left top, #ff8008, #ffc837)",
+   "page_scroll_color": "#FF8008",
+   "page_scroll_active_color": "#e57307",
+   "page_social_icon_color": "#FFFFFF",
+   "page_link_background_color": "#FFFFFF",
+   "page_link_foreground_color": "#000000",
+   "page_link_border": "none"
+}
