@@ -1,0 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Role = void 0;
+var Role;
+(function (Role) {
+    Role["Anonymous"] = "anonymous";
+    Role["Admin"] = "admin";
+    Role["User"] = "user";
+})(Role = exports.Role || (exports.Role = {}));
