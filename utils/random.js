@@ -1,3 +1,6 @@
+import { randomUUID } from 'crypto';
+import mime from 'mime';
+
 /**
  * Generate alpha-numeric value
  * @param {number} length
@@ -15,4 +18,15 @@ export function alphaNumeric(length = 8) {
 /** Generate verification code */
 export function verificationCode() {
    return Math.floor(Math.random() * 10e5);
+}
+
+/**
+ * Generates random filename
+ * @param {string} mimeType 
+ */
+export function generateFilename(mimeType) {
+   const uuid = randomUUID();
+   const ext = mime.getExtension(mimeType);
+
+   return `${uuid}.${ext}`;
 }

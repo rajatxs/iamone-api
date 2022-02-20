@@ -13,19 +13,22 @@ import express from 'express';
       config();
    }
 
+   const { connect: connectMongo, disconnect: disconnectMongo } = await import('./utils/mongo.js');
    const { NODE_ENV, PORT } = await import('./utils/env.js');
    const { default: logger } = await import('./utils/logger.js');
-   const { default: routes } = await import('./routes/routes.js');
    const { default: cors } = await import('./config/cors.js');
-   const { HTTPRequestLogger } = await import('./middlewares/common.js');
-   const { connect: connectMongo, disconnect: disconnectMongo } = await import('./utils/mongo.js');
+   const { setEmailApiKey } = await import('./utils/mail.js');
+   const { AppInit, HTTPRequestLogger } = await import('./middlewares/common.js');
+   await connectMongo();
+   
+   const { default: routes } = await import('./routes/routes.js');
 
    app = express();
-
-   await connectMongo();
+   setEmailApiKey();
 
    app.use(cors);
    app.use(express.json({ limit: '8mb', type: "application/json" }));
+   app.use(AppInit);
    app.use(HTTPRequestLogger);
    app.use(routes);
 

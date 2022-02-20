@@ -1,7 +1,15 @@
 import { ObjectId } from 'mongodb';
 import { mongo } from '../utils/mongo.js';
+import logger from '../utils/logger.js';
+
+export const TimestampType = {
+   ALL: 1,
+   CREATED_AT: 2,
+   UPDATED_AT: 3,
+};
 
 export class AppModel {
+
    /** @type {import('mongodb').Collection} */
    model = null;
 
@@ -17,7 +25,7 @@ export class AppModel {
          const db = mongo();
          this.model = db.collection(modelName);
       } catch (error) {
-         this.logger.error(`Failed to instantiate <${this.modelName}> model`);
+         logger.error(`Failed to instantiate <${this.modelName}> model`);
          throw new Error('Failed to serve your request');
       }
    }
@@ -54,16 +62,16 @@ export class AppModel {
          const ts = obj._id.getTimestamp();
 
          switch (this.options.timestamps) {
-            case timestampType.ALL:
+            case TimestampType.ALL:
                obj.createdAt = obj.createdAt || ts;
                obj.updatedAt = obj.updatedAt || ts;
                break;
 
-            case timestampType.CREATED_AT:
+            case TimestampType.CREATED_AT:
                obj.createdAt = obj.createdAt || ts;
                break;
 
-            case timestampType.UPDATED_AT:
+            case TimestampType.UPDATED_AT:
                obj.updatedAt = obj.updatedAt || ts;
                break;
          }

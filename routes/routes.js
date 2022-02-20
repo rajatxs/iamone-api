@@ -1,6 +1,11 @@
 import { Router } from 'express';
+import userRoutes from './userRoutes.js';
+import socialPlatformRoutes from './socialPlatformRoutes.js';
 
 const router = Router();
+
+router.use('/x/api/user', userRoutes);
+router.use('/x/api/social-platforms', socialPlatformRoutes);
 
 /**
  * Tesing endpoint
