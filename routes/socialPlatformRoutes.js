@@ -4,7 +4,14 @@ import { SocialPlatformController } from '../controllers/SocialPlatformControlle
 const router = Router();
 const socialPlatformController = new SocialPlatformController();
 
-router.get('/', socialPlatformController.getAllSocialPlatforms.bind(socialPlatformController));
-router.get('/:key', socialPlatformController.getServicePlatformByKey.bind(socialPlatformController));
+router.get(
+   '/', 
+   socialPlatformController.getAllSocialPlatforms.bind(socialPlatformController)
+);
+
+router.get(
+   '/:key', 
+   socialPlatformController.getServicePlatformByKey.bind(socialPlatformController)
+);
 
 export default router;

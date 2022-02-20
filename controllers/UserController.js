@@ -441,7 +441,7 @@ export class UserController {
     * @param {import('express').Response} res 
     * @param {import('express').NextFunction} next 
     */
-   async deleteUserImage(req, res, next) {
+   async removeProfileImage(req, res, next) {
       try {
          await this.#userService.removeImage(req.locals.userId);
       } catch (error) {
@@ -450,41 +450,6 @@ export class UserController {
       }
 
       res.send({ message: "Profile image removed" });
-   }
-
-   /**
-    * Get user's image
-    * @param {import('express').Request} req 
-    * @param {import('express').Response} res 
-    * @param {import('express').NextFunction} next 
-    */
-   async getUserImage(req, res, next) {
-      const seed = req.query['seed'];
-      const fileId = req.params['fileId'];
-      let image;
-
-      try {
-         if (typeof fileId === 'string' && fileId.length === 24) {
-            image = await this.#userService.getImage(fileId);
-         } else {
-            const svg = createAvatar(dicebearStyle, {
-               seed,
-               width: 300,
-               height: 300,
-               chars: 1,
-               backgroundColorLevel: 800,
-            });
-            res.setHeader('Content-Type', 'image/svg+xml');
-            return res.send(svg);
-         }
-         if (!image) {
-            return res.send404("Image not found");
-         }
-         return image.pipe(res, { end: true });
-      } catch (error) {
-         logger.error(`${this.name}:getUserImage`, "Couldn't get profile image", error);
-         return next("Couldn't get profile image");
-      }
    }
 
    /**

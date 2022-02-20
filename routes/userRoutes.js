@@ -36,11 +36,6 @@ router.get(
    userController.getAccountDetail.bind(userController)
 );
 
-router.get(
-   '/image',
-   userController.getUserImage.bind(userController)
-);
-
 router.put(
    '/image',
    UserAuthorization,
@@ -51,7 +46,7 @@ router.put(
 router.delete(
    '/image',
    UserAuthorization,
-   userController.deleteUserImage.bind(userController)
+   userController.removeProfileImage.bind(userController)
 );
 
 router.put(

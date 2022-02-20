@@ -41,6 +41,10 @@ export class SocialPlatformController {
          return next("Couldn't get social platform");
       }
 
+      if (!result) {
+         return res.send404("Item not found");
+      }
+
       res.send({ result });
    }
 }

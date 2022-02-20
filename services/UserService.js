@@ -1,8 +1,6 @@
 import sharp from 'sharp';
-import { ObjectId } from 'mongodb';
-import { AppStorage } from '../classes/AppStorage.js';
 import { AppModel, TimestampType } from '../classes/AppModel.js';
-import { alphaNumeric, generateFilename } from '../utils/random.js';
+import { generateFilename } from '../utils/random.js';
 import { IPFSService } from './IPFSService.js';
 // import social_ref_service_1 from '../social-ref/social-ref.service';
 // import clink_service_1 from '../clink/clink.service';
@@ -16,7 +14,6 @@ export class UserService extends AppModel {
 
    constructor() {
       super('users', { timestamps: TimestampType.ALL });
-      this.userImageStorage = new AppStorage('users');
    }
 
    get #findOptions() {
@@ -32,7 +29,7 @@ export class UserService extends AppModel {
    }
    async create(data) {
       data.emailVerified = false;
-      data.image = null;
+      data.imageHash = null;
       return this.$insert(data);
    }
    hasEmail(email) {
@@ -74,28 +71,18 @@ export class UserService extends AppModel {
    markAsVerified(userId) {
       return this.$updateById(userId, { emailVerified: true });
    }
-   getImage(id, options) {
-      return new Promise(async (resolve, reject) => {
-         try {
-            const exists = await this.userImageStorage.exists(id);
-            let stream;
-            if (!exists) {
-               return resolve(null);
-            }
-            stream = this.userImageStorage.download(id, options);
-            return resolve(stream);
-         } catch (error) {
-            reject(error);
-         }
-      });
-   }
+
    async removeImage(userId) {
       const user = await this.$findById(userId);
-      if ((user.image || {}) instanceof ObjectId) {
-         await this.userImageStorage.remove(user.image);
-         await this.update(userId, { image: null });
+
+      if (typeof user !== 'object' || !user.imageHash) {
+         return;
       }
+
+      await this.#ipfsService.unpinFile(user.imageHash);
+      await this.update(userId, { imageHash: null });
    }
+
    async uploadImage(userId, file) {
       const webp = await sharp(file.buffer)
          .resize(300, 300)
