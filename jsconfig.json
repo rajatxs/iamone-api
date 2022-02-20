@@ -1,6 +1,10 @@
 {
    "$schema": "https://json.schemastore.org/jsconfig",
    "compilerOptions": {
+      "strict": true,
+      "checkJs": true,
+      "moduleResolution": "Node",
+      "target": "ESNext",
       "typeRoots": ["./"]
    }
 }

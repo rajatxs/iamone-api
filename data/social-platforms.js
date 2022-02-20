@@ -1,3 +1,14 @@
+/**
+ * @typedef SocialPlatform
+ * @property {string} key
+ * @property {string} type
+ * @property {string} name
+ * @property {string} [hint]
+ * @property {string} [hostname]
+ * @property {string} [templateUrl]
+ */
+
+/** @type {SocialPlatform[]} */
 export default [
    {
       key: 'iamone',

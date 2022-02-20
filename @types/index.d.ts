@@ -1,19 +1,20 @@
 
 interface AppRequestLocals {
-   urlPath?: string,
-   requestId?: DocId,
-   userId?: DocId,
-   adminId?: DocId
+   urlPath: string,
+   requestId: DocId,
+   userId: DocId,
+   adminId: DocId
 }
 
 declare namespace Express {
    interface Request {
-      locals?: AppRequestLocals
+      locals: Partial<AppRequestLocals>
    }
    interface Response {
       send400(message: string): void
       send401(message: string): void
       send404(message: string): void
+      send409(message: string): void
       send500(message: string): void
    }
 }

@@ -1,19 +1,9 @@
 import socialPlatformList from '../data/social-platforms.js';
 
-/**
- * @typedef SocialPlatform
- * @property {string} key
- * @property {string} name
- * @property {string} [about]
- * @property {string} [website]
- * @property {string} [templateUrl]
- */
-
 export class SocialPlatformService {
    /**
     * Get service data by key
     * @param {string} key
-    * @returns {SocialPlatform}
     */
    get(key) {
       return socialPlatformList.find((item) => item.key === key);
@@ -27,10 +17,7 @@ export class SocialPlatformService {
       return index != -1;
    }
 
-   /**
-    * Get list of services
-    * @returns {SocialPlatform[]}
-    */
+   /** Get list of services */
    get list() {
       return socialPlatformList;
    }
