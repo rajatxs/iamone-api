@@ -64,16 +64,26 @@ export class EmailService {
     * @param {string} email
     * @param {string} code
     */
-   sendPasswordResetCode(name, email, code) {
-      return mail.send({
-         from: senders.milestoneEmailSender,
-         to: { name, email },
-         templateId: templateIds.PASSWORD_RESET_CODE_TEMPLATE_ID,
-         dynamicTemplateData: {
-            name,
-            email,
-            code,
-         },
-      });
+   async sendPasswordResetCode(name, email, code) {
+      let result;
+
+      try {
+         result = await mail.send({
+            from: senders.milestoneEmailSender,
+            to: { name, email },
+            templateId: templateIds.PASSWORD_RESET_CODE_TEMPLATE_ID,
+            dynamicTemplateData: {
+               name,
+               email,
+               code,
+            },
+         });
+
+         logger.info(`${this.name}:sendPasswordResetCode`, `Email sent on ${email}`);
+      } catch (error) {
+         logger.error(`${this.name}:sendPasswordResetCode`, `Couldn't send email on ${email}`, error);
+      }
+
+      return result;
    }
 }
