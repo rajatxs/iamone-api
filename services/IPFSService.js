@@ -48,6 +48,7 @@ export class IPFSService {
 
                logger.info(
                   "IPFSService:addFile",
+                  // @ts-ignore
                   `Hash: ${result.Hash}, Size: ${result.Size}`
                );
                resolve(result);
@@ -85,6 +86,10 @@ export class IPFSService {
       const unpinnedFile = await this.#IPFSHttp.post(
          "/api/v0/pin/rm?arg=" + hash,
          {}
+      );
+      logger.info(
+         "IPFSService:unpinFile",
+         `Hash: ${hash}`
       );
       return unpinnedFile.data;
    }

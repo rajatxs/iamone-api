@@ -5,9 +5,7 @@ import { verificationCode } from '../utils/random.js';
 import { EmailService } from '../services/EmailService.js';
 import { VerificationService, VerificationType } from '../services/VerificationService.js';
 import { PageConfigService } from '../services/PageConfigService.js';
-import { createAvatar } from '@dicebear/avatars';
 import { generateUserAuthToken } from '../utils/jwt.js';
-import dicebearStyle from '@dicebear/avatars-initials-sprites';
 
 export class UserController {
    name = 'UserController';
@@ -110,7 +108,7 @@ export class UserController {
       try {
          user = await this.#userService.findByUsernameOrEmail(username, email);
       } catch (error) {
-         logger.log(`${this.name}:generateAuthToken`, "Couldn't create auth tokens", error);
+         logger.error(`${this.name}:generateAuthToken`, "Couldn't create auth tokens", error);
          return next("Couldn't create auth tokens");
       }
       if (!user) {
@@ -325,7 +323,7 @@ export class UserController {
          code = String(verificationCode());
          saved = await this.#verificationService.saveVerificationCode(
             VerificationType.PASSWORD_RESET,
-            user._id,
+            user['_id'],
             code,
             10
          );
@@ -365,7 +363,7 @@ export class UserController {
          return res.send400("Invalid email");
       }
 
-      userId = user._id;
+      userId = user['_id'];
       try {
          verified = await this.#verificationService.verifyCode(
             VerificationType.PASSWORD_RESET,
@@ -418,10 +416,12 @@ export class UserController {
     * @param {import('express').NextFunction} next 
     */
    async uploadProfilePicture(req, res, next) {
+      const { userId } = req.locals;
       let result, imageHash;
 
       try {
-         result = await this.#userService.uploadImage(req.locals.userId, req.file);
+         await this.#userService.removeImage(userId);
+         result = await this.#userService.uploadImage(userId, req.file);
       } catch (error) {
          logger.error(`${this.name}:uploadProfilePicture`, "Couldn't change profile image", error);
          return next("Couldn't change profile image");

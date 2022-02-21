@@ -1,49 +1,71 @@
 import handlebars from 'handlebars';
-import { join } from 'path';
+import path from 'path';
 import { readFileContent } from '../utils/common.js';
+import themes from '../data/themes.js';
 
 export class ThemeService {
-   #hbs = null;
-
-   #DEFAULT_STYLE_TEMPLATE = join(
-      __dirname,
-      '..',
-      '..',
+   #hbs = handlebars.create();
+   #DEFAULT_STYLE_TEMPLATE = path.resolve(
       'templates',
       'default.style.hbs'
    );
 
    constructor() {
-      this.#hbs = handlebars.create();
       this.#hbs.registerPartial('useProperty', (context, options) => {
          const prop = context.name;
-         const root = options.data.root;
+         let root;
+
+         if (options) {
+            root = options.data.root;
+         }
 
          return prop in root ? root[prop] : context.default;
       });
    }
 
+   /** Returns all themes */
+   findAll() {
+      return themes;
+   }
+
    /**
-    * Compile stylesheet
-    * @param {string} [themeName]
-    * @param {object} [customStyleObject]
-    * @returns {Promise<string>}
+    * Returns theme collection by `id`
+    * @param {string} id 
+    */
+   findByCollectionId(id) {
+      return themes.find(theme => theme.id === id);
+   }
+
+   /**
+    * Returns theme by `themeKey`
+    * @param {string} collectionId 
+    * @param {string} themeKey 
+    * @returns 
+    */
+   findOne(collectionId, themeKey) {
+      return themes
+         .find(coll => coll.id === collectionId)?.themes
+         .filter(theme => theme.key === themeKey);
+   }
+
+   /**
+    * Compile specified theme
+    * @param {string} themeName 
+    * @param {object} customStyleObject 
     */
    async compile(themeName, customStyleObject = {}) {
-      let themeConfig = {},
-         themeObject = {},
-         styleCode,
-         delegation;
+      let themeConfig = {}, themeObject = {}, styleCode, delegation;
 
       if (themeName) {
-         themeConfig = await import('../../themes/' + themeName + '.json');
+         const content = await readFileContent(path.resolve('themes', themeName + '.json'), 'utf8');
+         themeConfig = JSON.parse(content);
       }
 
       themeObject = { ...themeConfig, ...customStyleObject };
 
       styleCode = await readFileContent(this.#DEFAULT_STYLE_TEMPLATE, 'utf8');
-      delegation = this.#hbs.compile(styleCode, { data: true });
+      delegation = this.#hbs.compile(styleCode, { data: true })
 
-      return delegation(themeObject);
+      return delegation(themeObject)
    }
 }

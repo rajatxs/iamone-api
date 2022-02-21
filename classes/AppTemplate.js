@@ -1,11 +1,8 @@
-import * as handlebars from 'handlebars';
+import handlebars from 'handlebars';
 import { join } from 'path';
 import { readFile } from 'fs';
 
 export class AppTemplate {
-   /** @type {handlebars} */
-   instance = null;
-
    TEMPLATE_FILE_EXTENSION = 'hbs';
    THEME_FILE_EXTENSION = 'css';
    DEFAULT_LAYOUT = 'default.layout';

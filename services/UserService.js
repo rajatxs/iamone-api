@@ -2,14 +2,26 @@ import sharp from 'sharp';
 import { AppModel, TimestampType } from '../classes/AppModel.js';
 import { generateFilename } from '../utils/random.js';
 import { IPFSService } from './IPFSService.js';
-// import social_ref_service_1 from '../social-ref/social-ref.service';
-// import clink_service_1 from '../clink/clink.service';
-// import page_config_service_1 from '../page-config/page-config.service';
+import { SocialLinkService } from './SocialLinkService.js';
+import { LinkService } from './LinkService.js';
+import { PageConfigService } from './PageConfigService.js';
+
+/**
+ * @typedef User 
+ * @property {string} username
+ * @property {string} [fullname]
+ * @property {string} [bio]
+ * @property {string} [location]
+ * @property {string} email
+ * @property {string|null} [imageHash]
+ * @property {boolean} [emailVerified]
+ * @property {string} passwordHash
+ */
 
 export class UserService extends AppModel {
-   // #socialRefService = socialRefService;
-   // #clinkService = clinkService;
-   // #pageConfigService = pageConfigService;
+   #socialLinkService = new SocialLinkService();
+   #linkService = new LinkService();
+   #pageConfigService = new PageConfigService();
    #ipfsService = new IPFSService();
 
    constructor() {
@@ -23,66 +35,153 @@ export class UserService extends AppModel {
          skip: 0,
          projection: {
             passwordHash: 0,
-            httpRequestId: 0,
          },
       };
    }
+
+   /**
+    * Creates new user account
+    * @param {User} data 
+    */
    async create(data) {
       data.emailVerified = false;
       data.imageHash = null;
       return this.$insert(data);
    }
+
+   /**
+    * Check whether account exists with given `email` or not
+    * @param {string} email 
+    */
    hasEmail(email) {
       return this.$exists({ email });
    }
+
+   /**
+    * Check whether account exists with given `username` or not
+    * @param {string} username 
+    */
    hasUsername(username) {
       return this.$exists({ username });
    }
+
+   /**
+    * Check whether account exists with given `id` or not
+    * @param {string | DocId} id 
+    * @returns 
+    */
    has(id) {
       return this.$existsId(id);
    }
+
+   /**
+    * Returns user document followed by `id`
+    * @param {string | DocId} id 
+    */
    get(id) {
-      return this.$findById(id);
+      // @ts-ignore
+      return this.$findById(id, this.#findOptions);
    }
+
+   /**
+    * Returns single user document
+    * @param {import('mongodb').Filter<Partial<User>>} filter 
+    * @returns {Promise<User>}
+    */
    findOne(filter) {
+      // @ts-ignore
       return this.model.findOne(filter, this.#findOptions);
    }
+
+   /**
+    * Returns all user documents
+    * @param {import('mongodb').Filter<Partial<User>>} filter 
+    * @returns 
+    */
    findAll(filter) {
+      // @ts-ignore
       return this.model.find(filter, this.#findOptions).toArray();
    }
+
+   /**
+    * Returns user document followed by `username` or `email`
+    * @param {string} username 
+    * @param {string} email 
+    */
    findByUsernameOrEmail(username, email) {
       return this.model.findOne({ $or: [{ username }, { email }] });
    }
+
+   /**
+    * Updates user document followed by `userId`
+    * @param {string|DocId} userId 
+    * @param {Partial<User>} data 
+    */
    update(userId, data) {
       return this.$updateById(userId, data);
    }
+
+   /**
+    * Change `username` of account followed by `userId`
+    * @param {string|DocId} userId 
+    * @param {string} username 
+    */
    setUsername(userId, username) {
       return this.$updateById(userId, { username });
    }
+
+   /**
+    * Change `passwordHash` of account followed by `userId`
+    * @param {string|DocId} userId 
+    * @param {string} passwordHash 
+    */
    setPasswordHash(userId, passwordHash) {
       return this.$updateById(userId, { passwordHash });
    }
+
+   /**
+    * Change `email` of account followed by `userId`
+    * @param {string|DocId} userId 
+    * @param {string} email
+    * @param {boolean} [isVerified] 
+    */
    setEmail(userId, email, isVerified = false) {
       return this.$updateById(userId, {
          email,
          emailVerified: isVerified,
       });
    }
+
+   /**
+    * Set account as verified
+    * @param {string|DocId} userId  
+    */
    markAsVerified(userId) {
       return this.$updateById(userId, { emailVerified: true });
    }
 
+   /**
+    * Removes profile image of user followed by `userId`
+    * @param {string|DocId} userId 
+    */
    async removeImage(userId) {
       const user = await this.$findById(userId);
 
       if (typeof user !== 'object' || !user.imageHash) {
+         console.log("FILE NOT FOUND");
          return;
       }
-
+      
+      console.log("FILE REMOVING...");
       await this.#ipfsService.unpinFile(user.imageHash);
       await this.update(userId, { imageHash: null });
    }
 
+   /**
+    * Uploads profile image of user followed by `userId`
+    * @param {string|DocId} userId 
+    * @param {Express.Multer.File} file 
+    */
    async uploadImage(userId, file) {
       const webp = await sharp(file.buffer)
          .resize(300, 300)
@@ -94,12 +193,17 @@ export class UserService extends AppModel {
 
       return uploaded;
    }
+
+   /**
+    * Removes account of user followed by `userId`
+    * @param {string|DocId} userId 
+    */
    async deleteById(userId) {
-      // userId = this.$oid(userId);
-      // await this.#socialRefService.removeManyByUserId(userId);
-      // await this.#clinkService.removeManyByUserId(userId);
-      // await this.removeImage(userId);
-      // await this.#pageConfigService.remove({ userId });
+      userId = this.$oid(userId);
+      await this.#socialLinkService.removeManyByUserId(userId);
+      await this.#linkService.removeManyByUserId(userId);
+      await this.removeImage(userId);
+      await this.#pageConfigService.remove({ userId });
       await this.$deleteById(userId);
       return true;
    }

@@ -17,10 +17,12 @@ export function AppInit(req, res, next) {
    res.send409 = (message) => res.status(409).send({ message });
    res.send500 = (message) => res.status(500).send({ message });
 
-   req.locals = {};
-   req.locals.urlPath = req.path;
-   req.locals.requestId = NIL_OBJECT_ID;
-   req.locals.userId = NIL_OBJECT_ID;
+   req.locals = {
+      urlPath: req.path,
+      requestId: NIL_OBJECT_ID,
+      userId: NIL_OBJECT_ID,
+      adminId: NIL_OBJECT_ID
+   };
 
    res.setHeader('Server', 'iamone');
    res.setHeader('Vary', 'Accept, Origin, Accept-Language');

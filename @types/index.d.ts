@@ -8,7 +8,7 @@ interface AppRequestLocals {
 
 declare namespace Express {
    interface Request {
-      locals: Partial<AppRequestLocals>
+      locals: AppRequestLocals
    }
    interface Response {
       send400(message: string): void

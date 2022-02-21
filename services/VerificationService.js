@@ -24,7 +24,7 @@ export class VerificationService extends AppModel {
 
    /**
     * Save given verification code to collection
-    * @param {VerificationType} type
+    * @param {string} type
     * @param {DocId} userId
     * @param {string} code
     * @param {string|number} duration
@@ -54,7 +54,7 @@ export class VerificationService extends AppModel {
 
    /**
     * Verify code by specified userId
-    * @param {VerificationType} type
+    * @param {string} type
     * @param {DocId} userId
     * @param {string} code
     */
