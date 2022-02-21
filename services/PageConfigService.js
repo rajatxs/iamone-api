@@ -8,7 +8,7 @@ import { AppModel } from '../classes/AppModel.js';
  * @property {boolean} [watermark]
  * @property {string} [theme]
  * @property {string} [templateName]
- * @property {'LIGHT', 'DARK', 'AUTO'} [themeMode]
+ * @property {'LIGHT' | 'DARK' | 'AUTO'} [themeMode]
  * @property {object} styles
  * @property {DocId} userId
  */
@@ -36,8 +36,7 @@ export class PageConfigService extends AppModel {
 
    /**
     * Returns page config
-    * @param {string | DocId} id
-    * @returns {PageConfig}
+    * @param {string|DocId} id
     */
    get(id) {
       return this.$findById(id);
@@ -46,7 +45,6 @@ export class PageConfigService extends AppModel {
    /**
     * Find config by userId
     * @param {string | DocId} userId
-    * @returns {Promise<PageConfig>}
     */
    findByUserId(userId) {
       userId = this.$docId(userId);
