@@ -17,6 +17,10 @@
     "email": "rxx175@gmail.com",
     "url": "https://github.com/rajatxs"
   },
+  "engines": {
+    "node": ">=13.0.0",
+    "npm": ">=6.0.0"
+  },
   "private": true,
   "license": "UNLICENSED",
   "dependencies": {
