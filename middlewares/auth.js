@@ -26,8 +26,8 @@ export function UserAuthorization(req, res, next) {
       return res.send401("Invalid authorization token");
    }
 
-   payload.id = new ObjectId(payload.id);
-   req.locals.userId = payload.id;
+   payload['id'] = new ObjectId(payload['id']);
+   req.locals.userId = payload['id'];
 
    next(null);
 }

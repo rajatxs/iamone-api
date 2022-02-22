@@ -80,7 +80,7 @@ export class UserService extends AppModel {
     */
    get(id) {
       // @ts-ignore
-      return this.$findById(id, this.#findOptions);
+      return this.$findById(id);
    }
 
    /**
@@ -168,11 +168,9 @@ export class UserService extends AppModel {
       const user = await this.$findById(userId);
 
       if (typeof user !== 'object' || !user.imageHash) {
-         console.log("FILE NOT FOUND");
          return;
       }
       
-      console.log("FILE REMOVING...");
       await this.#ipfsService.unpinFile(user.imageHash);
       await this.update(userId, { imageHash: null });
    }

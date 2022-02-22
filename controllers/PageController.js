@@ -1,11 +1,13 @@
 import logger from '../utils/logger.js';
 import { PageService } from '../services/PageService.js';
+import { PageConfigService } from '../services/PageConfigService.js';
 import { ThemeService } from '../services/ThemeService.js';
 
 export class PageController {
    name = 'PageController';
    #pageService = new PageService();
    #themeService = new ThemeService();
+   #pageConfigService = new PageConfigService();
 
    /**
     * Get page data
@@ -95,7 +97,8 @@ export class PageController {
       } catch (error) {
          logger.info(
             `${this.name}:getThemesByThemeId`,
-            "Couldn't get theme"
+            "Couldn't get theme",
+            error
          );
          return next("Couldn't get theme");
       }
@@ -105,5 +108,31 @@ export class PageController {
       }
 
       res.send({ result });
+   }
+
+   /**
+    * Get themes source `configId`
+    * @param {import('express').Request} req 
+    * @param {import('express').Response} res 
+    * @param {import('express').NextFunction} next 
+    */
+   async getThemeSource(req, res, next) {
+      const configId = req.params.configId;
+      let code = '';
+
+      try {
+         const { theme, styles } = await this.#pageConfigService.get(configId);
+         code = await this.#themeService.compile(theme, styles);
+      } catch (error) {
+         logger.info(
+            `${this.name}:getThemeSource`,
+            "Couldn't get theme source",
+            error
+         );
+         return next("Couldn't get theme source");
+      }
+
+      res.setHeader('Content-Type', 'text/css');
+      res.send(code);
    }
 }

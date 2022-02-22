@@ -282,7 +282,7 @@ export class UserController {
       let user, hash;
 
       if (currentPassword === newPassword) {
-         return res.send400("Use different passwords");
+         return res.send400("Use different password");
       }
 
       user = await this.#userService.get(userId);
@@ -460,10 +460,9 @@ export class UserController {
     */
    async deleteUserAccount(req, res, next) {
       const { userId } = req.locals;
-      let result;
 
       try {
-         result = await this.#userService.deleteById(userId);
+         await this.#userService.deleteById(userId);
       } catch (error) {
          return next("Couldn't delete your account");
       }

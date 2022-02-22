@@ -12,7 +12,7 @@ export function AppInit(req, res, next) {
    const NIL_OBJECT_ID = new ObjectId('0'.repeat(24));
 
    res.send400 = (message) => res.status(400).send({ message });
-   res.send401 = (message) => res.status(400).send({ message });
+   res.send401 = (message) => res.status(401).send({ message });
    res.send404 = (message) => res.status(404).send({ message });
    res.send409 = (message) => res.status(409).send({ message });
    res.send500 = (message) => res.status(500).send({ message });

@@ -1,9 +1,16 @@
-import { Router } from 'express';
+import path from 'path';
+import express from 'express';
 import { UserAuthorization } from '../middlewares/auth.js';
 import { PageController } from '../controllers/PageController.js';
 
-const router = Router();
+const router = express.Router();
 const pageController = new PageController();
+
+router.use('/templates', express.static('templates', { 
+   cacheControl: true,
+   index: 'default.hbs',
+   extensions: ['hbs']
+}));
 
 router.get(
    '/data',
@@ -14,6 +21,11 @@ router.get(
 router.get(
    '/themes',
    pageController.getAllThemes.bind(pageController)
+);
+
+router.get(
+   '/themes/source/:configId',
+   pageController.getThemeSource.bind(pageController)
 );
 
 router.get(
