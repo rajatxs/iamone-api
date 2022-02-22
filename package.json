@@ -1,6 +1,6 @@
 {
   "name": "iamone-core",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Core backend service of iamone",
   "type": "module",
   "keywords": [
@@ -17,15 +17,11 @@
     "email": "rxx175@gmail.com",
     "url": "https://github.com/rajatxs"
   },
-  "engines": {
-    "node": ">=13.0.0",
-    "npm": ">=6.0.0"
-  },
   "private": true,
   "license": "UNLICENSED",
   "dependencies": {
     "@rxpm/logger": "^1.0.0",
-    "@sendgrid/mail": "^7.6.0",
+    "@sendgrid/mail": "^7.6.1",
     "axios": "^0.23.0",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.2",
