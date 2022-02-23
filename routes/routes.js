@@ -1,4 +1,5 @@
-import { Router } from 'express';
+import express from 'express';
+import path from 'path';
 import userRoutes from './userRoutes.js';
 import socialPlatformRoutes from './socialPlatformRoutes.js';
 import socialLinkRoutes from './socialLinkRoutes.js';
@@ -7,8 +8,20 @@ import pageConfigRoutes from './pageConfigRoutes.js';
 import pageRoutes from './pageRoutes.js';
 import pageOutputRoutes from './pageOutputRoutes.js';
 
-const router = Router();
+const router = express.Router();
 
+/**
+ * Index page
+ * @route GET /
+ */
+router.get('/', (req, res, next) => {
+   res.sendFile(
+      path.resolve('public', 'index.html'), 
+      error => next(error)
+   );
+});
+
+router.use('/x/static', express.static('public'));
 router.use('/x/api/user', userRoutes);
 router.use('/x/api/social-platforms', socialPlatformRoutes);
 router.use('/x/api/social-links', socialLinkRoutes);
