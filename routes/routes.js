@@ -17,7 +17,11 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
    res.sendFile(
       path.resolve('public', 'index.html'), 
-      error => next(error)
+      error => {
+         if (error) {
+            return next(error);
+         }
+      }
    );
 });
 
