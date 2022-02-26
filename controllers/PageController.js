@@ -2,6 +2,8 @@ import logger from '../utils/logger.js';
 import { PageService } from '../services/PageService.js';
 import { PageConfigService } from '../services/PageConfigService.js';
 import { ThemeService } from '../services/ThemeService.js';
+import { UserCacheService } from '../services/UserService.js';
+import { PageCacheService } from '../services/PageCacheService.js';
 
 export class PageController {
    name = 'PageController';
@@ -134,5 +136,24 @@ export class PageController {
 
       res.setHeader('Content-Type', 'text/css');
       res.send(code);
+   }
+
+   /**
+    * Clear page cache
+    * @param {import('express').Request} req 
+    * @param {import('express').Response} res 
+    */
+   async clearPageCache(req, res) {
+      const userId = req.locals.userId.toString();
+
+      if (UserCacheService.containsUsername(userId)) {
+         let username = UserCacheService.getUsername(userId);
+
+         if (PageCacheService.exists(username)) {
+            PageCacheService.removeByUsername(username);
+         }
+      } 
+
+      res.send({ message: "Cache cleared" });
    }
 }

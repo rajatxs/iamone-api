@@ -19,12 +19,14 @@ import express from 'express';
    const { default: cors } = await import('./config/cors.js');
    const { setEmailApiKey } = await import('./utils/mail.js');
    const { AppInit, HTTPRequestLogger } = await import('./middlewares/common.js');
+   const { PageCacheService } = await import('./services/PageCacheService.js');
    await connectMongo();
    
    const { default: routes } = await import('./routes/routes.js');
 
    app = express();
    setEmailApiKey();
+   PageCacheService.setup();
 
    app.use(cors);
    app.use(express.json({ limit: '8mb', type: "application/json" }));

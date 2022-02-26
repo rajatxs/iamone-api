@@ -20,10 +20,10 @@ import { JWT_ACCESS_TOKEN_SECRET, JWT_REFRESH_TOKEN_SECRET } from './env.js';
  * Register new auth token for user
  * @param {UserAuthTokenPayload} payload
  * @param {string} subject
- * @returns {Promise<RegisteredAuthTokenResponse>}
+ * @returns {RegisteredAuthTokenResponse}
  */
 export function generateUserAuthToken(payload, subject) {
-   const issuer = 'iamone.link', audience = payload.id;
+   const issuer = 'iamone.link', audience = payload.id.toString();
    let accessToken, refreshToken;
 
    payload.admin = false;
@@ -47,8 +47,9 @@ export function generateUserAuthToken(payload, subject) {
 /**
  * Verify user auth token
  * @param {string} accessToken
- * @returns {Promise<UserAuthTokenPayload>}
+ * @returns {UserAuthTokenPayload}
  */
 export function verifyUserAccessToken(accessToken) {
+   // @ts-ignore
    return jwt.verify(accessToken, JWT_ACCESS_TOKEN_SECRET);
 }

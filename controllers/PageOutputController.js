@@ -1,42 +1,60 @@
-import logger from '../utils/logger.js';
 import path from 'path';
+import logger from '../utils/logger.js';
 import { PageService } from '../services/PageService.js';
+import { PageCacheService } from '../services/PageCacheService.js';
 
 export class PageOutputController {
    name = 'PageOutputController';
    #pageService = new PageService();
+   #pageCacheService = new PageCacheService();
+
+   PAGE_404 = path.resolve('public', '404.html');
+   PAGE_500 = path.resolve('public', '500.html');
 
    /**
     * Render profile page
     * @param {import('express').Request} req 
     * @param {import('express').Response} res 
-    * @param {import('express').NextFunction} next 
     */
-   async renderPageByUsername(req, res, next) {
+   async renderPageByUsername(req, res) {
       const { username } = req.params;
-      let templateData, code;
+      let readStream;
+
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Cache-Control', 'max-age=86400');
 
       try {
-         templateData = await this.#pageService.getTemplateDataByUsername(username);
+         if (PageCacheService.exists(username)) {
+            readStream = this.#pageCacheService.read(username);
+            console.log("PAGE CACHE FOUND");
+         } 
+         else {
+            console.log("PAGE CACHE NOT FOUND");
+            const data = await this.#pageService.getTemplateDataByUsername(username);
+            let source;
 
-         if (!templateData) {
-            return res.sendFile(path.resolve('public', '404.html'));
+            if (!data) {
+               return res.status(404).sendFile(this.PAGE_404);
+            }
+
+            source = await this.#pageService.compileTemplate(
+               data.page?.templateName, 
+               data
+            );
+
+            readStream = await this.#pageCacheService.write(username, source);
          }
-
-         code = await this.#pageService.compileTemplate(
-            templateData.page?.templateName, 
-            templateData
-         );
-      } catch (error) {
+      } 
+      catch (error) {
          logger.info(
             `${this.name}:renderPageByUsername`,
             "Couldn't get page",
             error
          );
-         return res.sendFile(path.resolve('public', '500.html'));
+
+         return res.status(500).sendFile(this.PAGE_500);
       }
 
-      res.setHeader('Content-Type', 'text/html');
-      res.send(code);
+      return readStream.pipe(res);
    }
 }

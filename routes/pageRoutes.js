@@ -38,4 +38,10 @@ router.get(
    pageController.getThemesByThemeKey.bind(pageController)
 );
 
+router.delete(
+   '/cache',
+   UserAuthorization,
+   pageController.clearPageCache.bind(pageController)
+);
+
 export default router;
