@@ -26,10 +26,8 @@ export class PageOutputController {
       try {
          if (PageCacheService.exists(username)) {
             readStream = this.#pageCacheService.read(username);
-            console.log("PAGE CACHE FOUND");
          } 
          else {
-            console.log("PAGE CACHE NOT FOUND");
             const data = await this.#pageService.getTemplateDataByUsername(username);
             let source;
 
