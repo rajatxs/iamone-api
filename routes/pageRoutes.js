@@ -1,6 +1,5 @@
-import path from 'path';
 import express from 'express';
-import { UserAuthorization } from '../middlewares/auth.js';
+import { UserAuthorization, AdminAuthorization } from '../middlewares/auth.js';
 import { PageController } from '../controllers/PageController.js';
 
 const router = express.Router();
@@ -42,6 +41,12 @@ router.delete(
    '/cache',
    UserAuthorization,
    pageController.clearPageCache.bind(pageController)
+);
+
+router.delete(
+   '/cache/all',
+   AdminAuthorization,
+   pageController.clearAllPageCache.bind(pageController)
 );
 
 export default router;

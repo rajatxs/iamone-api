@@ -1,7 +1,7 @@
 import path from 'path';
 import CRC32 from 'crc/crc32';
 import { tmpdir } from 'os';
-import { existsSync, mkdirSync, createReadStream, createWriteStream, unlinkSync } from 'fs';
+import { existsSync, readdir, mkdirSync, createReadStream, createWriteStream, unlinkSync } from 'fs';
 import logger from '../utils/logger.js';
 
 export class PageCacheService {
@@ -123,7 +123,34 @@ export class PageCacheService {
          PageCacheService.key(username) + '.' + PageCacheService.CACHE_FILE_EXTENSION
       );
 
-      unlinkSync(removeFile);
-      logger.info(`${this.name}:remove`, `username: ${username}`);
+      if (existsSync(removeFile)) {
+         unlinkSync(removeFile);
+         logger.info(`${this.name}:remove`, `username: ${username}`);
+      }
+   }
+
+   /**
+    * Remove all storage files
+    * @returns {Promise<boolean>}
+    */
+   static removeAll() {
+      return new Promise((resolve, reject) => {
+         readdir(PageCacheService.dir(), 'utf8', (error, files) => {
+            if (error) {
+               return reject(error);
+            }
+            
+            files.forEach(filename => {
+               const removeFile = path.join(
+                  PageCacheService.dir(), 
+                  filename
+               );
+
+               unlinkSync(removeFile);
+            });
+            
+            resolve(true);
+         });
+      });
    }
 }

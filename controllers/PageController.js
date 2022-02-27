@@ -156,4 +156,27 @@ export class PageController {
 
       res.send({ message: "Cache cleared" });
    }
+
+   /**
+    * Clear all pages from cache storage
+    * @param {import('express').Request} req 
+    * @param {import('express').Response} res 
+    * @param {import('express').NextFunction} next 
+    */
+   async clearAllPageCache(req, res, next) {
+      let result;
+
+      try {
+         result = await PageCacheService.removeAll();
+      } catch (error) {
+         logger.info(
+            `${this.name}:clearAllPageCache`,
+            "Couldn't clear page cache",
+            error
+         );
+         return next("Couldn't clear page cache");
+      }
+
+      res.send({ result });
+   }
 }
