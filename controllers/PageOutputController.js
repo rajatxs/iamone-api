@@ -18,10 +18,18 @@ export class PageOutputController {
     */
    async renderPageByUsername(req, res) {
       const { username } = req.params;
+      const { cache = 1 } = req.query;
       let readStream;
 
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=86400');
+
+      switch(Number(cache)) {
+         case 0: {
+            PageCacheService.removeByUsername(username);
+            break;
+         }
+      }
 
       try {
          if (PageCacheService.exists(username)) {
