@@ -45,8 +45,8 @@
    <meta name="application-name" content="iamone" />
 
    {{#if user.imageHash}}
-   <link rel="shortcut icon" href="https://ipfs.infura.io:5001/api/v0/cat?arg={{ user.imageHash }}" type="image/x-icon" />
-   <link rel="icon" href="https://ipfs.infura.io:5001/api/v0/cat?arg={{ user.imageHash }}" type="image/webp" />
+   <link rel="shortcut icon" href="https://gateway.ipfs.io/ipfs/{{ user.imageHash }}" type="image/x-icon" />
+   <link rel="icon" href="https://gateway.ipfs.io/ipfs/{{ user.imageHash }}" type="image/webp" />
    {{else}}
    <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon" />
    <link rel="icon" href="/icons/favicon.ico" type="image/png" />

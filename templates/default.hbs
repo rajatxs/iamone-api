@@ -1,7 +1,7 @@
 <!-- User avatar -->
 <div class="page__user-avatar" aria-label="User Avatar">
    {{#if user.imageHash}}
-   <img class="page__user-avatar-image" src="https://ipfs.infura.io:5001/api/v0/cat?arg={{ user.imageHash }}" alt="{{ user.username }}" />
+   <img class="page__user-avatar-image" src="https://gateway.ipfs.io/ipfs/{{ user.imageHash }}" alt="{{ user.username }}" />
    {{else}}
    <img class="page__user-avatar-image" src="https://avatars.dicebear.com/api/initials/:{{ user.username }}.svg?chars=1" alt="{{ user.username }}" />
    {{/if}}
