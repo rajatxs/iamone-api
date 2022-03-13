@@ -6,4 +6,5 @@ cache/
 .vscode/
 
 *.env
+*.env.production
 *.log
