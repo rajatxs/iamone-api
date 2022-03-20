@@ -1,4 +1,5 @@
 import sharp from 'sharp';
+import { mongo } from '../utils/mongo.js';
 import { AppModel, TimestampType } from '../classes/AppModel.js';
 import { generateFilename } from '../utils/random.js';
 import { IPFSService } from './IPFSService.js';
@@ -94,22 +95,58 @@ export class UserService extends AppModel {
    }
 
    /**
-    * Returns all user documents
-    * @param {import('mongodb').Filter<Partial<User>>} filter 
-    * @returns 
-    */
-   findAll(filter) {
-      // @ts-ignore
-      return this.model.find(filter, this.#findOptions).toArray();
-   }
-
-   /**
     * Returns user document followed by `username` or `email`
     * @param {string} username 
     * @param {string} email 
     */
    findByUsernameOrEmail(username, email) {
       return this.model.findOne({ $or: [{ username }, { email }] });
+   }
+
+   /**
+    * Returns user's profile followed by `userId`
+    * @param {string | DocId} userId 
+    */
+   getProfile(userId) {
+      return new Promise((resolve, reject) => {
+         userId = this.$docId(userId);
+
+         mongo()
+            .collection('user_profiles')
+            .findOne(
+               { _id: userId },
+               (error, result) => {
+                  if (error) {
+                     return reject(error);
+                  }
+
+                  resolve(result);
+               }
+            )
+      })
+   }
+
+   /**
+    * Returns user's data by `userId`
+    * @param {string|DocId} userId 
+    */
+   getData(userId) {      
+      return new Promise((resolve, reject) => {
+         userId = this.$docId(userId);
+
+         mongo()
+            .collection('user_data')
+            .findOne(
+               { 'user._id': userId },
+               (error, result) => {
+                  if (error) {
+                     return reject(error);
+                  }
+
+                  resolve(result);
+               }
+            )
+      })
    }
 
    /**

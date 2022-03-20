@@ -26,10 +26,30 @@ export class UserController {
       let result;
    
       try {
-         result = await this.#userService.get(userId);
+         result = await this.#userService.getProfile(userId);
       } catch (error) {
          logger.error(`${this.name}:getAccountDetail`, "Couldn't load account", error);
          return next("Couldn't load account");
+      }
+
+      res.send({ result });
+   }
+
+   /**
+    * Get profile data using auth token
+    * @param {import('express').Request} req 
+    * @param {import('express').Response} res 
+    * @param {import('express').NextFunction} next 
+    */
+   async getProfileData(req, res, next) {
+      const { userId } = req.locals;
+      let result;
+   
+      try {
+         result = await this.#userService.getData(userId);
+      } catch (error) {
+         logger.error(`${this.name}:getProfileData`, "Couldn't get data", error);
+         return next("Couldn't get data");
       }
 
       res.send({ result });
