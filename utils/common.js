@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import { readFile } from 'fs';
 
 /**
  * Convert to Doc Id
@@ -33,22 +32,4 @@ export function compareTimeDurationBelow(time) {
    const target = new Date(time);
 
    return current.getTime() < target.getTime();
-}
-
-/**
- * Read file content
- * @param {string} path
- * @param {string|null} encoding
- */
-export function readFileContent(path, encoding) {
-   return new Promise((resolve, reject) => {
-      // @ts-ignore
-      readFile(path, { encoding, flag: 'r' }, (error, data) => {
-         if (error) {
-            return reject(error);
-         }
-
-         resolve(data);
-      });
-   });
 }

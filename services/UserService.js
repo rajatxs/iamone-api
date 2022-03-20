@@ -5,7 +5,6 @@ import { IPFSService } from './IPFSService.js';
 import { SocialLinkService } from './SocialLinkService.js';
 import { LinkService } from './LinkService.js';
 import { PageConfigService } from './PageConfigService.js';
-import cache from '../utils/cache.js';
 
 /**
  * @typedef User 
@@ -18,44 +17,6 @@ import cache from '../utils/cache.js';
  * @property {boolean} [emailVerified]
  * @property {string} passwordHash
  */
-
-export class UserCacheService {
-
-   /**
-    * Returns username by `userId`
-    * @param {string} userId 
-    * @returns {string}
-    */
-   static getUsername(userId) {
-      return cache.get(`username:${userId}`);
-   }
-
-   /**
-    * Check whether specified username exists or not
-    * @param {string} userId 
-    * @returns {boolean}
-    */
-   static containsUsername(userId) {
-      return cache.has(`username:${userId}`);
-   }
-
-   /**
-    * Sets `username` with specified `userId`
-    * @param {string} userId 
-    * @param {string} username 
-    */
-   static setUsername(userId, username) {
-      return cache.set(`username:${userId}`, username);
-   }
-
-   /**
-    * Removed username record
-    * @param {string} userId 
-    */
-   static removeUsername(userId) {
-      return cache.del(userId);
-   }
-}
 
 export class UserService extends AppModel {
    #socialLinkService = new SocialLinkService();
