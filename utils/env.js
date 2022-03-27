@@ -15,3 +15,6 @@ export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 export const INFURA_IPFS_PROJECT_ID = process.env.INFURA_IPFS_PROJECT_ID;
 export const INFURA_IPFS_PROJECT_SECRET = process.env.INFURA_IPFS_PROJECT_SECRET;
 export const INFURA_IPFS_ENDPOINT = process.env.INFURA_IPFS_ENDPOINT;
+
+// ImageKit Config
+export const IMAGEKIT_PRIVATE_KEY = process.env.IMAGEKIT_PRIVATE_KEY;
