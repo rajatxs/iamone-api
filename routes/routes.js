@@ -3,6 +3,7 @@ import userRoutes from './userRoutes.js';
 import socialLinkRoutes from './socialLinkRoutes.js';
 import linkRoutes from './linkRoutes.js';
 import pageConfigRoutes from './pageConfigRoutes.js';
+import utlityRoutes from './utilityRoutes.js';
 
 const router = express.Router();
 
@@ -10,6 +11,7 @@ router.use('/user', userRoutes);
 router.use('/social-links', socialLinkRoutes);
 router.use('/links', linkRoutes);
 router.use('/page-config', pageConfigRoutes);
+router.use('/utils', utlityRoutes);
 
 /**
  * Tesing endpoint
