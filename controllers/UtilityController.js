@@ -26,6 +26,6 @@ export class UtilityController {
 
       res
          .status(200)
-         .send({ result });
+         .send(result);
    }
 }
