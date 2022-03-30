@@ -1,7 +1,5 @@
-import sharp from 'sharp';
 import { mongo } from '../utils/mongo.js';
 import { AppModel, TimestampType } from '../classes/AppModel.js';
-import { generateFilename } from '../utils/random.js';
 import { IPFSService } from './IPFSService.js';
 import { SocialLinkService } from './SocialLinkService.js';
 import { LinkService } from './LinkService.js';
@@ -15,6 +13,7 @@ import { PageConfigService } from './PageConfigService.js';
  * @property {string} [location]
  * @property {string} email
  * @property {string|null} [imageHash]
+ * @property {string|null} [image]
  * @property {boolean} [emailVerified]
  * @property {string} passwordHash
  */
@@ -198,38 +197,6 @@ export class UserService extends AppModel {
    }
 
    /**
-    * Removes profile image of user followed by `userId`
-    * @param {string|DocId} userId 
-    */
-   async removeImage(userId) {
-      const user = await this.$findById(userId);
-
-      if (typeof user !== 'object' || !user.imageHash) {
-         return;
-      }
-      
-      await this.#ipfsService.unpinFile(user.imageHash);
-      await this.update(userId, { imageHash: null });
-   }
-
-   /**
-    * Uploads profile image of user followed by `userId`
-    * @param {string|DocId} userId 
-    * @param {Express.Multer.File} file 
-    */
-   async uploadImage(userId, file) {
-      const webp = await sharp(file.buffer)
-         .resize(300, 300)
-         .webp({ quality: 60 })
-         .toBuffer();
-
-      const uploaded = await this.#ipfsService.addFile(webp, generateFilename('image/webp'));
-      this.update(userId, { imageHash: uploaded.Hash });
-
-      return uploaded;
-   }
-
-   /**
     * Removes account of user followed by `userId`
     * @param {string|DocId} userId 
     */
@@ -237,7 +204,6 @@ export class UserService extends AppModel {
       userId = this.$oid(userId);
       await this.#socialLinkService.removeManyByUserId(userId);
       await this.#linkService.removeManyByUserId(userId);
-      await this.removeImage(userId);
       await this.#pageConfigService.remove({ userId });
       await this.$deleteById(userId);
       return true;

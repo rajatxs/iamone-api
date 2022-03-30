@@ -435,23 +435,19 @@ export class UserController {
     * @param {import('express').Response} res 
     * @param {import('express').NextFunction} next 
     */
-   async uploadProfilePicture(req, res, next) {
+   async updateProfilePicture(req, res, next) {
       const { userId } = req.locals;
-      let result, imageHash;
+      let image = req.body.image;
 
       try {
-         await this.#userService.removeImage(userId);
-         result = await this.#userService.uploadImage(userId, req.file);
+         await this.#userService.update(userId, { image });
       } catch (error) {
-         logger.error(`${this.name}:uploadProfilePicture`, "Couldn't change profile image", error);
+         logger.error(`${this.name}:updateProfilePicture`, "Couldn't change profile image", error);
          return next("Couldn't change profile image");
       }
 
-      imageHash = result.Hash;
-
       res.status(200).send({
-         message: "Profile image changed",
-         result: { imageHash }
+         message: "Profile image changed"
       });
    }
 
@@ -462,8 +458,10 @@ export class UserController {
     * @param {import('express').NextFunction} next 
     */
    async removeProfileImage(req, res, next) {
+      const { userId } = req.locals;
+
       try {
-         await this.#userService.removeImage(req.locals.userId);
+         await this.#userService.update(userId, { image: null });
       } catch (error) {
          logger.error(`${this.name}:deleteUserImage`, "Couldn't removing profile image", error);
          return next("Couldn't remove profile image");

@@ -45,8 +45,7 @@ router.get(
 router.put(
    '/image',
    UserAuthorization,
-   profileImageUpload.single('file'),
-   userController.uploadProfilePicture.bind(userController)
+   userController.updateProfilePicture.bind(userController)
 );
 
 router.delete(
