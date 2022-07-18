@@ -1,10 +1,10 @@
 import logger from '../utils/logger.js';
-import { UserService } from '../services/UserService.js';
+import { UserService } from '../services/user.service.js';
 import { setPasswordHash, comparePassword, generatePasswordHash } from '../utils/password.js';
 import { verificationCode } from '../utils/random.js';
-import { EmailService } from '../services/EmailService.js';
-import { VerificationService, VerificationType } from '../services/VerificationService.js';
-import { PageConfigService } from '../services/PageConfigService.js';
+import { EmailService } from '../services/email.service.js';
+import { VerificationService, VerificationType } from '../services/verification.service.js';
+import { PageConfigService } from '../services/page-config.service.js';
 import { generateUserAuthToken } from '../utils/jwt.js';
 
 export class UserController {

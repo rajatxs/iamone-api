@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { PageConfigController } from '../controllers/PageConfigController.js';
+import { PageConfigController } from '../controllers/page-config.controller.js';
 import { UserAuthorization } from '../middlewares/auth.js';
 import { RequestBodyValidator } from '../middlewares/validator.js';
-import { updateSchema } from '../schema/pageConfig.body.js';
+import { updateSchema } from '../schema/page-config.body.js';
 
 const router = Router();
 const pageConfigController = new PageConfigController();

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { UtilityController } from '../controllers/UtilityController.js';
+import { UtilityController } from '../controllers/utility.controller.js';
 
 const router = Router();
 const utilityController = new UtilityController();

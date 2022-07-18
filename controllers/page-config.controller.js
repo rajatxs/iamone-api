@@ -1,4 +1,4 @@
-import { PageConfigService } from '../services/PageConfigService.js';
+import { PageConfigService } from '../services/page-config.service.js';
 import logger from '../utils/logger.js';
 
 export class PageConfigController {

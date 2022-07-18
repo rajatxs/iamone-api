@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { LinkController } from '../controllers/LinkController.js';
+import { LinkController } from '../controllers/link.controller.js';
 import { UserAuthorization } from '../middlewares/auth.js';
 import { RequestBodyValidator } from '../middlewares/validator.js';
 import { createSchema, updateSchema } from '../schema/link.body.js';
