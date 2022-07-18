@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { LinkService } from '../services/LinkService.js';
+import { LinkService } from '../services/link.service.js';
 import logger from '../utils/logger.js';
 
 export class LinkController {

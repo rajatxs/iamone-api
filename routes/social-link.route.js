@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { SocialLinkController } from '../controllers/SocialLinkController.js';
+import { SocialLinkController } from '../controllers/social-link.controller.js';
 import { UserAuthorization } from '../middlewares/auth.js';
 import { RequestBodyValidator } from '../middlewares/validator.js';
-import { createSchema, updateSchema } from '../schema/socialLink.body.js';
+import { createSchema, updateSchema } from '../schema/social-link.body.js';
 
 const router = Router();
 const socialLinkController = new SocialLinkController();

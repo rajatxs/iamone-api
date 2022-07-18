@@ -1,9 +1,9 @@
 import express from 'express';
-import userRoutes from './userRoutes.js';
-import socialLinkRoutes from './socialLinkRoutes.js';
-import linkRoutes from './linkRoutes.js';
-import pageConfigRoutes from './pageConfigRoutes.js';
-import utlityRoutes from './utilityRoutes.js';
+import userRoutes from './user.route.js';
+import socialLinkRoutes from './social-link.route.js';
+import linkRoutes from './link.route.js';
+import pageConfigRoutes from './page-config.route.js';
+import utlityRoutes from './utility.route.js';
 
 const router = express.Router();
 

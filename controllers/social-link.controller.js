@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { SocialLinkService } from '../services/SocialLinkService.js';
+import { SocialLinkService } from '../services/social-link.service.js';
 import logger from '../utils/logger.js';
 
 export class SocialLinkController {

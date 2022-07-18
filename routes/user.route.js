@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { UserController } from '../controllers/UserController.js';
+import { UserController } from '../controllers/user.controller.js';
 import { UserAuthorization } from '../middlewares/auth.js';
 import { RequestBodyValidator } from '../middlewares/validator.js';
-import { profileImageUpload } from '../middlewares/multer.js';
 import { 
    createSchema, 
    verifySchema, 

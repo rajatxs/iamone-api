@@ -1,9 +1,9 @@
 import { mongo } from '../utils/mongo.js';
 import { AppModel, TimestampType } from '../classes/AppModel.js';
-import { IPFSService } from './IPFSService.js';
-import { SocialLinkService } from './SocialLinkService.js';
-import { LinkService } from './LinkService.js';
-import { PageConfigService } from './PageConfigService.js';
+import { IPFSService } from './ipfs.service.js';
+import { SocialLinkService } from './social-link.service.js';
+import { LinkService } from './link.service.js';
+import { PageConfigService } from './page-config.service.js';
 
 /**
  * @typedef User 

@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { UtilityService } from '../services/UtilityService.js';
+import { UtilityService } from '../services/utility.service.js';
 import logger from '../utils/logger.js';
 
 export class UtilityController {
