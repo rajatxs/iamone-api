@@ -36,11 +36,16 @@ router.get(
    userController.getAccountDetail.bind(userController)
 );
 
+router.get(
+   '/profile/data',
+   UserAuthorization,
+   userController.getProfileData.bind(userController)
+);
+
 router.put(
    '/image',
    UserAuthorization,
-   profileImageUpload.single('file'),
-   userController.uploadProfilePicture.bind(userController)
+   userController.updateProfilePicture.bind(userController)
 );
 
 router.delete(

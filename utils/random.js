@@ -19,14 +19,3 @@ export function alphaNumeric(length = 8) {
 export function verificationCode() {
    return Math.floor(Math.random() * 10e5);
 }
-
-/**
- * Generates random filename
- * @param {string} mimeType 
- */
-export function generateFilename(mimeType) {
-   const uuid = randomUUID();
-   const ext = mime.getExtension(mimeType);
-
-   return `${uuid}.${ext}`;
-}

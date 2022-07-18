@@ -26,17 +26,13 @@
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
-    "crc": "^4.1.0",
     "express": "^4.17.3",
     "form-data": "^4.0.0",
-    "handlebars": "^4.7.7",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "mime": "^3.0.0",
     "mongodb": "^4.1.2",
-    "multer": "^1.4.4",
-    "node-cache": "^5.1.2",
-    "sharp": "^0.29.3"
+    "multer": "^1.4.4"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",

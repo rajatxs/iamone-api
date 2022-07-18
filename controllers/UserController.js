@@ -26,10 +26,30 @@ export class UserController {
       let result;
    
       try {
-         result = await this.#userService.get(userId);
+         result = await this.#userService.getProfile(userId);
       } catch (error) {
          logger.error(`${this.name}:getAccountDetail`, "Couldn't load account", error);
          return next("Couldn't load account");
+      }
+
+      res.send({ result });
+   }
+
+   /**
+    * Get profile data using auth token
+    * @param {import('express').Request} req 
+    * @param {import('express').Response} res 
+    * @param {import('express').NextFunction} next 
+    */
+   async getProfileData(req, res, next) {
+      const { userId } = req.locals;
+      let result;
+   
+      try {
+         result = await this.#userService.getData(userId);
+      } catch (error) {
+         logger.error(`${this.name}:getProfileData`, "Couldn't get data", error);
+         return next("Couldn't get data");
       }
 
       res.send({ result });
@@ -415,23 +435,19 @@ export class UserController {
     * @param {import('express').Response} res 
     * @param {import('express').NextFunction} next 
     */
-   async uploadProfilePicture(req, res, next) {
+   async updateProfilePicture(req, res, next) {
       const { userId } = req.locals;
-      let result, imageHash;
+      let image = req.body.image;
 
       try {
-         await this.#userService.removeImage(userId);
-         result = await this.#userService.uploadImage(userId, req.file);
+         await this.#userService.update(userId, { image });
       } catch (error) {
-         logger.error(`${this.name}:uploadProfilePicture`, "Couldn't change profile image", error);
+         logger.error(`${this.name}:updateProfilePicture`, "Couldn't change profile image", error);
          return next("Couldn't change profile image");
       }
 
-      imageHash = result.Hash;
-
       res.status(200).send({
-         message: "Profile image changed",
-         result: { imageHash }
+         message: "Profile image changed"
       });
    }
 
@@ -442,8 +458,10 @@ export class UserController {
     * @param {import('express').NextFunction} next 
     */
    async removeProfileImage(req, res, next) {
+      const { userId } = req.locals;
+
       try {
-         await this.#userService.removeImage(req.locals.userId);
+         await this.#userService.update(userId, { image: null });
       } catch (error) {
          logger.error(`${this.name}:deleteUserImage`, "Couldn't removing profile image", error);
          return next("Couldn't remove profile image");

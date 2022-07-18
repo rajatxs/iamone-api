@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb';
 import { SocialLinkService } from '../services/SocialLinkService.js';
-import { SocialPlatformService } from '../services/SocialPlatformService.js';
 import logger from '../utils/logger.js';
 
 export class SocialLinkController {
@@ -8,7 +7,6 @@ export class SocialLinkController {
    ALLOWED_MAX_LINKS = 16;
 
    #socialLinkService = new SocialLinkService();
-   #socialPlatformService = new SocialPlatformService();
 
    /**
     * Get all social links
@@ -86,11 +84,6 @@ export class SocialLinkController {
          return res.send400('You added maximum number of links');
       }
 
-      // check social platform availability
-      if (!this.#socialPlatformService.has(data.platformKey)) {
-         return res.send400('Invalid platform key');
-      }
-
       // prevent duplication
       if (await this.#socialLinkService.isDuplicate(data)) {
          return res.send409("Link already added");
@@ -124,14 +117,6 @@ export class SocialLinkController {
       const { userId } = req.locals;
       const linkId = req.params.id;
       const data = req.body;
-
-      // check social service availability
-      if (data['platformKey']) {
-         const keyExists = this.#socialPlatformService.has(data.platformKey);
-         if (!keyExists) {
-            return res.send400('Invalid platform key');
-         }
-      }
 
       try {
          await this.#socialLinkService.update(

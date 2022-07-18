@@ -1,46 +1,25 @@
 import express from 'express';
-import path from 'path';
 import userRoutes from './userRoutes.js';
-import socialPlatformRoutes from './socialPlatformRoutes.js';
 import socialLinkRoutes from './socialLinkRoutes.js';
 import linkRoutes from './linkRoutes.js';
 import pageConfigRoutes from './pageConfigRoutes.js';
-import pageRoutes from './pageRoutes.js';
-import pageOutputRoutes from './pageOutputRoutes.js';
+import utlityRoutes from './utilityRoutes.js';
 
 const router = express.Router();
 
-/**
- * Index page
- * @route GET /
- */
-router.get('/', (req, res, next) => {
-   res.sendFile(
-      path.resolve('public', 'index.html'), 
-      error => {
-         if (error) {
-            return next(error);
-         }
-      }
-   );
-});
-
-router.use('/x/static', express.static('public'));
-router.use('/x/api/user', userRoutes);
-router.use('/x/api/social-platforms', socialPlatformRoutes);
-router.use('/x/api/social-links', socialLinkRoutes);
-router.use('/x/api/links', linkRoutes);
-router.use('/x/api/page-config', pageConfigRoutes);
-router.use('/x/api/page', pageRoutes);
+router.use('/user', userRoutes);
+router.use('/social-links', socialLinkRoutes);
+router.use('/links', linkRoutes);
+router.use('/page-config', pageConfigRoutes);
+router.use('/utils', utlityRoutes);
 
 /**
  * Tesing endpoint
  * @route GET /api/ping
  */
-router.get("/x/api/ping", (req, res) => {
+router.get("/ping", (req, res) => {
+   res.setHeader('Cache-Control', 'public');
    res.send({ message: "Pong!" });
 });
-
-router.use(pageOutputRoutes);
 
 export default router;
